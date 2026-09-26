@@ -1,14 +1,22 @@
 import Link from "next/link";
-import { experience } from "@/data/experience";
+import { experience as fallbackExperience } from "@/data/experience";
 import { profile } from "@/data/profile";
 import { skillCategories } from "@/data/skills";
+import { mapHygraphExperiences } from "@/lib/cms-mappers";
+import { getAllExperiences } from "@/server/hygraph";
 
 export const metadata = {
   title: "Resume — nisalk.dev",
   description: `Resume for ${profile.name}`,
 };
 
-export default function ResumePage() {
+export default async function ResumePage() {
+  const cmsExperiences = await getAllExperiences().catch(() => null);
+  const experience =
+    cmsExperiences && cmsExperiences.length > 0
+      ? mapHygraphExperiences(cmsExperiences)
+      : fallbackExperience;
+
   return (
     <main className="mx-auto max-w-3xl px-6 py-12 text-foreground">
       <div className="mb-8 flex items-start justify-between gap-4">

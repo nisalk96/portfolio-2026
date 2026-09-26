@@ -1,8 +1,12 @@
+"use client";
+
 import { ProjectCard } from "@/components/portfolio/ProjectCard";
 import { Section } from "@/components/layout/Section";
-import { projects } from "@/data/projects";
+import { usePortfolioCms } from "@/components/providers/PortfolioCmsProvider";
 
 export function ProjectsSection() {
+  const { projects } = usePortfolioCms();
+
   return (
     <Section
       id="projects"

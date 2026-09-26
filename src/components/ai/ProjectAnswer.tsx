@@ -2,7 +2,7 @@
 
 import { IconArrowUpRight } from "@tabler/icons-react";
 import { motion, useReducedMotion } from "framer-motion";
-import { featuredProjects, projects } from "@/data/projects";
+import { usePortfolioCms } from "@/components/providers/PortfolioCmsProvider";
 import { cn } from "@/lib/utils";
 
 interface ProjectAnswerProps {
@@ -11,16 +11,27 @@ interface ProjectAnswerProps {
 
 export function ProjectAnswer({ mode = "featured" }: ProjectAnswerProps) {
   const reducedMotion = useReducedMotion();
+  const { projects } = usePortfolioCms();
+  const featuredProjects = projects.filter((project) => project.featured);
+
   const items =
     mode === "cardchat"
-      ? projects.filter((project) => project.id === "cardchat")
+      ? projects.filter((project) =>
+          /cardchat|card.?chat/i.test(`${project.id} ${project.name}`),
+        )
       : mode === "recent"
-        ? [...projects].sort((a, b) => Number(b.year) - Number(a.year)).slice(0, 3)
-        : featuredProjects;
+        ? [...projects]
+            .sort((a, b) => Number.parseInt(b.year, 10) - Number.parseInt(a.year, 10))
+            .slice(0, 3)
+        : featuredProjects.length > 0
+          ? featuredProjects
+          : projects.slice(0, 4);
+
+  const list = items.length > 0 ? items : projects.slice(0, 3);
 
   return (
     <div className="mt-3 space-y-2.5">
-      {items.map((project, index) => (
+      {list.map((project, index) => (
         <motion.article
           key={project.id}
           initial={reducedMotion === false ? { opacity: 0, y: 8 } : false}

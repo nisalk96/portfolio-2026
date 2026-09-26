@@ -1,6 +1,7 @@
 "use client";
 
 import { useCallback, useMemo, useRef, useState } from "react";
+import { usePortfolioCms } from "@/components/providers/PortfolioCmsProvider";
 import {
   followUps,
   initialPrompts,
@@ -20,15 +21,18 @@ function createId() {
   return `${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
 }
 
-const WELCOME_MESSAGE: ChatMessage = {
-  id: "welcome",
-  role: "assistant",
-  kind: "welcome",
-  text: getAnswerIntro("welcome"),
-};
-
 export function usePortfolioChat() {
-  const [messages, setMessages] = useState<ChatMessage[]>([WELCOME_MESSAGE]);
+  const { projects } = usePortfolioCms();
+  const welcomeMessage = useMemo<ChatMessage>(
+    () => ({
+      id: "welcome",
+      role: "assistant",
+      kind: "welcome",
+      text: getAnswerIntro("welcome", projects),
+    }),
+    [projects],
+  );
+  const [messages, setMessages] = useState<ChatMessage[]>([welcomeMessage]);
   const [activeChips, setActiveChips] = useState<PromptChip[]>(initialPrompts);
   const [showInitialChips, setShowInitialChips] = useState(true);
   const [isThinking, setIsThinking] = useState(false);
@@ -85,7 +89,7 @@ export function usePortfolioChat() {
           id: createId(),
           role: "assistant",
           kind,
-          text: getAnswerIntro(kind),
+          text: getAnswerIntro(kind, projects),
           isTyping: true,
         };
 
@@ -104,7 +108,7 @@ export function usePortfolioChat() {
         }, 700);
       }, answerDelay);
     },
-    [clearTimers, schedule],
+    [clearTimers, projects, schedule],
   );
 
   const askPrompt = useCallback(
@@ -156,14 +160,14 @@ export function usePortfolioChat() {
           id: createId(),
           role: "assistant",
           kind,
-          text: getAnswerIntro(kind),
+          text: getAnswerIntro(kind, projects),
           isTyping: true,
         },
       ]);
       setActiveChips(followUps.text);
       setStatus("ready");
     }, 1000);
-  }, [clearTimers, input, runPrompt, schedule, status]);
+  }, [clearTimers, input, projects, runPrompt, schedule, status]);
 
   const askById = useCallback(
     (promptId: PromptId) => {

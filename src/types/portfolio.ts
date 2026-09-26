@@ -33,6 +33,7 @@ export interface Project {
   tech: string[];
   year: string;
   imageGradient: string;
+  imageUrl?: string;
   href?: string;
   featured?: boolean;
 }
