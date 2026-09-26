@@ -4,21 +4,16 @@ import { SiteChrome } from "@/components/layout/SiteChrome";
 import { ProjectCard } from "@/components/portfolio/ProjectCard";
 import { projects as fallbackProjects } from "@/data/projects";
 import { mapHygraphProjects } from "@/lib/cms-mappers";
+import { jsonLdScript, pageMetadata } from "@/lib/seo";
 import { getAllProjects } from "@/server/hygraph";
 
 export const revalidate = 3600;
 
-export const metadata: Metadata = {
-  title: "Projects — nisalk.dev",
-  description:
-    "Selected projects by Nisal Keerthisinghe — full-stack work across Next.js, TypeScript, Node.js, and GraphQL.",
-  openGraph: {
-    title: "Projects — nisalk.dev",
-    description:
-      "Selected projects by Nisal Keerthisinghe — full-stack work across Next.js, TypeScript, Node.js, and GraphQL.",
-    url: "/projects",
-  },
-};
+export const metadata: Metadata = pageMetadata(
+  "Software Development Projects",
+  "Explore software development projects by Nisal Keerthisinghe, a software engineer in Sri Lanka working with Next.js, TypeScript, Node.js and GraphQL.",
+  "/projects",
+);
 
 export default async function ProjectsPage() {
   const cmsProjects = await getAllProjects().catch(() => null);
@@ -30,6 +25,27 @@ export default async function ProjectsPage() {
   return (
     <SiteChrome>
       <div className="py-10 md:py-14">
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: jsonLdScript({
+              "@context": "https://schema.org",
+              "@type": "CollectionPage",
+              "@id": "https://nisalk.dev/projects#collection",
+              url: "https://nisalk.dev/projects",
+              name: "Software Development Projects",
+              isPartOf: { "@id": "https://nisalk.dev/#website" },
+              about: { "@id": "https://nisalk.dev/#person" },
+              hasPart: projects.map((project) => ({
+                "@type": "CreativeWork",
+                name: project.name,
+                url: `https://nisalk.dev/projects/${project.slug}`,
+                description: project.description,
+              })),
+            }),
+          }}
+        />
+
         <nav aria-label="Breadcrumb" className="mb-6 font-mono text-xs text-muted-foreground">
           <Link href="/" className="underline-offset-4 hover:text-foreground hover:underline">
             Home

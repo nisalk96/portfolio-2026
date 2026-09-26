@@ -6,6 +6,7 @@ import { IconArrowUpRight, IconExternalLink } from "@tabler/icons-react";
 import { SiteChrome } from "@/components/layout/SiteChrome";
 import { projects as fallbackProjects } from "@/data/projects";
 import { mapHygraphProjects } from "@/lib/cms-mappers";
+import { jsonLdScript, pageMetadata } from "@/lib/seo";
 import { videoUrlToEmbed } from "@/lib/video-url";
 import { getAllProjects, getProjectBySlug } from "@/server/hygraph";
 import type { HygraphProject } from "@/types/hygraph";
@@ -82,21 +83,21 @@ export async function generateMetadata({
   const { slug } = await params;
   const project = await resolveProject(slug);
   if (!project) {
-    return { title: "Project — nisalk.dev" };
+    return pageMetadata(
+      "Project not found",
+      "The requested project could not be found.",
+      `/projects/${slug}`,
+    );
   }
 
   const image = project.images?.[0]?.url;
 
-  return {
-    title: `${project.title} — Projects · nisalk.dev`,
-    description: project.description,
-    openGraph: {
-      title: `${project.title} — Projects · nisalk.dev`,
-      description: project.description,
-      url: `/projects/${project.slug}`,
-      images: image ? [{ url: image }] : undefined,
-    },
-  };
+  return pageMetadata(
+    `${project.title} | Projects`,
+    project.description,
+    `/projects/${project.slug}`,
+    image || undefined,
+  );
 }
 
 export default async function ProjectDetailPage({
@@ -137,7 +138,7 @@ export default async function ProjectDetailPage({
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
-            __html: JSON.stringify(projectJsonLd).replace(/</g, "\\u003c"),
+            __html: jsonLdScript(projectJsonLd),
           }}
         />
 
