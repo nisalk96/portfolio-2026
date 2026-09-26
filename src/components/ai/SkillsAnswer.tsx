@@ -25,7 +25,7 @@ export function SkillsAnswer({ mode = "all" }: SkillsAnswerProps) {
       {categories.map((category, categoryIndex) => (
         <motion.div
           key={category.id}
-          initial={reducedMotion ? false : { opacity: 0, y: 8 }}
+          initial={reducedMotion === false ? { opacity: 0, y: 8 } : false}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: categoryIndex * 0.08, duration: 0.3 }}
         >
@@ -36,7 +36,7 @@ export function SkillsAnswer({ mode = "all" }: SkillsAnswerProps) {
             {category.skills.map((skill, skillIndex) => (
               <motion.span
                 key={skill}
-                initial={reducedMotion ? false : { opacity: 0, y: 6 }}
+                initial={reducedMotion === false ? { opacity: 0, y: 6 } : false}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{
                   delay: categoryIndex * 0.08 + skillIndex * 0.03,

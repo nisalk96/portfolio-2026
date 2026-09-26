@@ -1,7 +1,7 @@
 "use client";
 
 import { IconArrowUp, IconSparkles } from "@tabler/icons-react";
-import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
 import { useEffect, useRef } from "react";
 import { ChatMessage } from "@/components/ai/ChatMessage";
 import { ChatThinking } from "@/components/ai/ChatThinking";
@@ -107,26 +107,22 @@ export function AIChat({ chat }: AIChatProps) {
 
         {isThinking ? <ChatThinking label={thinkingLabel} /> : null}
 
-        <AnimatePresence>
-          {(showInitialChips || activeChips.length > 0) && !isThinking ? (
-            <motion.div
-              initial={reducedMotion ? false : { opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={reducedMotion ? undefined : { opacity: 0, y: 12 }}
-              className="flex flex-wrap gap-2 pt-1"
-            >
-              {(showInitialChips ? activeChips : activeChips).map((chip, index) => (
-                <PromptChip
-                  key={`${chip.id}-${chip.label}`}
-                  chip={chip}
-                  index={index}
-                  disabled={status === "generating"}
-                  onSelect={askPrompt}
-                />
-              ))}
-            </motion.div>
-          ) : null}
-        </AnimatePresence>
+        {(showInitialChips || activeChips.length > 0) && !isThinking ? (
+          <div
+            key={showInitialChips ? "initial-chips" : "follow-up-chips"}
+            className="flex flex-wrap gap-2 pt-1"
+          >
+            {activeChips.map((chip, index) => (
+              <PromptChip
+                key={`${chip.id}-${chip.label}`}
+                chip={chip}
+                index={index}
+                disabled={status === "generating"}
+                onSelect={askPrompt}
+              />
+            ))}
+          </div>
+        ) : null}
       </div>
 
       <form
@@ -139,7 +135,7 @@ export function AIChat({ chat }: AIChatProps) {
         <div className="flex items-center gap-2 rounded-xl border border-border/80 bg-muted/30 p-1.5 pl-3">
           <Input
             value={input}
-            onChange={(event) => setInput(event.target.value)}
+            onValueChange={setInput}
             placeholder="Ask about Nisal..."
             className="h-8 border-0 bg-transparent shadow-none focus-visible:ring-0"
             aria-label="Ask about Nisal"

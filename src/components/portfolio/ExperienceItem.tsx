@@ -14,9 +14,9 @@ export function ExperienceItem({ item, index = 0 }: ExperienceItemProps) {
 
   return (
     <motion.article
-      initial={reducedMotion ? false : { opacity: 0, y: 14 }}
-      whileInView={reducedMotion ? undefined : { opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "-40px" }}
+      initial={reducedMotion === false ? { opacity: 0, y: 14 } : false}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, amount: 0.25 }}
       transition={{ delay: index * 0.05, duration: 0.35 }}
       className="relative grid gap-3 border-b border-border/70 py-6 last:border-b-0 md:grid-cols-[180px_1fr]"
     >

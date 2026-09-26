@@ -21,7 +21,7 @@ export function ChatThinking({ label }: ChatThinkingProps) {
 
   return (
     <motion.div
-      initial={reducedMotion ? false : { opacity: 0, y: 8 }}
+      initial={reducedMotion === false ? { opacity: 0, y: 8 } : false}
       animate={{ opacity: 1, y: 0 }}
       className="flex items-start gap-2.5"
     >

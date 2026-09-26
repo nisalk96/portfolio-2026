@@ -12,7 +12,7 @@ export function ExperienceAnswer() {
       {experience.map((job, index) => (
         <motion.article
           key={job.id}
-          initial={reducedMotion ? false : { opacity: 0, y: 8 }}
+          initial={reducedMotion === false ? { opacity: 0, y: 8 } : false}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.08 * index, duration: 0.35 }}
           className="relative pb-4 pl-5 last:pb-0"

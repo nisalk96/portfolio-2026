@@ -40,7 +40,7 @@ export function ContactAnswer() {
             href={action.href}
             target={action.external ? "_blank" : undefined}
             rel={action.external ? "noreferrer" : undefined}
-            initial={reducedMotion ? false : { opacity: 0, y: 8 }}
+            initial={reducedMotion === false ? { opacity: 0, y: 8 } : false}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: index * 0.06, duration: 0.28 }}
             whileHover={reducedMotion ? undefined : { y: -2 }}

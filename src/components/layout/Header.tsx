@@ -112,7 +112,7 @@ export function Header({ onOpenCommand }: HeaderProps) {
       <AnimatePresence>
         {open ? (
           <motion.nav
-            initial={reducedMotion ? false : { opacity: 0, y: -8 }}
+            initial={reducedMotion === false ? { opacity: 0, y: -8 } : false}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -8 }}
             className="mx-auto mt-2 flex max-w-[1280px] flex-col gap-1 rounded-2xl border border-border/80 bg-background/95 p-2 shadow-sm backdrop-blur-xl md:hidden"

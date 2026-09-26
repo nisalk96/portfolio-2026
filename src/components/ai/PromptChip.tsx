@@ -9,7 +9,6 @@ import {
   IconSearch,
   IconSparkles,
 } from "@tabler/icons-react";
-import { motion, useReducedMotion } from "framer-motion";
 import type { PromptChip as PromptChipType, PromptIcon } from "@/types/portfolio";
 import { cn } from "@/lib/utils";
 
@@ -56,28 +55,23 @@ export function PromptChip({
   index = 0,
 }: PromptChipProps) {
   const Icon = iconMap[chip.icon];
-  const reducedMotion = useReducedMotion();
 
   return (
-    <motion.button
+    <button
       type="button"
       disabled={disabled}
       onClick={() => onSelect(chip)}
-      initial={reducedMotion ? false : { opacity: 0, y: 8 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ delay: index * 0.04, duration: 0.28 }}
-      whileHover={reducedMotion ? undefined : { y: -2 }}
-      whileTap={reducedMotion ? undefined : { scale: 0.98 }}
+      style={{ animationDelay: `${index * 40}ms` }}
       className={cn(
-        "group inline-flex max-w-full items-center gap-2 rounded-xl border border-border/80 bg-background/90 px-3 py-2 text-left text-[13px] text-muted-foreground shadow-sm transition-colors",
-        "hover:border-foreground/15 hover:bg-background hover:text-foreground",
+        "group inline-flex max-w-full animate-in fade-in slide-in-from-bottom-1 items-center gap-2 rounded-xl border border-border/80 bg-background px-3 py-2 text-left text-[13px] text-muted-foreground shadow-sm transition-all duration-200 fill-mode-both",
+        "hover:-translate-y-0.5 hover:border-foreground/15 hover:bg-background hover:text-foreground",
         "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/40",
-        "disabled:pointer-events-none disabled:opacity-50",
+        "active:scale-[0.98] disabled:pointer-events-none disabled:opacity-50",
       )}
     >
       <Icon className="size-3.5 shrink-0 text-sky-600 transition-transform group-hover:scale-105 dark:text-sky-400" />
       <span className="min-w-0">{emphasizeLabel(chip.label, chip.emphasize)}</span>
       <IconArrowRight className="ml-auto size-3.5 shrink-0 opacity-0 transition-all group-hover:translate-x-0.5 group-hover:opacity-60" />
-    </motion.button>
+    </button>
   );
 }

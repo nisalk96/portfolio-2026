@@ -23,7 +23,7 @@ export function HeroIdentity() {
 
   return (
     <motion.div
-      initial={reducedMotion ? false : { opacity: 0, y: 16 }}
+      initial={reducedMotion === false ? { opacity: 0, y: 16 } : false}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
       className="flex h-full flex-col justify-center"

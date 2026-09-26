@@ -23,7 +23,7 @@ export function ProjectAnswer({ mode = "featured" }: ProjectAnswerProps) {
       {items.map((project, index) => (
         <motion.article
           key={project.id}
-          initial={reducedMotion ? false : { opacity: 0, y: 8 }}
+          initial={reducedMotion === false ? { opacity: 0, y: 8 } : false}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.08 * index, duration: 0.35 }}
           className="rounded-xl border border-border/70 bg-background/80 p-3.5 shadow-sm"

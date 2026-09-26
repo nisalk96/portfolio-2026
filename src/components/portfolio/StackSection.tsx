@@ -19,9 +19,9 @@ export function StackSection() {
         {skillCategories.map((category, categoryIndex) => (
           <motion.div
             key={category.id}
-            initial={reducedMotion ? false : { opacity: 0, y: 12 }}
-            whileInView={reducedMotion ? undefined : { opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-40px" }}
+            initial={reducedMotion === false ? { opacity: 0, y: 12 } : false}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.2 }}
             transition={{ delay: categoryIndex * 0.05, duration: 0.35 }}
             className="rounded-2xl border border-border/70 bg-background/70 p-4 md:p-5"
           >

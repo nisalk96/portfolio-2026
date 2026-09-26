@@ -15,9 +15,9 @@ export function ProjectCard({ project, index = 0 }: ProjectCardProps) {
 
   return (
     <motion.article
-      initial={reducedMotion ? false : { opacity: 0, y: 16 }}
-      whileInView={reducedMotion ? undefined : { opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "-40px" }}
+      initial={reducedMotion === false ? { opacity: 0, y: 16 } : false}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, amount: 0.2 }}
       transition={{ delay: index * 0.05, duration: 0.4 }}
       className="group"
     >
