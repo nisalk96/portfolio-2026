@@ -10,8 +10,8 @@ export const seo = {
   defaultDescription:
     "Meet Nisal Keerthisinghe, a software engineer in Sri Lanka with 6+ years building React, Next.js and Node.js apps. Explore projects, experience and contact Nisal.",
   ogImage: "/opengraph-image.jpg",
-  ogImageWidth: 1200,
-  ogImageHeight: 600,
+  ogImageWidth: 1280,
+  ogImageHeight: 720,
   twitterCard: "summary_large_image" as const,
   keywords: [
     "Nisal",
