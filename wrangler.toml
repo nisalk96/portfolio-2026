@@ -1,0 +1,14 @@
+# Cloudflare Pages / Workers project hints for nisalk.dev
+# Contact spam protection uses Turnstile (see src/constants/cloudflare.ts).
+# Deploy this Next app with your preferred adapter (e.g. OpenNext) if hosting on CF.
+
+name = "portfolio-2026"
+compatibility_date = "2026-03-01"
+pages_build_output_dir = ".vercel/output/static"
+
+[vars]
+# Non-secret defaults only. Put secrets in the Cloudflare dashboard / .env.local:
+# RESEND_API_KEY
+# CLOUDFLARE_TURNSTILE_SECRET_KEY
+# HYGRAPHCMS_URL
+# HYGRAPHCMS_ACCESS_TOKEN

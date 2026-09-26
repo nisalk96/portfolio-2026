@@ -3,7 +3,9 @@
 import { IconArrowUpRight } from "@tabler/icons-react";
 import { motion, useReducedMotion } from "framer-motion";
 import Image from "next/image";
+import Link from "next/link";
 import type { Project } from "@/types/portfolio";
+import { animation } from "@/constants/animation";
 import { cn } from "@/lib/utils";
 
 interface ProjectCardProps {
@@ -19,13 +21,14 @@ export function ProjectCard({ project, index = 0 }: ProjectCardProps) {
       initial={reducedMotion === false ? { opacity: 0, y: 16 } : false}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, amount: 0.2 }}
-      transition={{ delay: index * 0.05, duration: 0.4 }}
+      transition={{
+        delay: index * animation.stagger.tight,
+        duration: animation.normal,
+      }}
       className="group"
     >
-      <a
-        href={project.href ?? "#projects"}
-        target={project.href ? "_blank" : undefined}
-        rel={project.href ? "noopener noreferrer" : undefined}
+      <Link
+        href={`/projects/${project.slug}`}
         className={cn(
           "block overflow-hidden rounded-2xl border border-border/70 bg-background shadow-sm transition-all duration-300",
           "hover:-translate-y-1 hover:border-foreground/15",
@@ -78,7 +81,7 @@ export function ProjectCard({ project, index = 0 }: ProjectCardProps) {
             </span>
           </div>
         </div>
-      </a>
+      </Link>
     </motion.article>
   );
 }

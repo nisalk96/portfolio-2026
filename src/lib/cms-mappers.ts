@@ -32,6 +32,7 @@ export function mapHygraphProject(project: HygraphProject, index = 0): Project {
 
   return {
     id: project.slug || project.id,
+    slug: project.slug || project.id,
     name: project.title,
     category: tech[0] ? tech[0] : "Project",
     description: project.description ?? "",

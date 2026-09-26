@@ -3,6 +3,7 @@ import type { Project } from "@/types/portfolio";
 export const projects: Project[] = [
   {
     id: "cardchat",
+    slug: "cardchat",
     name: "CardChat",
     category: "Frontend Owner",
     description:
@@ -16,6 +17,7 @@ export const projects: Project[] = [
   },
   {
     id: "lumiswap",
+    slug: "lumiswap",
     name: "Lumiswap",
     category: "Crypto Platform",
     description:
@@ -29,6 +31,7 @@ export const projects: Project[] = [
   },
   {
     id: "farahdeem",
+    slug: "farahdeem",
     name: "Farahdeem",
     category: "H5 Product",
     description:
@@ -42,6 +45,7 @@ export const projects: Project[] = [
   },
   {
     id: "flixzen",
+    slug: "flixzen",
     name: "Flixzen",
     category: "Mobile App",
     description:
@@ -55,6 +59,7 @@ export const projects: Project[] = [
   },
   {
     id: "admin-ops",
+    slug: "admin-ops",
     name: "Ops Console",
     category: "Internal Tools",
     description:
@@ -67,6 +72,7 @@ export const projects: Project[] = [
   },
   {
     id: "commerce-kit",
+    slug: "commerce-kit",
     name: "Commerce Kit",
     category: "E-commerce",
     description:

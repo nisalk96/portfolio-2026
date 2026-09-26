@@ -70,7 +70,7 @@ export function ProjectAnswer({ mode = "featured" }: ProjectAnswerProps) {
 
       {mode !== "cardchat" ? (
         <a
-          href="#projects"
+          href="/projects"
           className={cn(
             "group inline-flex items-center gap-1 pt-1 text-[13px] font-medium text-foreground",
             "underline decoration-transparent underline-offset-4 transition-colors hover:decoration-foreground/40",

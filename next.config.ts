@@ -1,4 +1,5 @@
 import type { NextConfig } from "next";
+import { cloudflare } from "./src/constants/cloudflare";
 
 const nextConfig: NextConfig = {
   images: {
@@ -8,6 +9,16 @@ const nextConfig: NextConfig = {
         hostname: "ap-south-1.graphassets.com",
       },
     ],
+  },
+  async headers() {
+    return [
+      {
+        source: "/:path*",
+        headers: Object.entries(cloudflare.pages.securityHeaders).map(
+          ([key, value]) => ({ key, value }),
+        ),
+      },
+    ];
   },
 };
 

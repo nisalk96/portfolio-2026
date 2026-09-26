@@ -16,15 +16,15 @@ import { profile } from "@/data/profile";
 import { cn } from "@/lib/utils";
 
 const navItems = [
-  { href: "#about", label: "About" },
-  { href: "#projects", label: "Projects" },
-  { href: "#experience", label: "Experience" },
-  { href: "#stack", label: "Stack" },
-  { href: "#contact", label: "Contact" },
+  { href: "/#about", label: "About" },
+  { href: "/projects", label: "Projects" },
+  { href: "/#experience", label: "Experience" },
+  { href: "/#stack", label: "Stack" },
+  { href: "/#contact", label: "Contact" },
 ];
 
 interface HeaderProps {
-  onOpenCommand: () => void;
+  onOpenCommand?: () => void;
 }
 
 export function Header({ onOpenCommand }: HeaderProps) {
@@ -69,15 +69,17 @@ export function Header({ onOpenCommand }: HeaderProps) {
         </nav>
 
         <div className="flex items-center gap-0.5">
-          <Button
-            variant="ghost"
-            size="icon-sm"
-            className="hidden sm:inline-flex"
-            aria-label="Open command palette"
-            onClick={onOpenCommand}
-          >
-            <IconCommand className="size-4" />
-          </Button>
+          {onOpenCommand ? (
+            <Button
+              variant="ghost"
+              size="icon-sm"
+              className="hidden sm:inline-flex"
+              aria-label="Open command palette"
+              onClick={onOpenCommand}
+            >
+              <IconCommand className="size-4" />
+            </Button>
+          ) : null}
           <a
             href={profile.github}
             target="_blank"

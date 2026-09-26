@@ -8,6 +8,7 @@ import { ProjectAnswer } from "@/components/ai/ProjectAnswer";
 import { SkillsAnswer } from "@/components/ai/SkillsAnswer";
 import { TypewriterText } from "@/components/ai/TypewriterText";
 import type { ChatMessage as ChatMessageType } from "@/types/portfolio";
+import { motionTransitions } from "@/lib/motion";
 import { cn } from "@/lib/utils";
 
 interface ChatMessageProps {
@@ -23,7 +24,7 @@ export function ChatMessage({ message, generating }: ChatMessageProps) {
     <motion.div
       initial={reducedMotion === false ? { opacity: 0, y: 10 } : false}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ type: "spring", stiffness: 320, damping: 28 }}
+      transition={motionTransitions.spring}
       className={cn("flex gap-2.5", isUser ? "justify-end" : "justify-start")}
     >
       {!isUser ? (

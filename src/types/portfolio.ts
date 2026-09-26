@@ -26,6 +26,7 @@ export interface PromptChip {
 
 export interface Project {
   id: string;
+  slug: string;
   name: string;
   category: string;
   description: string;

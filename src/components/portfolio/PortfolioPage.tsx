@@ -39,7 +39,7 @@ export function PortfolioPage() {
       <Header onOpenCommand={() => setCommandOpen(true)} />
 
       <main className="mx-auto w-full max-w-[1280px] px-4 pb-10 md:px-6">
-        <section className="grid items-stretch gap-6 py-8 md:py-12 lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.3fr)] lg:gap-8">
+        <section className="grid items-start gap-6 py-8 md:py-12 lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.3fr)] lg:gap-8">
           <HeroIdentity />
           <AIChat chat={chat} />
         </section>

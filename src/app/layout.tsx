@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Geist_Mono } from "next/font/google";
+import { DesignTokensStyle } from "@/components/providers/DesignTokensStyle";
 import { ThemeProvider } from "@/components/providers/ThemeProvider";
 import "./globals.css";
 
@@ -31,6 +32,9 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       suppressHydrationWarning
       className={`${geistMono.variable} h-full antialiased`}
     >
+      <head>
+        <DesignTokensStyle />
+      </head>
       <body className="min-h-full bg-background font-sans text-foreground">
         <ThemeProvider>{children}</ThemeProvider>
       </body>

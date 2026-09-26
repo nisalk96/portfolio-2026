@@ -8,6 +8,7 @@ import { ChatThinking } from "@/components/ai/ChatThinking";
 import { PromptChip } from "@/components/ai/PromptChip";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { animation } from "@/constants/animation";
 import type { usePortfolioChat } from "@/hooks/usePortfolioChat";
 import { cn } from "@/lib/utils";
 
@@ -45,9 +46,9 @@ export function AIChat({ chat }: AIChatProps) {
   return (
     <section
       id="assistant"
-      className="flex min-h-[560px] flex-col overflow-hidden rounded-2xl border border-border/80 bg-white/80 shadow-[0_12px_40px_-24px_rgba(15,23,42,0.35)] backdrop-blur-sm dark:bg-card/70 md:min-h-[620px]"
+      className="flex h-[var(--chat-height)] min-h-[var(--chat-min-height)] flex-col overflow-hidden rounded-2xl border border-border/80 bg-white/80 shadow-[0_12px_40px_-24px_rgba(15,23,42,0.35)] backdrop-blur-sm dark:bg-card/70"
     >
-      <header className="flex items-center justify-between gap-3 border-b border-border/70 px-4 py-3 md:px-5">
+      <header className="flex shrink-0 items-center justify-between gap-3 border-b border-border/70 px-4 py-3 md:px-5">
         <div className="flex items-center gap-3">
           <div className="relative flex size-9 items-center justify-center rounded-xl border border-border/70 bg-muted/40 text-sky-600 dark:text-sky-400">
             <IconSparkles className="size-4" />
@@ -58,7 +59,7 @@ export function AIChat({ chat }: AIChatProps) {
                   ? undefined
                   : { opacity: [0.15, 0.45, 0.15] }
               }
-              transition={{ duration: 1.4, repeat: Infinity }}
+              transition={{ duration: animation.ambient, repeat: Infinity }}
             />
           </div>
           <div>
@@ -95,7 +96,7 @@ export function AIChat({ chat }: AIChatProps) {
 
       <div
         ref={scrollerRef}
-        className="flex-1 space-y-4 overflow-y-auto px-4 py-4 md:px-5"
+        className="min-h-0 flex-1 space-y-4 overflow-y-auto overscroll-contain px-4 py-4 md:px-5"
       >
         {messages.map((message) => (
           <ChatMessage
@@ -126,7 +127,7 @@ export function AIChat({ chat }: AIChatProps) {
       </div>
 
       <form
-        className="border-t border-border/70 p-3 md:p-4"
+        className="shrink-0 border-t border-border/70 p-3 md:p-4"
         onSubmit={(event) => {
           event.preventDefault();
           askFreeform();
