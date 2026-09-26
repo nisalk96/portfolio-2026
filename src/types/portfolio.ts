@@ -26,6 +26,7 @@ export interface PromptChip {
 
 export interface Project {
   id: string;
+  slug: string;
   name: string;
   category: string;
   description: string;
@@ -33,6 +34,7 @@ export interface Project {
   tech: string[];
   year: string;
   imageGradient: string;
+  imageUrl?: string;
   href?: string;
   featured?: boolean;
 }

@@ -2,7 +2,10 @@
 
 import { IconArrowUpRight } from "@tabler/icons-react";
 import { motion, useReducedMotion } from "framer-motion";
+import Image from "next/image";
+import Link from "next/link";
 import type { Project } from "@/types/portfolio";
+import { animation } from "@/constants/animation";
 import { cn } from "@/lib/utils";
 
 interface ProjectCardProps {
@@ -18,11 +21,14 @@ export function ProjectCard({ project, index = 0 }: ProjectCardProps) {
       initial={reducedMotion === false ? { opacity: 0, y: 16 } : false}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, amount: 0.2 }}
-      transition={{ delay: index * 0.05, duration: 0.4 }}
+      transition={{
+        delay: index * animation.stagger.tight,
+        duration: animation.normal,
+      }}
       className="group"
     >
-      <a
-        href={project.href ?? "#projects"}
+      <Link
+        href={`/projects/${project.slug}`}
         className={cn(
           "block overflow-hidden rounded-2xl border border-border/70 bg-background shadow-sm transition-all duration-300",
           "hover:-translate-y-1 hover:border-foreground/15",
@@ -34,7 +40,19 @@ export function ProjectCard({ project, index = 0 }: ProjectCardProps) {
             project.imageGradient,
           )}
         >
-          <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_20%,rgba(255,255,255,0.12),transparent_45%)] transition-transform duration-500 group-hover:scale-105" />
+          {project.imageUrl ? (
+            <Image
+              src={project.imageUrl}
+              alt={`${project.name} preview`}
+              fill
+              sizes="(max-width: 640px) 100vw, (max-width: 1280px) 50vw, 33vw"
+              className="object-cover transition-transform duration-500 group-hover:scale-105"
+              priority={index < 2}
+            />
+          ) : (
+            <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_20%,rgba(255,255,255,0.12),transparent_45%)] transition-transform duration-500 group-hover:scale-105" />
+          )}
+          <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
           <div className="absolute inset-x-0 bottom-0 p-4">
             <p className="font-mono text-[11px] tracking-[0.14em] text-white/70 uppercase">
               {project.category}
@@ -63,7 +81,7 @@ export function ProjectCard({ project, index = 0 }: ProjectCardProps) {
             </span>
           </div>
         </div>
-      </a>
+      </Link>
     </motion.article>
   );
 }

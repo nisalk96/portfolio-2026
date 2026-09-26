@@ -9,6 +9,7 @@ import {
 import { motion, useReducedMotion } from "framer-motion";
 import { buttonVariants } from "@/components/ui/button";
 import { profile } from "@/data/profile";
+import { motionTransitions } from "@/lib/motion";
 import { cn } from "@/lib/utils";
 
 const meta = [
@@ -25,7 +26,7 @@ export function HeroIdentity() {
     <motion.div
       initial={reducedMotion === false ? { opacity: 0, y: 16 } : false}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
+      transition={motionTransitions.reveal}
       className="flex h-full flex-col justify-center"
     >
       <div className="inline-flex w-fit items-center gap-2 rounded-full border border-emerald-500/20 bg-emerald-500/10 px-2.5 py-1 font-mono text-[11px] tracking-[0.08em] text-emerald-700 uppercase dark:text-emerald-300">

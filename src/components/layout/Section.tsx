@@ -2,6 +2,7 @@
 
 import { motion, useReducedMotion } from "framer-motion";
 import type { ReactNode } from "react";
+import { motionTransitions } from "@/lib/motion";
 import { cn } from "@/lib/utils";
 
 interface SectionProps {
@@ -30,7 +31,7 @@ export function Section({
       initial={reducedMotion === false ? { opacity: 0, y: 18 } : false}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, amount: 0.15 }}
-      transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
+      transition={motionTransitions.reveal}
     >
       <div className="mb-8 max-w-2xl">
         {eyebrow ? (

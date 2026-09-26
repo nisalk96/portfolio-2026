@@ -1,10 +1,11 @@
 "use client";
 
 import { motion, useReducedMotion } from "framer-motion";
-import { experience } from "@/data/experience";
+import { usePortfolioCms } from "@/components/providers/PortfolioCmsProvider";
 
 export function ExperienceAnswer() {
   const reducedMotion = useReducedMotion();
+  const { experience } = usePortfolioCms();
 
   return (
     <div className="relative mt-3 space-y-0 pl-3">
@@ -40,16 +41,18 @@ export function ExperienceAnswer() {
                 </li>
               ))}
             </ul>
-            <div className="mt-2.5 flex flex-wrap gap-1.5">
-              {job.tech.map((tech) => (
-                <span
-                  key={tech}
-                  className="rounded-md border border-border/70 bg-muted/50 px-1.5 py-0.5 font-mono text-[10px] text-muted-foreground"
-                >
-                  {tech}
-                </span>
-              ))}
-            </div>
+            {job.tech.length > 0 ? (
+              <div className="mt-2.5 flex flex-wrap gap-1.5">
+                {job.tech.map((tech) => (
+                  <span
+                    key={tech}
+                    className="rounded-md border border-border/70 bg-muted/50 px-1.5 py-0.5 font-mono text-[10px] text-muted-foreground"
+                  >
+                    {tech}
+                  </span>
+                ))}
+              </div>
+            ) : null}
           </div>
         </motion.article>
       ))}

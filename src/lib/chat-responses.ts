@@ -1,7 +1,9 @@
-import { projects } from "@/data/projects";
-import type { AnswerKind } from "@/types/portfolio";
+import type { AnswerKind, Project } from "@/types/portfolio";
 
-export function getAnswerIntro(kind: AnswerKind): string {
+export function getAnswerIntro(
+  kind: AnswerKind,
+  projects: Project[] = [],
+): string {
   switch (kind) {
     case "projects":
       return "I've worked on several production products. Here are some highlights:";
@@ -16,10 +18,12 @@ export function getAnswerIntro(kind: AnswerKind): string {
     case "contact":
       return "Want to work together? Reach out through any of these channels.";
     case "cardchat": {
-      const project = projects.find((item) => item.id === "cardchat");
+      const project = projects.find((item) =>
+        /cardchat|card.?chat/i.test(`${item.id} ${item.name}`),
+      );
       return (
         project?.longDescription ??
-        "CardChat is a fintech admin platform focused on RBAC, operations and team workflows."
+        "CardChat isn't in the live CMS list yet — ask about projects to see current production work."
       );
     }
     case "resume":

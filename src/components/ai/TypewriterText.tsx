@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
+import { animation } from "@/constants/animation";
 import { useReducedMotion } from "@/hooks/useReducedMotion";
 
 interface TypewriterTextProps {
@@ -36,7 +37,7 @@ export function TypewriterText({
         window.clearInterval(timer);
         onDone?.();
       }
-    }, 28);
+    }, animation.typewriterMs);
 
     return () => window.clearInterval(timer);
   }, [onDone, shouldAnimate, text, words.length]);

@@ -1,8 +1,12 @@
+"use client";
+
 import { ExperienceItem } from "@/components/portfolio/ExperienceItem";
 import { Section } from "@/components/layout/Section";
-import { experience } from "@/data/experience";
+import { usePortfolioCms } from "@/components/providers/PortfolioCmsProvider";
 
 export function ExperienceSection() {
+  const { experience } = usePortfolioCms();
+
   return (
     <Section
       id="experience"
