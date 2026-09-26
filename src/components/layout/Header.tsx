@@ -3,7 +3,6 @@
 import {
   IconBrandGithub,
   IconBrandLinkedin,
-  IconCommand,
   IconMenu2,
   IconX,
 } from "@tabler/icons-react";
@@ -23,11 +22,7 @@ const navItems = [
   { href: "/#contact", label: "Contact" },
 ];
 
-interface HeaderProps {
-  onOpenCommand?: () => void;
-}
-
-export function Header({ onOpenCommand }: HeaderProps) {
+export function Header() {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
   const reducedMotion = useReducedMotion();
@@ -69,17 +64,6 @@ export function Header({ onOpenCommand }: HeaderProps) {
         </nav>
 
         <div className="flex items-center gap-0.5">
-          {onOpenCommand ? (
-            <Button
-              variant="ghost"
-              size="icon-sm"
-              className="hidden sm:inline-flex"
-              aria-label="Open command palette"
-              onClick={onOpenCommand}
-            >
-              <IconCommand className="size-4" />
-            </Button>
-          ) : null}
           <a
             href={profile.github}
             target="_blank"

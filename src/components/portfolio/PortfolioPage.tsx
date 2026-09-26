@@ -1,8 +1,7 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { usePortfolioChat } from "@/hooks/usePortfolioChat";
 import { AIChat } from "@/components/ai/AIChat";
-import { CommandPalette } from "@/components/layout/CommandPalette";
 import { Header } from "@/components/layout/Header";
 import { AboutSection } from "@/components/portfolio/AboutSection";
 import { ContactSection } from "@/components/portfolio/ContactSection";
@@ -11,23 +10,9 @@ import { Footer } from "@/components/portfolio/Footer";
 import { HeroIdentity } from "@/components/portfolio/HeroIdentity";
 import { ProjectsSection } from "@/components/portfolio/ProjectsSection";
 import { StackSection } from "@/components/portfolio/StackSection";
-import { usePortfolioChat } from "@/hooks/usePortfolioChat";
 
 export function PortfolioPage() {
   const chat = usePortfolioChat();
-  const [commandOpen, setCommandOpen] = useState(false);
-
-  useEffect(() => {
-    const onKeyDown = (event: KeyboardEvent) => {
-      if ((event.metaKey || event.ctrlKey) && event.key.toLowerCase() === "k") {
-        event.preventDefault();
-        setCommandOpen(true);
-      }
-    };
-
-    window.addEventListener("keydown", onKeyDown);
-    return () => window.removeEventListener("keydown", onKeyDown);
-  }, []);
 
   return (
     <div className="relative min-h-screen overflow-x-clip">
@@ -36,7 +21,7 @@ export function PortfolioPage() {
         <div className="absolute inset-0 opacity-[0.35] [background-image:linear-gradient(rgba(15,23,42,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(15,23,42,0.03)_1px,transparent_1px)] [background-size:48px_48px] dark:opacity-20" />
       </div>
 
-      <Header onOpenCommand={() => setCommandOpen(true)} />
+      <Header />
 
       <main className="mx-auto w-full max-w-[1280px] px-4 pb-10 md:px-6">
         <section className="grid items-start gap-6 py-8 md:py-12 lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.3fr)] lg:gap-8">
@@ -52,12 +37,6 @@ export function PortfolioPage() {
       </main>
 
       <Footer />
-
-      <CommandPalette
-        open={commandOpen}
-        onOpenChange={setCommandOpen}
-        onAsk={chat.askById}
-      />
     </div>
   );
 }

@@ -35,6 +35,31 @@ export interface ContactFormState {
   success?: boolean;
 }
 
+function resendUserMessage(error: unknown): string {
+  const message =
+    typeof error === "object" &&
+    error &&
+    "message" in error &&
+    typeof (error as { message: unknown }).message === "string"
+      ? (error as { message: string }).message
+      : error instanceof Error
+        ? error.message
+        : "";
+
+  const lower = message.toLowerCase();
+
+  if (lower.includes("api key") || lower.includes("unauthorized")) {
+    return "Email service API key is invalid. Update RESEND_API_KEY in Vercel and redeploy.";
+  }
+  if (lower.includes("domain") || lower.includes("from")) {
+    return "Sender domain is not verified in Resend. Verify nisalk.dev or set RESEND_FROM to a verified address.";
+  }
+  if (message) {
+    return `Email could not be sent: ${message}`;
+  }
+  return "Your message could not be sent. Please try again or email me directly.";
+}
+
 export async function submitContactForm(
   _prevState: ContactFormState,
   formData: FormData,
@@ -71,7 +96,8 @@ export async function submitContactForm(
     };
   }
 
-  if (!process.env.RESEND_API_KEY) {
+  const apiKey = process.env.RESEND_API_KEY?.trim();
+  if (!apiKey) {
     console.error("RESEND_API_KEY is not configured");
     return {
       success: false,
@@ -79,12 +105,15 @@ export async function submitContactForm(
     };
   }
 
+  const from = process.env.RESEND_FROM?.trim() || contact.email.from;
+  const to = process.env.RESEND_TO?.trim() || contact.email.to;
+
   try {
-    const resend = new Resend(process.env.RESEND_API_KEY);
+    const resend = new Resend(apiKey);
     const { error } = await resend.emails.send({
-      from: contact.email.from,
-      to: contact.email.to,
-      subject: contact.email.subject,
+      from,
+      to,
+      subject: `${contact.email.subject}: ${result.data.subject}`,
       replyTo: contact.email.replyToField ? result.data.email : undefined,
       react: ContactEmailTemplate({
         name: result.data.name,
@@ -97,8 +126,7 @@ export async function submitContactForm(
     if (error) {
       console.error("Contact email failed:", error);
       return {
-        message:
-          "There was an error sending your message. Please try again later.",
+        message: resendUserMessage(error),
         success: false,
       };
     }
@@ -110,8 +138,7 @@ export async function submitContactForm(
   } catch (error) {
     console.error("Contact form failed:", error);
     return {
-      message:
-        "Your message could not be sent. Please try again or email me directly.",
+      message: resendUserMessage(error),
       success: false,
     };
   }
