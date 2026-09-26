@@ -16,9 +16,12 @@ export const contact = {
   },
 
   email: {
-    /** Resend "from" — must be a verified domain/sender in Resend */
+    /**
+     * Resend "from" — must use a verified domain in Resend.
+     * Override with RESEND_FROM in Vercel if needed.
+     */
     from: "Nisalk <onboarding@nisalk.dev>",
-    /** Inbox that receives contact form submissions */
+    /** Inbox that receives contact form submissions. Override with RESEND_TO. */
     to: "nirvanzentinal@gmail.com",
     subject: "NisalK.dev Contact",
     replyToField: true,
@@ -35,7 +38,7 @@ export const contact = {
     {
       id: "email",
       label: "Email",
-      href: "mailto:hello@nisalk.dev",
+      href: "mailto:nirvanzentinal@gmail.com",
       external: false,
     },
     {
@@ -47,14 +50,14 @@ export const contact = {
     {
       id: "github",
       label: "GitHub",
-      href: "https://github.com/nisalk",
+      href: "https://github.com/nisalk96",
       external: true,
     },
     {
       id: "resume",
       label: "Download Resume",
-      href: "/resume",
-      external: false,
+      href: "https://drive.google.com/file/d/1IjGSkxXoTz0Ep6R63NDi5nR1wQoPJzkI/view?usp=sharing",
+      external: true,
     },
   ],
 
@@ -62,7 +65,7 @@ export const contact = {
     {
       id: "github",
       name: "GitHub",
-      url: "https://github.com/Nzent",
+      url: "https://github.com/nisalk96",
     },
     {
       id: "linkedin",

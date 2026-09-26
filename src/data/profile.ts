@@ -10,8 +10,9 @@ export const profile: ProfileMeta = {
   availability: "Available for remote opportunities",
   intro:
     "I build scalable web applications, admin platforms and product experiences using React, Next.js, TypeScript, Node.js and AWS.",
-  email: "hello@nisalk.dev",
-  github: "https://github.com/nisalk",
+  email: "nirvanzentinal@gmail.com",
+  github: "https://github.com/nisalk96",
   linkedin: "https://linkedin.com/in/nisalk",
-  resumeUrl: "/resume",
+  resumeUrl:
+    "https://drive.google.com/file/d/1IjGSkxXoTz0Ep6R63NDi5nR1wQoPJzkI/view?usp=sharing",
 };

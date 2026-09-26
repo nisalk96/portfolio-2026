@@ -60,7 +60,12 @@ export function HeroIdentity() {
       </div>
 
       <div className="mt-6 flex flex-wrap gap-2">
-        <a href={profile.resumeUrl} className={cn(buttonVariants())}>
+        <a
+          href={profile.resumeUrl}
+          target="_blank"
+          rel="noreferrer"
+          className={cn(buttonVariants())}
+        >
           <IconFileText className="size-4" />
           View Resume
         </a>

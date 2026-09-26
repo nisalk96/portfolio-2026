@@ -64,7 +64,7 @@ export function ProjectCard({ project, index = 0 }: ProjectCardProps) {
           <IconArrowUpRight className="absolute top-3 right-3 size-4 text-white/80 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
         </div>
         <div className="space-y-3 p-4">
-          <p className="text-sm leading-relaxed text-muted-foreground">
+          <p className="line-clamp-4 text-sm leading-relaxed text-muted-foreground">
             {project.description}
           </p>
           <div className="flex flex-wrap items-center gap-1.5">

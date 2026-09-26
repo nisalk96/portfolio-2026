@@ -5,6 +5,19 @@ import {
 } from "@tabler/icons-react";
 import { profile } from "@/data/profile";
 
+function VercelMark({ className }: { className?: string }) {
+  return (
+    <svg
+      viewBox="0 0 76 65"
+      aria-hidden="true"
+      className={className}
+      fill="currentColor"
+    >
+      <path d="M37.5274 0L75.0548 65H0L37.5274 0Z" />
+    </svg>
+  );
+}
+
 export function Footer() {
   return (
     <footer className="border-t border-border/70 py-8">
@@ -45,9 +58,22 @@ export function Footer() {
           </a>
         </div>
       </div>
-      <p className="mx-auto mt-4 max-w-[1280px] px-4 font-mono text-[11px] text-muted-foreground md:px-6">
-        Built with Next.js + TypeScript + Tailwind
-      </p>
+      <div className="mx-auto mt-4 flex max-w-[1280px] flex-col gap-2 px-4 font-mono text-[11px] text-muted-foreground md:flex-row md:items-center md:justify-between md:px-6">
+        <p>Built with Next.js + TypeScript + Tailwind</p>
+        <a
+          href="https://vercel.com"
+          target="_blank"
+          rel="noreferrer"
+          className="inline-flex w-fit items-center gap-1.5 transition-colors hover:text-foreground"
+        >
+          <span>Hosted on</span>
+          <VercelMark className="size-3" />
+          <span className="font-semibold tracking-tight text-foreground/80">
+            Vercel
+          </span>
+          <span className="text-muted-foreground/80">· hosting partner</span>
+        </a>
+      </div>
     </footer>
   );
 }

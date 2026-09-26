@@ -225,7 +225,7 @@ export function ContactSection() {
             ) : null}
           </div>
 
-          {state.success ? (
+            {state.success ? (
             <p
               className="text-sm text-emerald-700 dark:text-emerald-300"
               role="status"
@@ -233,7 +233,7 @@ export function ContactSection() {
               {state.message || contact.form.successMessage}
             </p>
           ) : null}
-          {!state.success && state.message ? (
+          {!state.success && state.message && !state.errors?.turnstileToken ? (
             <p className="text-sm text-destructive" role="alert">
               {state.message}
             </p>

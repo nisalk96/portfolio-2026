@@ -151,11 +151,7 @@ export function AIChat({ chat }: AIChatProps) {
           </Button>
         </div>
         <p className="mt-2 px-1 font-mono text-[10px] text-muted-foreground">
-          Tip: press{" "}
-          <kbd className="rounded border border-border bg-background px-1 py-0.5">
-            ⌘K
-          </kbd>{" "}
-          to open Ask Nisal AI
+          Ask about projects, experience, stack, or how to get in touch.
         </p>
       </form>
     </section>
