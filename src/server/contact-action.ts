@@ -58,7 +58,9 @@ export async function submitContactForm(
     };
   }
 
-  const isValidTurnstile = await verifyTurnstileToken(result.data.turnstileToken);
+  const isValidTurnstile = await verifyTurnstileToken(
+    result.data.turnstileToken,
+  );
   if (!isValidTurnstile) {
     return {
       message: "Security verification failed. Please try again.",

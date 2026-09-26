@@ -11,15 +11,20 @@ type GraphQLResponse<T> = {
 };
 
 function getHygraphEndpoint(): string {
-  // Prefer server-only env; keep NEXT_PUBLIC fallback to avoid breaking existing deployments.
+  // Match Vercel envs first, then server-only aliases.
   return (
-    process.env.HYGRAPHCMS_URL ?? process.env.NEXT_PUBLIC_HYGRAPHCMS_URL ?? ""
+    process.env.NEXT_PUBLIC_HYGRAPHCMS_URL ??
+    process.env.HYGRAPHCMS_URL ??
+    ""
   );
 }
 
 function getHygraphToken(): string | undefined {
-  // Must NOT be NEXT_PUBLIC_* (token should never reach the browser bundle)
-  return process.env.HYGRAPHCMS_ACCESS_TOKEN;
+  // Prefer Vercel key name; keep server-only alias as fallback.
+  return (
+    process.env.NEXT_PUBLIC_HYGRAPHCMS_ACCESS_TOKEN ??
+    process.env.HYGRAPHCMS_ACCESS_TOKEN
+  );
 }
 
 async function hygraphRequest<TData>(
@@ -30,7 +35,7 @@ async function hygraphRequest<TData>(
   const endpoint = getHygraphEndpoint();
   if (!endpoint) {
     throw new Error(
-      "Missing Hygraph endpoint. Set HYGRAPHCMS_URL (recommended) or NEXT_PUBLIC_HYGRAPHCMS_URL.",
+      "Missing Hygraph endpoint. Set NEXT_PUBLIC_HYGRAPHCMS_URL (or HYGRAPHCMS_URL).",
     );
   }
 

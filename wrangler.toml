@@ -7,8 +7,9 @@ compatibility_date = "2026-03-01"
 pages_build_output_dir = ".vercel/output/static"
 
 [vars]
-# Non-secret defaults only. Put secrets in the Cloudflare dashboard / .env.local:
-# RESEND_API_KEY
+# Non-secret defaults only. Put secrets in the Cloudflare / Vercel dashboard:
 # CLOUDFLARE_TURNSTILE_SECRET_KEY
-# HYGRAPHCMS_URL
-# HYGRAPHCMS_ACCESS_TOKEN
+# NEXT_PUBLIC_CLOUDFLARE_TURNSTILE_SITE_KEY
+# RESEND_API_KEY
+# NEXT_PUBLIC_HYGRAPHCMS_URL
+# NEXT_PUBLIC_HYGRAPHCMS_ACCESS_TOKEN

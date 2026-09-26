@@ -125,7 +125,10 @@ export function ContactSection() {
             </label>
           </div>
 
-          <label className="block space-y-1.5 text-sm" htmlFor="contact-subject">
+          <label
+            className="block space-y-1.5 text-sm"
+            htmlFor="contact-subject"
+          >
             <span className="text-muted-foreground">Subject</span>
             <Input
               id="contact-subject"
@@ -141,7 +144,10 @@ export function ContactSection() {
             ) : null}
           </label>
 
-          <label className="block space-y-1.5 text-sm" htmlFor="contact-message">
+          <label
+            className="block space-y-1.5 text-sm"
+            htmlFor="contact-message"
+          >
             <span className="text-muted-foreground">Message</span>
             <Textarea
               id="contact-message"
