@@ -1,5 +1,6 @@
 "use server";
 
+import { render, toPlainText } from "@react-email/render";
 import { Resend } from "resend";
 import { z } from "zod";
 import { ContactEmailTemplate } from "@/components/emails/ContactEmailTemplate";
@@ -109,18 +110,23 @@ export async function submitContactForm(
   const to = process.env.RESEND_TO?.trim() || contact.email.to;
 
   try {
+    const html = await render(
+      ContactEmailTemplate({
+        name: result.data.name,
+        email: result.data.email,
+        subject: result.data.subject,
+        message: result.data.message,
+      }),
+    );
+
     const resend = new Resend(apiKey);
     const { error } = await resend.emails.send({
       from,
       to,
       subject: `${contact.email.subject}: ${result.data.subject}`,
       replyTo: contact.email.replyToField ? result.data.email : undefined,
-      react: ContactEmailTemplate({
-        name: result.data.name,
-        email: result.data.email,
-        subject: result.data.subject,
-        message: result.data.message,
-      }),
+      html,
+      text: toPlainText(html),
     });
 
     if (error) {
