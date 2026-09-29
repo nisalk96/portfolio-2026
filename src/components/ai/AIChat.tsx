@@ -1,7 +1,7 @@
 "use client";
 
 import { IconArrowUp, IconSparkles } from "@tabler/icons-react";
-import { motion, useReducedMotion } from "framer-motion";
+import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { useEffect, useRef } from "react";
 import { ChatMessage } from "@/components/ai/ChatMessage";
 import { ChatThinking } from "@/components/ai/ChatThinking";
@@ -21,6 +21,8 @@ interface AIChatProps {
 export function AIChat({ chat }: AIChatProps) {
   const reducedMotion = useReducedMotion();
   const scrollerRef = useRef<HTMLDivElement>(null);
+  const contentRef = useRef<HTMLDivElement>(null);
+  const stickToBottom = useRef(true);
   const {
     messages,
     activeChips,
@@ -32,16 +34,29 @@ export function AIChat({ chat }: AIChatProps) {
     setInput,
     askPrompt,
     askFreeform,
+    finishTyping,
   } = chat;
 
   useEffect(() => {
     const node = scrollerRef.current;
     if (!node) return;
+    stickToBottom.current = true;
     node.scrollTo({
       top: node.scrollHeight,
       behavior: reducedMotion ? "auto" : "smooth",
     });
-  }, [messages, isThinking, activeChips, reducedMotion]);
+  }, [messages.length, isThinking, activeChips, reducedMotion]);
+
+  useEffect(() => {
+    const node = scrollerRef.current;
+    const content = contentRef.current;
+    if (!node || !content) return;
+    const observer = new ResizeObserver(() => {
+      if (stickToBottom.current) node.scrollTop = node.scrollHeight;
+    });
+    observer.observe(content);
+    return () => observer.disconnect();
+  }, []);
 
   return (
     <section
@@ -96,34 +111,46 @@ export function AIChat({ chat }: AIChatProps) {
 
       <div
         ref={scrollerRef}
-        className="min-h-0 flex-1 space-y-4 overflow-y-auto overscroll-contain px-4 py-4 md:px-5"
+        onScroll={(event) => {
+          const node = event.currentTarget;
+          stickToBottom.current =
+            node.scrollHeight - node.scrollTop - node.clientHeight < 80;
+        }}
+        className="min-h-0 flex-1 overflow-y-auto overscroll-contain px-4 py-4 md:px-5"
       >
-        {messages.map((message) => (
-          <ChatMessage
-            key={message.id}
-            message={message}
-            generating={status === "generating" && message.role === "assistant"}
-          />
-        ))}
+        <div ref={contentRef} className="space-y-4">
+          {messages.map((message) => (
+            <ChatMessage
+              key={message.id}
+              message={message}
+              generating={Boolean(message.isTyping)}
+              onTypingDone={finishTyping}
+            />
+          ))}
 
-        {isThinking ? <ChatThinking label={thinkingLabel} /> : null}
+          <AnimatePresence>
+            {isThinking ? (
+              <ChatThinking key="thinking" label={thinkingLabel} />
+            ) : null}
+          </AnimatePresence>
 
-        {(showInitialChips || activeChips.length > 0) && !isThinking ? (
-          <div
-            key={showInitialChips ? "initial-chips" : "follow-up-chips"}
-            className="flex flex-wrap gap-2 pt-1"
-          >
-            {activeChips.map((chip, index) => (
-              <PromptChip
-                key={`${chip.id}-${chip.label}`}
-                chip={chip}
-                index={index}
-                disabled={status === "generating"}
-                onSelect={askPrompt}
-              />
-            ))}
-          </div>
-        ) : null}
+          {(showInitialChips || activeChips.length > 0) && !isThinking ? (
+            <div
+              key={showInitialChips ? "initial-chips" : "follow-up-chips"}
+              className="flex flex-wrap gap-2 pt-1"
+            >
+              {activeChips.map((chip, index) => (
+                <PromptChip
+                  key={`${chip.id}-${chip.label}`}
+                  chip={chip}
+                  index={index}
+                  disabled={status === "generating"}
+                  onSelect={askPrompt}
+                />
+              ))}
+            </div>
+          ) : null}
+        </div>
       </div>
 
       <form

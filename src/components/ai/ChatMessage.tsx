@@ -2,6 +2,7 @@
 
 import { IconSparkles } from "@tabler/icons-react";
 import { motion, useReducedMotion } from "framer-motion";
+import { useCallback } from "react";
 import { ContactAnswer } from "@/components/ai/ContactAnswer";
 import { ExperienceAnswer } from "@/components/ai/ExperienceAnswer";
 import { ProjectAnswer } from "@/components/ai/ProjectAnswer";
@@ -14,11 +15,20 @@ import { cn } from "@/lib/utils";
 interface ChatMessageProps {
   message: ChatMessageType;
   generating?: boolean;
+  onTypingDone?: (messageId: string) => void;
 }
 
-export function ChatMessage({ message, generating }: ChatMessageProps) {
+export function ChatMessage({
+  message,
+  generating,
+  onTypingDone,
+}: ChatMessageProps) {
   const reducedMotion = useReducedMotion();
   const isUser = message.role === "user";
+  const handleTypingDone = useCallback(
+    () => onTypingDone?.(message.id),
+    [message.id, onTypingDone],
+  );
 
   return (
     <motion.div
@@ -34,7 +44,21 @@ export function ChatMessage({ message, generating }: ChatMessageProps) {
             generating && "shadow-[0_0_0_3px_rgba(14,165,233,0.12)]",
           )}
         >
-          <IconSparkles className="size-3.5" />
+          <motion.span
+            className="flex"
+            animate={
+              reducedMotion || !message.isTyping
+                ? { scale: 1, opacity: 1 }
+                : { scale: [1, 1.15, 1], opacity: [0.7, 1, 0.7] }
+            }
+            transition={
+              message.isTyping
+                ? { duration: 1.6, repeat: Infinity, ease: "easeInOut" }
+                : { duration: 0.3 }
+            }
+          >
+            <IconSparkles className="size-3.5" />
+          </motion.span>
         </div>
       ) : null}
 
@@ -50,7 +74,11 @@ export function ChatMessage({ message, generating }: ChatMessageProps) {
           message.text
         ) : (
           <div>
-            <TypewriterText text={message.text} active={Boolean(message.isTyping)} />
+            <TypewriterText
+              text={message.text}
+              active={Boolean(message.isTyping)}
+              onDone={handleTypingDone}
+            />
             {renderRichAnswer(message)}
           </div>
         )}

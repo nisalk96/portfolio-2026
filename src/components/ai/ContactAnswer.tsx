@@ -37,8 +37,9 @@ export function ContactAnswer() {
             initial={reducedMotion === false ? { opacity: 0, y: 8 } : false}
             animate={{ opacity: 1, y: 0 }}
             transition={{
-              delay: index * animation.stagger.tight,
-              duration: animation.fast,
+              delay: index * animation.chat.richStagger,
+              duration: animation.chat.richDuration,
+              ease: animation.ease.out,
             }}
             whileHover={reducedMotion ? undefined : { y: -2 }}
             className="inline-flex items-center gap-2 rounded-xl border border-border/80 bg-background px-3 py-2 text-[13px] font-medium text-foreground shadow-sm transition-colors hover:border-foreground/15"
