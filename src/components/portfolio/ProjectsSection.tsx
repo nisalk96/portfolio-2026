@@ -2,6 +2,7 @@
 
 import { IconArrowUpRight } from "@tabler/icons-react";
 import Link from "next/link";
+import { transitionTypes } from "@/components/motion/PageTransition";
 import { ProjectCard } from "@/components/portfolio/ProjectCard";
 import { Section } from "@/components/layout/Section";
 import { usePortfolioCms } from "@/components/providers/PortfolioCmsProvider";
@@ -26,6 +27,7 @@ export function ProjectsSection() {
       <div className="mt-6">
         <Link
           href="/projects"
+          transitionTypes={transitionTypes.forward}
           className="group inline-flex items-center gap-1 text-sm font-medium text-foreground underline decoration-transparent underline-offset-4 transition-colors hover:decoration-foreground/40"
         >
           View all projects

@@ -1,6 +1,7 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { m } from "framer-motion";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { animation } from "@/constants/animation";
 import { useReducedMotion } from "@/hooks/useReducedMotion";
 
@@ -10,45 +11,75 @@ interface TypewriterTextProps {
   onDone?: () => void;
 }
 
+function nextDelay(lastChar: string, step: number) {
+  const { typeCharMs, typeSentencePauseMs, typeClausePauseMs } = animation.chat;
+  if (/[.!?]/.test(lastChar)) return typeSentencePauseMs;
+  if (/[,;:\n]/.test(lastChar)) return typeClausePauseMs;
+  return typeCharMs * step * (0.6 + Math.random() * 0.8);
+}
+
 export function TypewriterText({
   text,
   active = true,
   onDone,
 }: TypewriterTextProps) {
   const reducedMotion = useReducedMotion();
-  const words = useMemo(() => text.split(/(\s+)/), [text]);
-  const shouldAnimate = active && !reducedMotion;
-  const [count, setCount] = useState(shouldAnimate ? 0 : words.length);
+  const chars = useMemo(() => Array.from(text), [text]);
+  const [count, setCount] = useState(active ? 0 : chars.length);
+  const onDoneRef = useRef(onDone);
 
   useEffect(() => {
-    if (!shouldAnimate) {
+    onDoneRef.current = onDone;
+  }, [onDone]);
+
+  useEffect(() => {
+    if (!active) return;
+
+    if (reducedMotion) {
       const frame = window.requestAnimationFrame(() => {
-        setCount(words.length);
-        onDone?.();
+        setCount(chars.length);
+        onDoneRef.current?.();
       });
       return () => window.cancelAnimationFrame(frame);
     }
 
     let index = 0;
-    const timer = window.setInterval(() => {
-      index += 1;
+    let timer: number;
+
+    const tick = () => {
+      const step = 1 + Math.floor(Math.random() * 3);
+      index = Math.min(chars.length, index + step);
       setCount(index);
-      if (index >= words.length) {
-        window.clearInterval(timer);
-        onDone?.();
+
+      if (index >= chars.length) {
+        onDoneRef.current?.();
+        return;
       }
-    }, animation.typewriterMs);
 
-    return () => window.clearInterval(timer);
-  }, [onDone, shouldAnimate, text, words.length]);
+      timer = window.setTimeout(tick, nextDelay(chars[index - 1], step));
+    };
 
-  const visible = shouldAnimate
-    ? words.slice(0, count).join("")
-    : text;
+    timer = window.setTimeout(tick, animation.chat.typeStartMs);
+    return () => window.clearTimeout(timer);
+  }, [active, chars, reducedMotion]);
+
+  const visible = active ? chars.slice(0, count).join("") : text;
 
   return (
     <p className="whitespace-pre-wrap text-[14px] leading-relaxed text-foreground/90">
       {visible}
+      {active ? (
+        <m.span
+          aria-hidden
+          className="ml-0.5 inline-block h-[1.05em] w-[2px] translate-y-[3px] rounded-full bg-sky-500"
+          animate={reducedMotion ? undefined : { opacity: [1, 1, 0, 0] }}
+          transition={{
+            duration: 1,
+            repeat: Infinity,
+            times: [0, 0.5, 0.5, 1],
+          }}
+        />
+      ) : null}
     </p>
   );
 }

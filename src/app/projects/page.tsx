@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { transitionTypes } from "@/components/motion/PageTransition";
 import { SiteChrome } from "@/components/layout/SiteChrome";
 import { ProjectCard } from "@/components/portfolio/ProjectCard";
 import { projects as fallbackProjects } from "@/data/projects";
@@ -47,7 +48,10 @@ export default async function ProjectsPage() {
         />
 
         <nav aria-label="Breadcrumb" className="mb-6 font-mono text-xs text-muted-foreground">
-          <Link href="/" className="underline-offset-4 hover:text-foreground hover:underline">
+          <Link
+            href="/"
+            transitionTypes={transitionTypes.back}
+            className="underline-offset-4 hover:text-foreground hover:underline">
             Home
           </Link>
           {" / "}
@@ -71,7 +75,12 @@ export default async function ProjectsPage() {
 
         <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
           {projects.map((project, index) => (
-            <ProjectCard key={project.id} project={project} index={index} />
+            <ProjectCard
+              key={project.id}
+              project={project}
+              index={index}
+              preload={index < 3}
+            />
           ))}
         </div>
       </div>

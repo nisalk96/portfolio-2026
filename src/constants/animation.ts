@@ -23,8 +23,29 @@ export const animation = {
     loose: 0.12,
   },
 
-  /** Typewriter word interval (ms) */
-  typewriterMs: 28,
+  /** AI chat pacing (ms unless noted) */
+  chat: {
+    /** Pause after the user message before "thinking" appears */
+    thinkingStartMs: 600,
+    /** How long each thinking status stays on screen */
+    thinkingStepMs: 1200,
+    /** Random extra time on the final thinking status */
+    thinkingJitterMs: 600,
+    /** Pause before the first streamed character */
+    typeStartMs: 250,
+    /** Base delay per streamed character */
+    typeCharMs: 26,
+    /** Pause after sentence-ending punctuation */
+    typeSentencePauseMs: 320,
+    /** Pause after commas, colons and line breaks */
+    typeClausePauseMs: 140,
+    /** Rich answer (cards, chips) reveal, in seconds */
+    richDuration: 0.55,
+    richStagger: 0.14,
+    /** Follow-up prompt chip stagger */
+    chipStaggerMs: 110,
+    chipDurationMs: 450,
+  },
 
   /** Shared easing curves */
   ease: {
@@ -36,8 +57,25 @@ export const animation = {
 
   /** Spring defaults for chat bubbles */
   spring: {
-    stiffness: 320,
-    damping: 28,
+    stiffness: 170,
+    damping: 24,
+  },
+
+  /** Scroll-triggered reveals */
+  reveal: {
+    /** Vertical travel in px */
+    distance: 24,
+    /** Starting blur in px */
+    blur: 6,
+    /** Fraction of the element visible before it reveals */
+    amount: 0.2,
+  },
+
+  /** Lenis smooth scroll */
+  lenis: {
+    /** Lower = smoother / floatier (0–1) */
+    lerp: 0.1,
+    wheelMultiplier: 1,
   },
 } as const;
 

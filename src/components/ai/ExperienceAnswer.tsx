@@ -1,6 +1,7 @@
 "use client";
 
-import { motion, useReducedMotion } from "framer-motion";
+import { m, useReducedMotion } from "framer-motion";
+import { animation } from "@/constants/animation";
 import { usePortfolioCms } from "@/components/providers/PortfolioCmsProvider";
 
 export function ExperienceAnswer() {
@@ -11,11 +12,15 @@ export function ExperienceAnswer() {
     <div className="relative mt-3 space-y-0 pl-3">
       <div className="absolute top-2 bottom-2 left-[7px] w-px bg-border" />
       {experience.map((job, index) => (
-        <motion.article
+        <m.article
           key={job.id}
           initial={reducedMotion === false ? { opacity: 0, y: 8 } : false}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.08 * index, duration: 0.35 }}
+          transition={{
+            delay: index * animation.chat.richStagger,
+            duration: animation.chat.richDuration,
+            ease: animation.ease.out,
+          }}
           className="relative pb-4 pl-5 last:pb-0"
         >
           <span className="absolute top-1.5 left-0 size-3.5 rounded-full border-2 border-background bg-sky-500 shadow-sm" />
@@ -54,7 +59,7 @@ export function ExperienceAnswer() {
               </div>
             ) : null}
           </div>
-        </motion.article>
+        </m.article>
       ))}
     </div>
   );

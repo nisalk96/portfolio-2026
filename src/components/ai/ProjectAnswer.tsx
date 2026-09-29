@@ -1,7 +1,10 @@
 "use client";
 
 import { IconArrowUpRight } from "@tabler/icons-react";
-import { motion, useReducedMotion } from "framer-motion";
+import { m, useReducedMotion } from "framer-motion";
+import Link from "next/link";
+import { transitionTypes } from "@/components/motion/PageTransition";
+import { animation } from "@/constants/animation";
 import { usePortfolioCms } from "@/components/providers/PortfolioCmsProvider";
 import { cn } from "@/lib/utils";
 
@@ -32,11 +35,15 @@ export function ProjectAnswer({ mode = "featured" }: ProjectAnswerProps) {
   return (
     <div className="mt-3 space-y-2.5">
       {list.map((project, index) => (
-        <motion.article
+        <m.article
           key={project.id}
           initial={reducedMotion === false ? { opacity: 0, y: 8 } : false}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.08 * index, duration: 0.35 }}
+          transition={{
+            delay: index * animation.chat.richStagger,
+            duration: animation.chat.richDuration,
+            ease: animation.ease.out,
+          }}
           className="rounded-xl border border-border/70 bg-background/80 p-3.5 shadow-sm"
         >
           <div className="flex items-start justify-between gap-3">
@@ -65,12 +72,13 @@ export function ProjectAnswer({ mode = "featured" }: ProjectAnswerProps) {
           <p className="mt-2.5 text-[13px] leading-relaxed text-muted-foreground">
             {project.description}
           </p>
-        </motion.article>
+        </m.article>
       ))}
 
       {mode !== "cardchat" ? (
-        <a
+        <Link
           href="/projects"
+          transitionTypes={transitionTypes.forward}
           className={cn(
             "group inline-flex items-center gap-1 pt-1 text-[13px] font-medium text-foreground",
             "underline decoration-transparent underline-offset-4 transition-colors hover:decoration-foreground/40",
@@ -78,7 +86,7 @@ export function ProjectAnswer({ mode = "featured" }: ProjectAnswerProps) {
         >
           View all projects
           <IconArrowUpRight className="size-3.5 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
-        </a>
+        </Link>
       ) : null}
     </div>
   );

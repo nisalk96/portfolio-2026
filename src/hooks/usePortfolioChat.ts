@@ -2,6 +2,7 @@
 
 import { useCallback, useMemo, useRef, useState } from "react";
 import { usePortfolioCms } from "@/components/providers/PortfolioCmsProvider";
+import { animation } from "@/constants/animation";
 import {
   followUps,
   initialPrompts,
@@ -40,6 +41,7 @@ export function usePortfolioChat() {
   const [status, setStatus] = useState<"ready" | "generating">("ready");
   const [input, setInput] = useState("");
   const timers = useRef<number[]>([]);
+  const pendingChips = useRef<PromptChip[]>([]);
 
   const clearTimers = useCallback(() => {
     timers.current.forEach((timer) => window.clearTimeout(timer));
@@ -52,63 +54,75 @@ export function usePortfolioChat() {
     return id;
   }, []);
 
-  const runPrompt = useCallback(
-    (promptId: PromptId, label: string) => {
+  const runAnswer = useCallback(
+    (kind: AnswerKind, label: string) => {
       clearTimers();
-      const kind = promptToAnswerKind[promptId];
       const statuses = thinkingStatuses[kind];
+      const { thinkingStartMs, thinkingStepMs, thinkingJitterMs } =
+        animation.chat;
 
       setShowInitialChips(false);
       setStatus("generating");
       setIsThinking(false);
       setActiveChips([]);
 
-      const userMessage: ChatMessage = {
-        id: createId(),
-        role: "user",
-        kind: "text",
-        text: label,
-      };
-
-      setMessages((prev) => [...prev, userMessage]);
+      setMessages((prev) => [
+        ...prev,
+        { id: createId(), role: "user", kind: "text", text: label },
+      ]);
 
       schedule(() => {
         setIsThinking(true);
         setThinkingLabel(statuses[0] ?? "Thinking...");
-      }, 300);
+      }, thinkingStartMs);
 
       statuses.slice(1).forEach((labelText, index) => {
-        schedule(() => setThinkingLabel(labelText), 300 + (index + 1) * 450);
+        schedule(
+          () => setThinkingLabel(labelText),
+          thinkingStartMs + (index + 1) * thinkingStepMs,
+        );
       });
 
-      const answerDelay = 900 + Math.floor(Math.random() * 500);
+      const answerDelay =
+        thinkingStartMs +
+        Math.max(statuses.length, 1) * thinkingStepMs +
+        Math.floor(Math.random() * thinkingJitterMs);
 
       schedule(() => {
         setIsThinking(false);
-        const assistantMessage: ChatMessage = {
-          id: createId(),
-          role: "assistant",
-          kind,
-          text: getAnswerIntro(kind, projects),
-          isTyping: true,
-        };
-
-        setMessages((prev) => [...prev, assistantMessage]);
-        setActiveChips(followUps[kind] ?? initialPrompts.slice(0, 4));
-        setStatus("ready");
-
-        schedule(() => {
-          setMessages((prev) =>
-            prev.map((message) =>
-              message.id === assistantMessage.id
-                ? { ...message, isTyping: false }
-                : message,
-            ),
-          );
-        }, 700);
+        pendingChips.current = followUps[kind] ?? initialPrompts.slice(0, 4);
+        setMessages((prev) => [
+          ...prev,
+          {
+            id: createId(),
+            role: "assistant",
+            kind,
+            text: getAnswerIntro(kind, projects),
+            isTyping: true,
+          },
+        ]);
       }, answerDelay);
     },
     [clearTimers, projects, schedule],
+  );
+
+  const finishTyping = useCallback((messageId: string) => {
+    setMessages((prev) =>
+      prev.map((message) =>
+        message.id === messageId && message.isTyping
+          ? { ...message, isTyping: false }
+          : message,
+      ),
+    );
+    setActiveChips(pendingChips.current);
+    setStatus("ready");
+  }, []);
+
+  const runPrompt = useCallback(
+    (promptId: PromptId, label: string) => {
+      runAnswer(promptToAnswerKind[promptId], label);
+    },
+    [runAnswer],
   );
 
   const askPrompt = useCallback(
@@ -131,43 +145,8 @@ export function usePortfolioChat() {
       return;
     }
 
-    clearTimers();
-    setShowInitialChips(false);
-    setStatus("generating");
-    setActiveChips([]);
-
-    setMessages((prev) => [
-      ...prev,
-      {
-        id: createId(),
-        role: "user",
-        kind: "text",
-        text: value,
-      },
-    ]);
-
-    schedule(() => {
-      setIsThinking(true);
-      setThinkingLabel("Preparing response...");
-    }, 300);
-
-    schedule(() => {
-      setIsThinking(false);
-      const kind: AnswerKind = "text";
-      setMessages((prev) => [
-        ...prev,
-        {
-          id: createId(),
-          role: "assistant",
-          kind,
-          text: getAnswerIntro(kind, projects),
-          isTyping: true,
-        },
-      ]);
-      setActiveChips(followUps.text);
-      setStatus("ready");
-    }, 1000);
-  }, [clearTimers, input, projects, runPrompt, schedule, status]);
+    runAnswer("text", value);
+  }, [input, runAnswer, runPrompt, status]);
 
   const askById = useCallback(
     (promptId: PromptId) => {
@@ -200,12 +179,14 @@ export function usePortfolioChat() {
       askPrompt,
       askFreeform,
       askById,
+      finishTyping,
     }),
     [
       activeChips,
       askById,
       askFreeform,
       askPrompt,
+      finishTyping,
       input,
       isThinking,
       messages,

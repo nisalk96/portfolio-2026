@@ -3,11 +3,17 @@ import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { IconArrowUpRight, IconExternalLink } from "@tabler/icons-react";
+import {
+  projectImageTransitionName,
+  SharedElement,
+  transitionTypes,
+} from "@/components/motion/PageTransition";
 import { SiteChrome } from "@/components/layout/SiteChrome";
 import { projects as fallbackProjects } from "@/data/projects";
 import { mapHygraphProjects } from "@/lib/cms-mappers";
 import { jsonLdScript, pageMetadata } from "@/lib/seo";
-import { videoUrlToEmbed } from "@/lib/video-url";
+import { VideoEmbed } from "@/components/portfolio/VideoEmbed";
+import { getVideoThumbnail, videoUrlToEmbed } from "@/lib/video-url";
 import { getAllProjects, getProjectBySlug } from "@/server/hygraph";
 import type { HygraphProject } from "@/types/hygraph";
 
@@ -112,9 +118,12 @@ export default async function ProjectDetailPage({
   }
 
   const embedUrl = data.video ? videoUrlToEmbed(data.video) : "";
-  const related = await getAllProjects()
-    .then(mapHygraphProjects)
-    .catch(() => fallbackProjects);
+  const [related, videoThumbnail] = await Promise.all([
+    getAllProjects()
+      .then(mapHygraphProjects)
+      .catch(() => fallbackProjects),
+    data.video ? getVideoThumbnail(data.video) : null,
+  ]);
 
   const projectJsonLd = {
     "@context": "https://schema.org",
@@ -148,6 +157,7 @@ export default async function ProjectDetailPage({
         >
           <Link
             href="/"
+            transitionTypes={transitionTypes.back}
             className="underline-offset-4 hover:text-foreground hover:underline"
           >
             Home
@@ -155,6 +165,7 @@ export default async function ProjectDetailPage({
           {" / "}
           <Link
             href="/projects"
+            transitionTypes={transitionTypes.back}
             className="underline-offset-4 hover:text-foreground hover:underline"
           >
             Projects
@@ -192,11 +203,8 @@ export default async function ProjectDetailPage({
         </header>
 
         <div className="grid gap-3">
-          {data.images?.map((image, index) => (
-            <div
-              key={image.id}
-              className="relative overflow-hidden rounded-2xl border border-border/70 bg-muted/30"
-            >
+          {data.images?.map((image, index) => {
+            const screenshot = (
               <Image
                 src={image.url}
                 alt={`${data.title} screenshot ${index + 1}`}
@@ -204,20 +212,33 @@ export default async function ProjectDetailPage({
                 height={800}
                 sizes="(max-width: 1280px) 100vw, 1200px"
                 className="h-auto w-full object-cover"
-                priority={index === 0}
+                preload={index === 0}
+                fetchPriority={index === 0 ? "high" : undefined}
               />
-            </div>
-          ))}
+            );
+
+            return (
+              <div
+                key={image.id}
+                className="relative overflow-hidden rounded-2xl border border-border/70 bg-muted/30"
+              >
+                {index === 0 ? (
+                  <SharedElement name={projectImageTransitionName(data.slug)}>
+                    {screenshot}
+                  </SharedElement>
+                ) : (
+                  screenshot
+                )}
+              </div>
+            );
+          })}
 
           {embedUrl ? (
             <div className="overflow-hidden rounded-2xl border border-border/70">
-              <iframe
-                title={`${data.title} video`}
-                allowFullScreen
-                loading="lazy"
-                src={embedUrl}
-                aria-label={`${data.title} video`}
-                className="aspect-video w-full"
+              <VideoEmbed
+                embedUrl={embedUrl}
+                title={data.title}
+                thumbnailUrl={videoThumbnail}
               />
             </div>
           ) : null}
@@ -239,6 +260,7 @@ export default async function ProjectDetailPage({
         <div className="mt-10 flex flex-wrap items-center gap-4">
           <Link
             href="/projects"
+            transitionTypes={transitionTypes.back}
             className="group inline-flex items-center gap-1 text-sm font-medium text-foreground underline decoration-transparent underline-offset-4 transition-colors hover:decoration-foreground/40"
           >
             Back to all projects

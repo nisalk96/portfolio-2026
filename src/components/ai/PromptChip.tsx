@@ -9,6 +9,7 @@ import {
   IconSearch,
   IconSparkles,
 } from "@tabler/icons-react";
+import { animation } from "@/constants/animation";
 import type { PromptChip as PromptChipType, PromptIcon } from "@/types/portfolio";
 import { cn } from "@/lib/utils";
 
@@ -61,7 +62,10 @@ export function PromptChip({
       type="button"
       disabled={disabled}
       onClick={() => onSelect(chip)}
-      style={{ animationDelay: `${index * 40}ms` }}
+      style={{
+        animationDelay: `${index * animation.chat.chipStaggerMs}ms`,
+        animationDuration: `${animation.chat.chipDurationMs}ms`,
+      }}
       className={cn(
         "group inline-flex max-w-full animate-in fade-in slide-in-from-bottom-1 items-center gap-2 rounded-xl border border-border/80 bg-background px-3 py-2 text-left text-[13px] text-muted-foreground shadow-sm transition-all duration-200 fill-mode-both",
         "hover:-translate-y-0.5 hover:border-foreground/15 hover:bg-background hover:text-foreground",

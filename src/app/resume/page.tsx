@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { transitionTypes } from "@/components/motion/PageTransition";
 import { SiteChrome } from "@/components/layout/SiteChrome";
 import { experience as fallbackExperience } from "@/data/experience";
 import { profile } from "@/data/profile";
@@ -50,6 +51,7 @@ export default async function ResumePage() {
           </div>
           <Link
             href="/"
+            transitionTypes={transitionTypes.back}
             className="rounded-lg border border-border px-3 py-1.5 text-sm hover:bg-muted"
           >
             Back to portfolio

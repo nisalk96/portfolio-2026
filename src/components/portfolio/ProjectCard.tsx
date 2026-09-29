@@ -1,37 +1,43 @@
 "use client";
 
 import { IconArrowUpRight } from "@tabler/icons-react";
-import { motion, useReducedMotion } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
 import type { Project } from "@/types/portfolio";
-import { animation } from "@/constants/animation";
+import {
+  projectImageTransitionName,
+  SharedElement,
+  transitionTypes,
+} from "@/components/motion/PageTransition";
+import { Reveal } from "@/components/motion/Reveal";
+import { staggerDelay } from "@/lib/motion";
 import { cn } from "@/lib/utils";
 
 interface ProjectCardProps {
   project: Project;
   index?: number;
+  /** Set for cards that render above the fold */
+  preload?: boolean;
 }
 
-export function ProjectCard({ project, index = 0 }: ProjectCardProps) {
-  const reducedMotion = useReducedMotion();
-
+export function ProjectCard({
+  project,
+  index = 0,
+  preload = false,
+}: ProjectCardProps) {
   return (
-    <motion.article
-      initial={reducedMotion === false ? { opacity: 0, y: 16 } : false}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, amount: 0.2 }}
-      transition={{
-        delay: index * animation.stagger.tight,
-        duration: animation.normal,
-      }}
+    <Reveal
+      as="article"
+      delay={staggerDelay(index % 3)}
+      amount={0.15}
       className="group"
     >
       <Link
         href={`/projects/${project.slug}`}
+        transitionTypes={transitionTypes.forward}
         className={cn(
           "block overflow-hidden rounded-2xl border border-border/70 bg-background shadow-sm transition-all duration-300",
-          "hover:-translate-y-1 hover:border-foreground/15",
+          "hover:-translate-y-1 hover:border-foreground/15 hover:shadow-[0_18px_40px_-24px_rgba(15,23,42,0.45)]",
         )}
       >
         <div
@@ -41,14 +47,17 @@ export function ProjectCard({ project, index = 0 }: ProjectCardProps) {
           )}
         >
           {project.imageUrl ? (
-            <Image
-              src={project.imageUrl}
-              alt={`${project.name} preview`}
-              fill
-              sizes="(max-width: 640px) 100vw, (max-width: 1280px) 50vw, 33vw"
-              className="object-cover transition-transform duration-500 group-hover:scale-105"
-              priority={index < 2}
-            />
+            <SharedElement name={projectImageTransitionName(project.slug)}>
+              <Image
+                src={project.imageUrl}
+                alt={`${project.name} preview`}
+                fill
+                sizes="(max-width: 640px) 100vw, (max-width: 1280px) 50vw, 33vw"
+                className="object-cover transition-transform duration-500 group-hover:scale-105"
+                preload={preload}
+                fetchPriority={preload ? "high" : undefined}
+              />
+            </SharedElement>
           ) : (
             <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_20%,rgba(255,255,255,0.12),transparent_45%)] transition-transform duration-500 group-hover:scale-105" />
           )}
@@ -82,6 +91,6 @@ export function ProjectCard({ project, index = 0 }: ProjectCardProps) {
           </div>
         </div>
       </Link>
-    </motion.article>
+    </Reveal>
   );
 }
