@@ -6,7 +6,7 @@ import {
   IconFileText,
   IconMail,
 } from "@tabler/icons-react";
-import { motion, useReducedMotion } from "framer-motion";
+import { m, useReducedMotion } from "framer-motion";
 import { contact } from "@/constants/contact";
 import { animation } from "@/constants/animation";
 import { profile } from "@/data/profile";
@@ -29,7 +29,7 @@ export function ContactAnswer() {
           channel.id === "email" ? `Email ${profile.shortName}` : channel.label;
 
         return (
-          <motion.a
+          <m.a
             key={channel.id}
             href={channel.href}
             target={channel.external ? "_blank" : undefined}
@@ -46,7 +46,7 @@ export function ContactAnswer() {
           >
             <Icon className="size-3.5 text-sky-600 dark:text-sky-400" />
             {label}
-          </motion.a>
+          </m.a>
         );
       })}
     </div>

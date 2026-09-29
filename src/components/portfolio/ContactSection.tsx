@@ -16,6 +16,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { cloudflare } from "@/constants/cloudflare";
 import { contact } from "@/constants/contact";
 import { profile } from "@/data/profile";
+import { useNearViewport } from "@/hooks/useNearViewport";
 import {
   submitContactForm,
   type ContactFormState,
@@ -36,6 +37,8 @@ export function ContactSection() {
     initialState,
   );
   const turnstileRef = useRef<TurnstileInstance>(null);
+  const formRef = useRef<HTMLFormElement>(null);
+  const loadTurnstile = useNearViewport(formRef);
   const [turnstileToken, setTurnstileToken] = useState("");
   const [verificationError, setVerificationError] = useState("");
   const [widgetAttempt, setWidgetAttempt] = useState(0);
@@ -46,11 +49,14 @@ export function ContactSection() {
     setVerificationError(message);
   };
 
+  const [handledState, setHandledState] = useState(state);
+  if (handledState !== state) {
+    setHandledState(state);
+    if (state.message) setTurnstileToken("");
+  }
+
   useEffect(() => {
-    if (state.message) {
-      setTurnstileToken("");
-      turnstileRef.current?.reset();
-    }
+    if (state.message) turnstileRef.current?.reset();
   }, [state]);
 
   return (
@@ -88,6 +94,7 @@ export function ContactSection() {
 
         <RevealItem>
           <form
+            ref={formRef}
             className="space-y-3 rounded-2xl border border-border/70 bg-background/70 p-5"
             action={formAction}
           >
@@ -167,7 +174,9 @@ export function ContactSection() {
             </label>
 
             <div className="space-y-2">
-              {siteKey ? (
+              {siteKey && !loadTurnstile ? (
+                <div className="h-[65px] rounded-md border border-border/70 bg-muted/30" />
+              ) : siteKey ? (
                 <Turnstile
                   key={widgetAttempt}
                   ref={turnstileRef}

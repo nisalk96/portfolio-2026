@@ -46,6 +46,10 @@ function variablesBlock() {
   --motion-normal: ${animation.normal}s;
   --motion-slow: ${animation.slow}s;
   --motion-ambient: ${animation.ambient}s;
+  --motion-ease-out: cubic-bezier(${animation.ease.out.join(", ")});
+  --reveal-distance: ${animation.reveal.distance}px;
+  --reveal-blur: ${animation.reveal.blur}px;
+  --reveal-stagger: ${animation.stagger.normal}s;
 }`;
 }
 

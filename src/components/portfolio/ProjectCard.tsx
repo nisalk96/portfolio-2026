@@ -16,9 +16,15 @@ import { cn } from "@/lib/utils";
 interface ProjectCardProps {
   project: Project;
   index?: number;
+  /** Set for cards that render above the fold */
+  preload?: boolean;
 }
 
-export function ProjectCard({ project, index = 0 }: ProjectCardProps) {
+export function ProjectCard({
+  project,
+  index = 0,
+  preload = false,
+}: ProjectCardProps) {
   return (
     <Reveal
       as="article"
@@ -48,7 +54,8 @@ export function ProjectCard({ project, index = 0 }: ProjectCardProps) {
                 fill
                 sizes="(max-width: 640px) 100vw, (max-width: 1280px) 50vw, 33vw"
                 className="object-cover transition-transform duration-500 group-hover:scale-105"
-                priority={index < 2}
+                preload={preload}
+                fetchPriority={preload ? "high" : undefined}
               />
             </SharedElement>
           ) : (

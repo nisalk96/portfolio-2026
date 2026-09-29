@@ -70,6 +70,61 @@
   }
 }
 
+/*
+  Above-the-fold entrance reveals. Plain CSS so they start painting before
+  hydration instead of waiting for Framer Motion (see components/motion/Reveal).
+*/
+.reveal-css {
+  animation: reveal-in var(--motion-slow) var(--motion-ease-out) both;
+  animation-delay: var(--reveal-delay, 0s);
+}
+
+.reveal-css-group > .reveal-css {
+  animation-delay: calc(
+    var(--reveal-delay, 0s) + var(--reveal-stagger) * var(--reveal-index, 0)
+  );
+}
+
+.reveal-css-group > .reveal-css:nth-child(2) { --reveal-index: 1; }
+.reveal-css-group > .reveal-css:nth-child(3) { --reveal-index: 2; }
+.reveal-css-group > .reveal-css:nth-child(4) { --reveal-index: 3; }
+.reveal-css-group > .reveal-css:nth-child(5) { --reveal-index: 4; }
+.reveal-css-group > .reveal-css:nth-child(6) { --reveal-index: 5; }
+.reveal-css-group > .reveal-css:nth-child(7) { --reveal-index: 6; }
+.reveal-css-group > .reveal-css:nth-child(n + 8) { --reveal-index: 7; }
+
+.reveal-down-css {
+  animation: reveal-down var(--motion-slow) var(--motion-ease-out) both;
+}
+
+@keyframes reveal-in {
+  from {
+    opacity: 0;
+    transform: translateY(var(--reveal-distance));
+    filter: blur(var(--reveal-blur));
+  }
+}
+
+@keyframes reveal-down {
+  from {
+    opacity: 0;
+    transform: translateY(-16px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal-css,
+  .reveal-down-css {
+    animation-name: reveal-fade;
+  }
+}
+
+@keyframes reveal-fade {
+  from {
+    opacity: 0;
+  }
+}
+
 /* Page transitions (React <ViewTransition>) */
 ::view-transition {
   pointer-events: none;

@@ -12,7 +12,8 @@ import { SiteChrome } from "@/components/layout/SiteChrome";
 import { projects as fallbackProjects } from "@/data/projects";
 import { mapHygraphProjects } from "@/lib/cms-mappers";
 import { jsonLdScript, pageMetadata } from "@/lib/seo";
-import { videoUrlToEmbed } from "@/lib/video-url";
+import { VideoEmbed } from "@/components/portfolio/VideoEmbed";
+import { getVideoThumbnail, videoUrlToEmbed } from "@/lib/video-url";
 import { getAllProjects, getProjectBySlug } from "@/server/hygraph";
 import type { HygraphProject } from "@/types/hygraph";
 
@@ -117,9 +118,12 @@ export default async function ProjectDetailPage({
   }
 
   const embedUrl = data.video ? videoUrlToEmbed(data.video) : "";
-  const related = await getAllProjects()
-    .then(mapHygraphProjects)
-    .catch(() => fallbackProjects);
+  const [related, videoThumbnail] = await Promise.all([
+    getAllProjects()
+      .then(mapHygraphProjects)
+      .catch(() => fallbackProjects),
+    data.video ? getVideoThumbnail(data.video) : null,
+  ]);
 
   const projectJsonLd = {
     "@context": "https://schema.org",
@@ -208,7 +212,8 @@ export default async function ProjectDetailPage({
                 height={800}
                 sizes="(max-width: 1280px) 100vw, 1200px"
                 className="h-auto w-full object-cover"
-                priority={index === 0}
+                preload={index === 0}
+                fetchPriority={index === 0 ? "high" : undefined}
               />
             );
 
@@ -230,13 +235,10 @@ export default async function ProjectDetailPage({
 
           {embedUrl ? (
             <div className="overflow-hidden rounded-2xl border border-border/70">
-              <iframe
-                title={`${data.title} video`}
-                allowFullScreen
-                loading="lazy"
-                src={embedUrl}
-                aria-label={`${data.title} video`}
-                className="aspect-video w-full"
+              <VideoEmbed
+                embedUrl={embedUrl}
+                title={data.title}
+                thumbnailUrl={videoThumbnail}
               />
             </div>
           ) : null}

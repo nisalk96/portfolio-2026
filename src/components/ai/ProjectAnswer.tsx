@@ -1,7 +1,7 @@
 "use client";
 
 import { IconArrowUpRight } from "@tabler/icons-react";
-import { motion, useReducedMotion } from "framer-motion";
+import { m, useReducedMotion } from "framer-motion";
 import Link from "next/link";
 import { transitionTypes } from "@/components/motion/PageTransition";
 import { animation } from "@/constants/animation";
@@ -35,7 +35,7 @@ export function ProjectAnswer({ mode = "featured" }: ProjectAnswerProps) {
   return (
     <div className="mt-3 space-y-2.5">
       {list.map((project, index) => (
-        <motion.article
+        <m.article
           key={project.id}
           initial={reducedMotion === false ? { opacity: 0, y: 8 } : false}
           animate={{ opacity: 1, y: 0 }}
@@ -72,7 +72,7 @@ export function ProjectAnswer({ mode = "featured" }: ProjectAnswerProps) {
           <p className="mt-2.5 text-[13px] leading-relaxed text-muted-foreground">
             {project.description}
           </p>
-        </motion.article>
+        </m.article>
       ))}
 
       {mode !== "cardchat" ? (

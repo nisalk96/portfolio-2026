@@ -1,6 +1,6 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { animation } from "@/constants/animation";
 import { useReducedMotion } from "@/hooks/useReducedMotion";
@@ -69,7 +69,7 @@ export function TypewriterText({
     <p className="whitespace-pre-wrap text-[14px] leading-relaxed text-foreground/90">
       {visible}
       {active ? (
-        <motion.span
+        <m.span
           aria-hidden
           className="ml-0.5 inline-block h-[1.05em] w-[2px] translate-y-[3px] rounded-full bg-sky-500"
           animate={reducedMotion ? undefined : { opacity: [1, 1, 0, 0] }}

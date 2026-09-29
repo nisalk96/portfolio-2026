@@ -1,7 +1,7 @@
 "use client";
 
 import { IconSparkles } from "@tabler/icons-react";
-import { motion, useReducedMotion } from "framer-motion";
+import { m, useReducedMotion } from "framer-motion";
 import { useCallback } from "react";
 import { ContactAnswer } from "@/components/ai/ContactAnswer";
 import { ExperienceAnswer } from "@/components/ai/ExperienceAnswer";
@@ -31,8 +31,8 @@ export function ChatMessage({
   );
 
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 10 }}
+    <m.div
+      initial={message.id === "welcome" ? false : { opacity: 0, y: 10 }}
       animate={{ opacity: 1, y: 0 }}
       transition={motionTransitions.spring}
       className={cn("flex gap-2.5", isUser ? "justify-end" : "justify-start")}
@@ -44,7 +44,7 @@ export function ChatMessage({
             generating && "shadow-[0_0_0_3px_rgba(14,165,233,0.12)]",
           )}
         >
-          <motion.span
+          <m.span
             className="flex"
             animate={
               reducedMotion || !message.isTyping
@@ -58,7 +58,7 @@ export function ChatMessage({
             }
           >
             <IconSparkles className="size-3.5" />
-          </motion.span>
+          </m.span>
         </div>
       ) : null}
 
@@ -83,7 +83,7 @@ export function ChatMessage({
           </div>
         )}
       </div>
-    </motion.div>
+    </m.div>
   );
 }
 

@@ -1,7 +1,7 @@
 "use client";
 
 import { IconArrowUp, IconSparkles } from "@tabler/icons-react";
-import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
+import { AnimatePresence, m, useReducedMotion } from "framer-motion";
 import { useEffect, useRef } from "react";
 import { ChatMessage } from "@/components/ai/ChatMessage";
 import { ChatThinking } from "@/components/ai/ChatThinking";
@@ -67,7 +67,7 @@ export function AIChat({ chat }: AIChatProps) {
         <div className="flex items-center gap-3">
           <div className="relative flex size-9 items-center justify-center rounded-xl border border-border/70 bg-muted/40 text-sky-600 dark:text-sky-400">
             <IconSparkles className="size-4" />
-            <motion.span
+            <m.span
               className="absolute inset-0 rounded-xl bg-sky-400/10"
               animate={
                 reducedMotion || status !== "generating"

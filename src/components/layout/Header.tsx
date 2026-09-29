@@ -6,7 +6,7 @@ import {
   IconMenu2,
   IconX,
 } from "@tabler/icons-react";
-import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
+import { AnimatePresence, m, useReducedMotion } from "framer-motion";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { ScrollProgress } from "@/components/layout/ScrollProgress";
@@ -14,7 +14,6 @@ import { ThemeToggle } from "@/components/layout/ThemeToggle";
 import { transitionTypes } from "@/components/motion/PageTransition";
 import { Button } from "@/components/ui/button";
 import { profile } from "@/data/profile";
-import { motionTransitions } from "@/lib/motion";
 import { cn } from "@/lib/utils";
 
 let hasPlayedEntrance = false;
@@ -45,12 +44,12 @@ export function Header() {
   }, []);
 
   return (
-    <motion.header
-      className="sticky top-0 z-50 px-3 pt-3 md:px-4"
-      initial={playEntrance ? { opacity: 0, y: -16 } : false}
+    <header
+      className={cn(
+        "sticky top-0 z-50 px-3 pt-3 md:px-4",
+        playEntrance && "reveal-down-css",
+      )}
       style={{ viewTransitionName: "site-header" }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={motionTransitions.reveal}
     >
       <ScrollProgress />
       <div
@@ -125,7 +124,7 @@ export function Header() {
 
       <AnimatePresence>
         {open ? (
-          <motion.nav
+          <m.nav
             initial={reducedMotion === false ? { opacity: 0, y: -8 } : false}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -8 }}
@@ -153,9 +152,9 @@ export function Header() {
                 </Link>
               ),
             )}
-          </motion.nav>
+          </m.nav>
         ) : null}
       </AnimatePresence>
-    </motion.header>
+    </header>
   );
 }

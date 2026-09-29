@@ -1,9 +1,15 @@
 "use client";
 
-import { motion, type Variants } from "framer-motion";
-import type { ReactNode } from "react";
+import { m, type Variants } from "framer-motion";
+import {
+  createContext,
+  useContext,
+  type CSSProperties,
+  type ReactNode,
+} from "react";
 import { animation } from "@/constants/animation";
 import { motionTransitions } from "@/lib/motion";
+import { cn } from "@/lib/utils";
 
 const revealVariants: Variants = {
   hidden: {
@@ -21,21 +27,28 @@ const revealVariants: Variants = {
   }),
 };
 
+/**
+ * - `mount`: plays on page load via CSS (`.reveal-css` in globals.css) so
+ *   above-the-fold content paints before hydration. Use for the first screen.
+ * - `inView`: Framer Motion reveal when scrolled into view.
+ */
 type RevealTrigger = "inView" | "mount";
 
-/**
- * Always starts hidden so server and client markup match; reduced-motion users
- * get a plain fade because MotionProvider sets `reducedMotion="user"`.
- */
-function getRevealProps(trigger: RevealTrigger, amount: number) {
-  if (trigger === "mount") {
-    return { initial: "hidden", animate: "visible" } as const;
-  }
+const CssRevealGroupContext = createContext(false);
+
+function inViewProps(amount: number) {
   return {
     initial: "hidden",
     whileInView: "visible",
     viewport: { once: true, amount },
   } as const;
+}
+
+function cssDelayStyle(delay: number, stagger?: number) {
+  return {
+    "--reveal-delay": `${delay}s`,
+    ...(stagger !== undefined ? { "--reveal-stagger": `${stagger}s` } : {}),
+  } as CSSProperties;
 }
 
 interface RevealProps {
@@ -56,15 +69,23 @@ export function Reveal({
   amount = animation.reveal.amount,
   as = "div",
 }: RevealProps) {
-  const revealProps = getRevealProps(trigger, amount);
-  const Component = motion[as];
+  if (trigger === "mount") {
+    const Tag = as;
+    return (
+      <Tag className={cn("reveal-css", className)} style={cssDelayStyle(delay)}>
+        {children}
+      </Tag>
+    );
+  }
+
+  const Component = m[as];
 
   return (
     <Component
       className={className}
       variants={revealVariants}
       custom={delay}
-      {...revealProps}
+      {...inViewProps(amount)}
     >
       {children}
     </Component>
@@ -86,25 +107,40 @@ export function RevealGroup({
   stagger = "normal",
   as = "div",
 }: RevealGroupProps) {
-  const revealProps = getRevealProps(trigger, amount);
-  const Component = motion[as];
+  if (trigger === "mount") {
+    const Tag = as;
+    return (
+      <CssRevealGroupContext.Provider value>
+        <Tag
+          className={cn("reveal-css-group", className)}
+          style={cssDelayStyle(delay, animation.stagger[stagger])}
+        >
+          {children}
+        </Tag>
+      </CssRevealGroupContext.Provider>
+    );
+  }
+
+  const Component = m[as];
 
   return (
-    <Component
-      className={className}
-      variants={{
-        hidden: {},
-        visible: {
-          transition: {
-            delayChildren: delay,
-            staggerChildren: animation.stagger[stagger],
+    <CssRevealGroupContext.Provider value={false}>
+      <Component
+        className={className}
+        variants={{
+          hidden: {},
+          visible: {
+            transition: {
+              delayChildren: delay,
+              staggerChildren: animation.stagger[stagger],
+            },
           },
-        },
-      }}
-      {...revealProps}
-    >
-      {children}
-    </Component>
+        }}
+        {...inViewProps(amount)}
+      >
+        {children}
+      </Component>
+    </CssRevealGroupContext.Provider>
   );
 }
 
@@ -119,7 +155,14 @@ export function RevealItem({
   className,
   as = "div",
 }: RevealItemProps) {
-  const Component = motion[as];
+  const cssGroup = useContext(CssRevealGroupContext);
+
+  if (cssGroup) {
+    const Tag = as;
+    return <Tag className={cn("reveal-css", className)}>{children}</Tag>;
+  }
+
+  const Component = m[as];
 
   return (
     <Component className={className} variants={revealVariants}>

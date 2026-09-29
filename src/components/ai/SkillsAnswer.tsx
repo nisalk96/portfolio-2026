@@ -1,6 +1,6 @@
 "use client";
 
-import { motion, useReducedMotion } from "framer-motion";
+import { m, useReducedMotion } from "framer-motion";
 import { animation } from "@/constants/animation";
 import { frontendSkills, skillCategories } from "@/data/skills";
 
@@ -24,7 +24,7 @@ export function SkillsAnswer({ mode = "all" }: SkillsAnswerProps) {
   return (
     <div className="mt-3 space-y-3">
       {categories.map((category, categoryIndex) => (
-        <motion.div
+        <m.div
           key={category.id}
           initial={reducedMotion === false ? { opacity: 0, y: 8 } : false}
           animate={{ opacity: 1, y: 0 }}
@@ -39,7 +39,7 @@ export function SkillsAnswer({ mode = "all" }: SkillsAnswerProps) {
           </h4>
           <div className="flex flex-wrap gap-1.5">
             {category.skills.map((skill, skillIndex) => (
-              <motion.span
+              <m.span
                 key={skill}
                 initial={reducedMotion === false ? { opacity: 0, y: 6 } : false}
                 animate={{ opacity: 1, y: 0 }}
@@ -52,10 +52,10 @@ export function SkillsAnswer({ mode = "all" }: SkillsAnswerProps) {
                 className="rounded-lg border border-border/70 bg-background px-2 py-1 text-[12px] text-foreground/85 shadow-sm"
               >
                 {skill}
-              </motion.span>
+              </m.span>
             ))}
           </div>
-        </motion.div>
+        </m.div>
       ))}
     </div>
   );

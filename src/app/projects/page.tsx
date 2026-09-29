@@ -75,7 +75,12 @@ export default async function ProjectsPage() {
 
         <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
           {projects.map((project, index) => (
-            <ProjectCard key={project.id} project={project} index={index} />
+            <ProjectCard
+              key={project.id}
+              project={project}
+              index={index}
+              preload={index < 3}
+            />
           ))}
         </div>
       </div>
