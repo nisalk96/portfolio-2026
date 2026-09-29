@@ -3,6 +3,11 @@ import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { IconArrowUpRight, IconExternalLink } from "@tabler/icons-react";
+import {
+  projectImageTransitionName,
+  SharedElement,
+  transitionTypes,
+} from "@/components/motion/PageTransition";
 import { SiteChrome } from "@/components/layout/SiteChrome";
 import { projects as fallbackProjects } from "@/data/projects";
 import { mapHygraphProjects } from "@/lib/cms-mappers";
@@ -148,6 +153,7 @@ export default async function ProjectDetailPage({
         >
           <Link
             href="/"
+            transitionTypes={transitionTypes.back}
             className="underline-offset-4 hover:text-foreground hover:underline"
           >
             Home
@@ -155,6 +161,7 @@ export default async function ProjectDetailPage({
           {" / "}
           <Link
             href="/projects"
+            transitionTypes={transitionTypes.back}
             className="underline-offset-4 hover:text-foreground hover:underline"
           >
             Projects
@@ -192,11 +199,8 @@ export default async function ProjectDetailPage({
         </header>
 
         <div className="grid gap-3">
-          {data.images?.map((image, index) => (
-            <div
-              key={image.id}
-              className="relative overflow-hidden rounded-2xl border border-border/70 bg-muted/30"
-            >
+          {data.images?.map((image, index) => {
+            const screenshot = (
               <Image
                 src={image.url}
                 alt={`${data.title} screenshot ${index + 1}`}
@@ -206,8 +210,23 @@ export default async function ProjectDetailPage({
                 className="h-auto w-full object-cover"
                 priority={index === 0}
               />
-            </div>
-          ))}
+            );
+
+            return (
+              <div
+                key={image.id}
+                className="relative overflow-hidden rounded-2xl border border-border/70 bg-muted/30"
+              >
+                {index === 0 ? (
+                  <SharedElement name={projectImageTransitionName(data.slug)}>
+                    {screenshot}
+                  </SharedElement>
+                ) : (
+                  screenshot
+                )}
+              </div>
+            );
+          })}
 
           {embedUrl ? (
             <div className="overflow-hidden rounded-2xl border border-border/70">
@@ -239,6 +258,7 @@ export default async function ProjectDetailPage({
         <div className="mt-10 flex flex-wrap items-center gap-4">
           <Link
             href="/projects"
+            transitionTypes={transitionTypes.back}
             className="group inline-flex items-center gap-1 text-sm font-medium text-foreground underline decoration-transparent underline-offset-4 transition-colors hover:decoration-foreground/40"
           >
             Back to all projects

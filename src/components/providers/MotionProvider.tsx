@@ -18,6 +18,7 @@ export function MotionProvider({ children }: { children: ReactNode }) {
             lerp: animation.lenis.lerp,
             wheelMultiplier: animation.lenis.wheelMultiplier,
             anchors: true,
+            stopInertiaOnNavigate: true,
           }}
         />
       ) : null}

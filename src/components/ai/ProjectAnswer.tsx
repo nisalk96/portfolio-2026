@@ -2,6 +2,8 @@
 
 import { IconArrowUpRight } from "@tabler/icons-react";
 import { motion, useReducedMotion } from "framer-motion";
+import Link from "next/link";
+import { transitionTypes } from "@/components/motion/PageTransition";
 import { animation } from "@/constants/animation";
 import { usePortfolioCms } from "@/components/providers/PortfolioCmsProvider";
 import { cn } from "@/lib/utils";
@@ -74,8 +76,9 @@ export function ProjectAnswer({ mode = "featured" }: ProjectAnswerProps) {
       ))}
 
       {mode !== "cardchat" ? (
-        <a
+        <Link
           href="/projects"
+          transitionTypes={transitionTypes.forward}
           className={cn(
             "group inline-flex items-center gap-1 pt-1 text-[13px] font-medium text-foreground",
             "underline decoration-transparent underline-offset-4 transition-colors hover:decoration-foreground/40",
@@ -83,7 +86,7 @@ export function ProjectAnswer({ mode = "featured" }: ProjectAnswerProps) {
         >
           View all projects
           <IconArrowUpRight className="size-3.5 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
-        </a>
+        </Link>
       ) : null}
     </div>
   );
