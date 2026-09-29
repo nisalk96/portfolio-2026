@@ -60,6 +60,23 @@ export const animation = {
     stiffness: 170,
     damping: 24,
   },
+
+  /** Scroll-triggered reveals */
+  reveal: {
+    /** Vertical travel in px */
+    distance: 24,
+    /** Starting blur in px */
+    blur: 6,
+    /** Fraction of the element visible before it reveals */
+    amount: 0.2,
+  },
+
+  /** Lenis smooth scroll */
+  lenis: {
+    /** Lower = smoother / floatier (0–1) */
+    lerp: 0.1,
+    wheelMultiplier: 1,
+  },
 } as const;
 
 export type AnimationConstants = typeof animation;

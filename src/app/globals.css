@@ -58,7 +58,7 @@
   }
 
   html {
-    @apply scroll-smooth font-sans;
+    @apply font-sans;
   }
 
   body {
@@ -67,11 +67,5 @@
 
   ::selection {
     background: color-mix(in oklch, var(--selection) 35%, transparent);
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    html {
-      scroll-behavior: auto;
-    }
   }
 }

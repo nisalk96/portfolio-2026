@@ -1,11 +1,11 @@
 "use client";
 
 import { IconArrowUpRight } from "@tabler/icons-react";
-import { motion, useReducedMotion } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
 import type { Project } from "@/types/portfolio";
-import { animation } from "@/constants/animation";
+import { Reveal } from "@/components/motion/Reveal";
+import { staggerDelay } from "@/lib/motion";
 import { cn } from "@/lib/utils";
 
 interface ProjectCardProps {
@@ -14,24 +14,18 @@ interface ProjectCardProps {
 }
 
 export function ProjectCard({ project, index = 0 }: ProjectCardProps) {
-  const reducedMotion = useReducedMotion();
-
   return (
-    <motion.article
-      initial={reducedMotion === false ? { opacity: 0, y: 16 } : false}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, amount: 0.2 }}
-      transition={{
-        delay: index * animation.stagger.tight,
-        duration: animation.normal,
-      }}
+    <Reveal
+      as="article"
+      delay={staggerDelay(index % 3)}
+      amount={0.15}
       className="group"
     >
       <Link
         href={`/projects/${project.slug}`}
         className={cn(
           "block overflow-hidden rounded-2xl border border-border/70 bg-background shadow-sm transition-all duration-300",
-          "hover:-translate-y-1 hover:border-foreground/15",
+          "hover:-translate-y-1 hover:border-foreground/15 hover:shadow-[0_18px_40px_-24px_rgba(15,23,42,0.45)]",
         )}
       >
         <div
@@ -82,6 +76,6 @@ export function ProjectCard({ project, index = 0 }: ProjectCardProps) {
           </div>
         </div>
       </Link>
-    </motion.article>
+    </Reveal>
   );
 }

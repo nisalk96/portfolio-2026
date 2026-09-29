@@ -3,6 +3,7 @@
 import { usePortfolioChat } from "@/hooks/usePortfolioChat";
 import { AIChat } from "@/components/ai/AIChat";
 import { Header } from "@/components/layout/Header";
+import { Reveal } from "@/components/motion/Reveal";
 import { AboutSection } from "@/components/portfolio/AboutSection";
 import { ContactSection } from "@/components/portfolio/ContactSection";
 import { ExperienceSection } from "@/components/portfolio/ExperienceSection";
@@ -26,7 +27,9 @@ export function PortfolioPage() {
       <main className="mx-auto w-full max-w-[1280px] px-4 pb-10 md:px-6">
         <section className="grid items-start gap-6 py-8 md:py-12 lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.3fr)] lg:gap-8">
           <HeroIdentity />
-          <AIChat chat={chat} />
+          <Reveal trigger="mount" delay={0.35}>
+            <AIChat chat={chat} />
+          </Reveal>
         </section>
 
         <AboutSection />

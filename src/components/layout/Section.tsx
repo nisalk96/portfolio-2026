@@ -1,8 +1,7 @@
 "use client";
 
-import { motion, useReducedMotion } from "framer-motion";
 import type { ReactNode } from "react";
-import { motionTransitions } from "@/lib/motion";
+import { RevealGroup, RevealItem } from "@/components/motion/Reveal";
 import { cn } from "@/lib/utils";
 
 interface SectionProps {
@@ -22,33 +21,33 @@ export function Section({
   children,
   className,
 }: SectionProps) {
-  const reducedMotion = useReducedMotion();
-
   return (
-    <motion.section
-      id={id}
-      className={cn("scroll-mt-24 py-16 md:py-20", className)}
-      initial={reducedMotion === false ? { opacity: 0, y: 18 } : false}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, amount: 0.15 }}
-      transition={motionTransitions.reveal}
-    >
-      <div className="mb-8 max-w-2xl">
+    <section id={id} className={cn("scroll-mt-24 py-16 md:py-20", className)}>
+      <RevealGroup className="mb-8 max-w-2xl" amount={0.6}>
         {eyebrow ? (
-          <p className="mb-2 font-mono text-[11px] tracking-[0.16em] text-muted-foreground uppercase">
+          <RevealItem
+            as="p"
+            className="mb-2 flex items-center gap-2 font-mono text-[11px] tracking-[0.16em] text-muted-foreground uppercase"
+          >
+            <span className="h-px w-6 bg-sky-500/60" aria-hidden />
             {eyebrow}
-          </p>
+          </RevealItem>
         ) : null}
-        <h2 className="text-2xl font-semibold tracking-tight text-foreground md:text-[1.75rem]">
-          {title}
-        </h2>
+        <RevealItem>
+          <h2 className="text-2xl font-semibold tracking-tight text-foreground md:text-[1.75rem]">
+            {title}
+          </h2>
+        </RevealItem>
         {description ? (
-          <p className="mt-2 text-sm leading-relaxed text-muted-foreground md:text-[15px]">
+          <RevealItem
+            as="p"
+            className="mt-2 text-sm leading-relaxed text-muted-foreground md:text-[15px]"
+          >
             {description}
-          </p>
+          </RevealItem>
         ) : null}
-      </div>
+      </RevealGroup>
       {children}
-    </motion.section>
+    </section>
   );
 }

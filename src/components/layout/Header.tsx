@@ -9,9 +9,11 @@ import {
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import { ScrollProgress } from "@/components/layout/ScrollProgress";
 import { ThemeToggle } from "@/components/layout/ThemeToggle";
 import { Button } from "@/components/ui/button";
 import { profile } from "@/data/profile";
+import { motionTransitions } from "@/lib/motion";
 import { cn } from "@/lib/utils";
 
 const navItems = [
@@ -35,7 +37,13 @@ export function Header() {
   }, []);
 
   return (
-    <header className="sticky top-0 z-50 px-3 pt-3 md:px-4">
+    <motion.header
+      className="sticky top-0 z-50 px-3 pt-3 md:px-4"
+      initial={{ opacity: 0, y: -16 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={motionTransitions.reveal}
+    >
+      <ScrollProgress />
       <div
         className={cn(
           "mx-auto flex max-w-[1280px] items-center justify-between gap-3 rounded-2xl border px-3 py-2 transition-all duration-300 md:px-4",
@@ -116,6 +124,6 @@ export function Header() {
           </motion.nav>
         ) : null}
       </AnimatePresence>
-    </header>
+    </motion.header>
   );
 }

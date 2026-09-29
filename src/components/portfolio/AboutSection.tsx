@@ -1,3 +1,4 @@
+import { RevealGroup, RevealItem } from "@/components/motion/Reveal";
 import { Section } from "@/components/layout/Section";
 import { profile } from "@/data/profile";
 
@@ -9,8 +10,8 @@ export function AboutSection() {
       title={`About ${profile.shortName}`}
       description="Senior software engineer focused on product-quality interfaces, scalable frontend systems and practical AI-assisted experiences."
     >
-      <div className="grid gap-4 md:grid-cols-[1.2fr_0.8fr]">
-        <div className="space-y-4 rounded-2xl border border-border/70 bg-background/70 p-5 text-sm leading-relaxed text-muted-foreground md:p-6">
+      <RevealGroup className="grid gap-4 md:grid-cols-[1.2fr_0.8fr]">
+        <RevealItem className="space-y-4 rounded-2xl border border-border/70 bg-background/70 p-5 text-sm leading-relaxed text-muted-foreground md:p-6">
           <p>
             I design and build web applications where clarity, performance and
             maintainability matter. My work spans admin platforms, consumer
@@ -23,8 +24,9 @@ export function AboutSection() {
             navigation and knowledge layer for product experiences, without
             turning everything into a chatbot clone.
           </p>
-        </div>
-        <aside className="rounded-2xl border border-border/70 bg-background/70 p-5 md:p-6">
+        </RevealItem>
+        <RevealItem className="rounded-2xl border border-border/70 bg-background/70 p-5 md:p-6">
+          <aside>
           <dl className="space-y-4 text-sm">
             <div>
               <dt className="font-mono text-[11px] tracking-[0.14em] text-muted-foreground uppercase">
@@ -45,8 +47,9 @@ export function AboutSection() {
               <dd className="mt-1 text-foreground">{profile.availability}</dd>
             </div>
           </dl>
-        </aside>
-      </div>
+          </aside>
+        </RevealItem>
+      </RevealGroup>
     </Section>
   );
 }

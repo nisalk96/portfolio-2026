@@ -3,6 +3,7 @@ import { Geist_Mono } from "next/font/google";
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { DesignTokensStyle } from "@/components/providers/DesignTokensStyle";
+import { MotionProvider } from "@/components/providers/MotionProvider";
 import { ThemeProvider } from "@/components/providers/ThemeProvider";
 import { seo } from "@/constants/seo";
 import {
@@ -10,6 +11,7 @@ import {
   personJsonLd,
   websiteJsonLd,
 } from "@/lib/seo";
+import "lenis/dist/lenis.css";
 import "./globals.css";
 
 const geistMono = Geist_Mono({
@@ -83,7 +85,9 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
             }),
           }}
         />
-        <ThemeProvider>{children}</ThemeProvider>
+        <ThemeProvider>
+          <MotionProvider>{children}</MotionProvider>
+        </ThemeProvider>
         <Analytics />
         <SpeedInsights />
       </body>

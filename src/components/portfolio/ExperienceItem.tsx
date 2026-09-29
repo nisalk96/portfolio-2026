@@ -1,23 +1,18 @@
 "use client";
 
-import { motion, useReducedMotion } from "framer-motion";
+import { Reveal } from "@/components/motion/Reveal";
 import type { Experience } from "@/types/portfolio";
 import { SkillBadge } from "@/components/portfolio/SkillBadge";
 
 interface ExperienceItemProps {
   item: Experience;
-  index?: number;
 }
 
-export function ExperienceItem({ item, index = 0 }: ExperienceItemProps) {
-  const reducedMotion = useReducedMotion();
-
+export function ExperienceItem({ item }: ExperienceItemProps) {
   return (
-    <motion.article
-      initial={reducedMotion === false ? { opacity: 0, y: 14 } : false}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, amount: 0.25 }}
-      transition={{ delay: index * 0.05, duration: 0.35 }}
+    <Reveal
+      as="article"
+      amount={0.25}
       className="relative grid gap-3 border-b border-border/70 py-6 last:border-b-0 md:grid-cols-[180px_1fr]"
     >
       <div>
@@ -45,6 +40,6 @@ export function ExperienceItem({ item, index = 0 }: ExperienceItemProps) {
           ))}
         </div>
       </div>
-    </motion.article>
+    </Reveal>
   );
 }

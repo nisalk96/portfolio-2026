@@ -111,6 +111,7 @@ export function AIChat({ chat }: AIChatProps) {
 
       <div
         ref={scrollerRef}
+        data-lenis-prevent
         onScroll={(event) => {
           const node = event.currentTarget;
           stickToBottom.current =

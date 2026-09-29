@@ -32,7 +32,7 @@ export function ChatMessage({
 
   return (
     <motion.div
-      initial={reducedMotion === false ? { opacity: 0, y: 10 } : false}
+      initial={{ opacity: 0, y: 10 }}
       animate={{ opacity: 1, y: 0 }}
       transition={motionTransitions.spring}
       className={cn("flex gap-2.5", isUser ? "justify-end" : "justify-start")}
