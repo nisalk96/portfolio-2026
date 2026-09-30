@@ -18,6 +18,7 @@ const navItems = [
   { id: "services", href: "/#services", label: "Services" },
   { id: "work", href: "/#work", label: "Work" },
   { id: "experience", href: "/#experience", label: "Experience" },
+  { id: "process", href: "/#process", label: "Process" },
   { id: "contact", href: "/#contact", label: "Contact" },
 ];
 

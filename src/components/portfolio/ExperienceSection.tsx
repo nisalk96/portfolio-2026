@@ -31,7 +31,7 @@ export function ExperienceSection() {
         </Link>
       }
     >
-      <div className="grid gap-4 lg:auto-cols-fr lg:grid-flow-col">
+      <div className="overflow-hidden rounded-2xl border border-border bg-white">
         {experience.map((item, index) => (
           <ExperienceItem
             key={item.id}

@@ -12,8 +12,10 @@ import { Footer } from "@/components/portfolio/Footer";
 import { HeroAssistant } from "@/components/portfolio/HeroAssistant";
 import { HeroIdentity } from "@/components/portfolio/HeroIdentity";
 import { ProjectsSection } from "@/components/portfolio/ProjectsSection";
+import { QuickAnswersSection } from "@/components/portfolio/QuickAnswersSection";
 import { ServicesSection } from "@/components/portfolio/ServicesSection";
 import { StackSection } from "@/components/portfolio/StackSection";
+import { WorkProcessSection } from "@/components/portfolio/WorkProcessSection";
 
 export function PortfolioPage() {
   const chat = usePortfolioChat();
@@ -41,6 +43,8 @@ export function PortfolioPage() {
           <StackSection />
           <ProjectsSection />
           <ExperienceSection />
+          <WorkProcessSection />
+          <QuickAnswersSection />
           <ContactSection />
         </main>
 
