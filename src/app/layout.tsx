@@ -5,6 +5,7 @@ import { SpeedInsights } from "@vercel/speed-insights/next";
 import { DesignTokensStyle } from "@/components/providers/DesignTokensStyle";
 import { MotionProvider } from "@/components/providers/MotionProvider";
 import { ThemeProvider } from "@/components/providers/ThemeProvider";
+import { CustomCursor } from "@/components/layout/CustomCursor";
 import { seo } from "@/constants/seo";
 import {
   jsonLdScript,
@@ -93,7 +94,10 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
           }}
         />
         <ThemeProvider>
-          <MotionProvider>{children}</MotionProvider>
+          <MotionProvider>
+            {children}
+            <CustomCursor />
+          </MotionProvider>
         </ThemeProvider>
         <Analytics />
         <SpeedInsights />

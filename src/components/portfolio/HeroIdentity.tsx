@@ -26,7 +26,7 @@ export function HeroIdentity() {
       </RevealItem>
 
       <RevealItem>
-        <h1 className="mt-4 text-5xl font-black tracking-[-0.055em] text-foreground md:text-6xl xl:text-[4.5rem] xl:leading-[0.98]">
+        <h1 className="hero-title-reveal mt-4 text-5xl font-black tracking-[-0.055em] text-foreground md:text-6xl xl:text-[4.5rem] xl:leading-[0.98]">
           Nisal <span className="text-brand">Keerthisinghe</span>
         </h1>
       </RevealItem>

@@ -87,6 +87,84 @@
   }
 }
 
+/* Orange brand cursor: desktop/fine pointers only, with native text cursors kept. */
+.custom-cursor {
+  display: none;
+}
+
+@media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
+  .has-custom-cursor,
+  .has-custom-cursor body,
+  .has-custom-cursor a,
+  .has-custom-cursor button,
+  .has-custom-cursor select,
+  .has-custom-cursor summary,
+  .has-custom-cursor [role="button"] {
+    cursor: none;
+  }
+
+  .has-custom-cursor input,
+  .has-custom-cursor textarea,
+  .has-custom-cursor [contenteditable="true"] {
+    cursor: text;
+  }
+
+  .custom-cursor {
+    display: block;
+    opacity: 0;
+    pointer-events: none;
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    transition: opacity var(--motion-instant) ease;
+  }
+
+  [data-cursor-visible="true"] .custom-cursor {
+    opacity: 1;
+  }
+
+  [data-cursor-hidden="true"] .custom-cursor {
+    opacity: 0;
+  }
+
+  .custom-cursor__dot,
+  .custom-cursor__ring {
+    position: absolute;
+    top: 0;
+    left: 0;
+    border-radius: 999px;
+    will-change: transform;
+  }
+
+  .custom-cursor__dot {
+    width: 7px;
+    height: 7px;
+    margin: -3.5px 0 0 -3.5px;
+    background: var(--foreground);
+  }
+
+  .custom-cursor__ring {
+    width: 30px;
+    height: 30px;
+    margin: -15px 0 0 -15px;
+    border: 2px solid var(--brand);
+    background: color-mix(in oklch, var(--brand) 10%, transparent);
+    box-shadow: 0 0 0 1px color-mix(in oklch, var(--background) 70%, transparent);
+    transition:
+      width var(--motion-instant) var(--motion-ease-out),
+      height var(--motion-instant) var(--motion-ease-out),
+      margin var(--motion-instant) var(--motion-ease-out),
+      background-color var(--motion-instant) ease;
+  }
+
+  [data-cursor-interactive="true"] .custom-cursor__ring {
+    width: 44px;
+    height: 44px;
+    margin: -22px 0 0 -22px;
+    background: color-mix(in oklch, var(--brand) 20%, transparent);
+  }
+}
+
 @utility glass {
   background-color: var(--glass);
   backdrop-filter: none;
@@ -221,6 +299,24 @@
 .reveal-css-group > .reveal-css:nth-child(7) { --reveal-index: 6; }
 .reveal-css-group > .reveal-css:nth-child(n + 8) { --reveal-index: 7; }
 
+/*
+  Motion hydrates after the first browser paint. Put the initial in-view state
+  in CSS so cards cannot flash fully visible before Motion takes control.
+  `scripting: enabled` keeps content visible when JavaScript is unavailable.
+*/
+@media (scripting: enabled) and (prefers-reduced-motion: no-preference) {
+  .reveal-in-view {
+    opacity: 0;
+    transform: translateY(var(--reveal-distance));
+    filter: blur(var(--reveal-blur));
+  }
+}
+
+.hero-title-reveal {
+  animation: hero-title-focus var(--motion-slow) var(--motion-ease-out)
+    var(--motion-instant) both;
+}
+
 .reveal-down-css {
   animation: reveal-down var(--motion-slow) var(--motion-ease-out) both;
 }
@@ -240,10 +336,25 @@
   }
 }
 
+@keyframes hero-title-focus {
+  from {
+    opacity: 0;
+    filter: blur(14px);
+    transform: translateY(8px) scale(0.985);
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .reveal-css,
-  .reveal-down-css {
+  .reveal-down-css,
+  .hero-title-reveal {
     animation-name: reveal-fade;
+  }
+
+  .reveal-in-view {
+    opacity: 1 !important;
+    transform: none !important;
+    filter: none !important;
   }
 }
 

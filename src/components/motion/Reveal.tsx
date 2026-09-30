@@ -34,7 +34,9 @@ const revealVariants: Variants = {
  */
 type RevealTrigger = "inView" | "mount";
 
-const CssRevealGroupContext = createContext(false);
+type RevealGroupMode = "mount" | "inView" | null;
+
+const RevealGroupContext = createContext<RevealGroupMode>(null);
 
 function inViewProps(amount: number) {
   return {
@@ -82,7 +84,7 @@ export function Reveal({
 
   return (
     <Component
-      className={className}
+      className={cn("reveal-in-view", className)}
       variants={revealVariants}
       custom={delay}
       {...inViewProps(amount)}
@@ -110,21 +112,21 @@ export function RevealGroup({
   if (trigger === "mount") {
     const Tag = as;
     return (
-      <CssRevealGroupContext.Provider value>
+      <RevealGroupContext.Provider value="mount">
         <Tag
           className={cn("reveal-css-group", className)}
           style={cssDelayStyle(delay, animation.stagger[stagger])}
         >
           {children}
         </Tag>
-      </CssRevealGroupContext.Provider>
+      </RevealGroupContext.Provider>
     );
   }
 
   const Component = m[as];
 
   return (
-    <CssRevealGroupContext.Provider value={false}>
+    <RevealGroupContext.Provider value="inView">
       <Component
         className={className}
         variants={{
@@ -140,7 +142,7 @@ export function RevealGroup({
       >
         {children}
       </Component>
-    </CssRevealGroupContext.Provider>
+    </RevealGroupContext.Provider>
   );
 }
 
@@ -155,9 +157,9 @@ export function RevealItem({
   className,
   as = "div",
 }: RevealItemProps) {
-  const cssGroup = useContext(CssRevealGroupContext);
+  const groupMode = useContext(RevealGroupContext);
 
-  if (cssGroup) {
+  if (groupMode === "mount") {
     const Tag = as;
     return <Tag className={cn("reveal-css", className)}>{children}</Tag>;
   }
@@ -165,7 +167,10 @@ export function RevealItem({
   const Component = m[as];
 
   return (
-    <Component className={className} variants={revealVariants}>
+    <Component
+      className={cn(groupMode === "inView" && "reveal-in-view", className)}
+      variants={revealVariants}
+    >
       {children}
     </Component>
   );
