@@ -1,42 +1,36 @@
 "use client";
 
 import { Reveal } from "@/components/motion/Reveal";
+import { staggerDelay } from "@/lib/motion";
 import type { Experience } from "@/types/portfolio";
-import { SkillBadge } from "@/components/portfolio/SkillBadge";
 
 interface ExperienceItemProps {
   item: Experience;
+  index: number;
+  isLast: boolean;
 }
 
-export function ExperienceItem({ item }: ExperienceItemProps) {
+export function ExperienceItem({ item, index }: ExperienceItemProps) {
   return (
     <Reveal
       as="article"
-      amount={0.25}
-      className="relative grid gap-3 border-b border-border/70 py-6 last:border-b-0 md:grid-cols-[180px_1fr]"
+      amount={0.15}
+      delay={staggerDelay(index % 4)}
+      className="grid gap-5 border-b border-border p-5 last:border-b-0 md:grid-cols-[10rem_minmax(0,1fr)] md:gap-8 md:p-7"
     >
-      <div>
-        <p className="font-mono text-[12px] text-muted-foreground">
-          {item.period}
-        </p>
-        <p className="mt-1 text-xs text-muted-foreground">{item.location}</p>
+      <div className="font-mono text-xs leading-relaxed text-body md:pt-1">
+        <p className="text-foreground">{item.period}</p>
+        <p>{item.location}</p>
       </div>
+
       <div>
-        <h3 className="text-base font-semibold text-foreground">{item.role}</h3>
-        <p className="mt-0.5 text-sm text-muted-foreground">{item.company}</p>
-        <ul className="mt-3 space-y-2">
+        <h3 className="text-base font-bold text-foreground md:text-lg">{item.role}</h3>
+        <p className="mt-1 font-mono text-sm text-body">{item.company}</p>
+        <div className="mt-4 space-y-2.5">
           {item.achievements.map((achievement) => (
-            <li
-              key={achievement}
-              className="text-sm leading-relaxed text-muted-foreground"
-            >
+            <p key={achievement} className="text-sm leading-relaxed text-body">
               {achievement}
-            </li>
-          ))}
-        </ul>
-        <div className="mt-3 flex flex-wrap gap-1.5">
-          {item.tech.map((tech) => (
-            <SkillBadge key={tech} label={tech} />
+            </p>
           ))}
         </div>
       </div>

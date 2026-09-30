@@ -6,10 +6,11 @@ import {
   IconBrandLinkedin,
   IconFileText,
   IconMail,
+  IconMapPin,
+  IconSend,
 } from "@tabler/icons-react";
 import { useActionState, useEffect, useRef, useState } from "react";
 import { RevealGroup, RevealItem } from "@/components/motion/Reveal";
-import { Section } from "@/components/layout/Section";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -17,12 +18,16 @@ import { cloudflare } from "@/constants/cloudflare";
 import { contact } from "@/constants/contact";
 import { profile } from "@/data/profile";
 import { useNearViewport } from "@/hooks/useNearViewport";
+import { cn } from "@/lib/utils";
 import {
   submitContactForm,
   type ContactFormState,
 } from "@/server/contact-action";
 
 const initialState: ContactFormState = { message: "" };
+
+const fieldClass =
+  "h-11 rounded-full border-glass-border bg-white/60 px-4 shadow-[inset_0_1px_2px_rgb(12_13_33/0.04)] dark:bg-white/5";
 
 const channelIcons = {
   email: IconMail,
@@ -60,51 +65,84 @@ export function ContactSection() {
   }, [state]);
 
   return (
-    <Section
+    <section
       id="contact"
-      eyebrow={contact.form.eyebrow}
-      title={contact.form.title}
-      description={contact.form.description}
+      className="glass-panel relative mt-5 scroll-mt-24 p-5 md:mt-6 md:p-8"
     >
-      <RevealGroup className="grid gap-4 lg:grid-cols-[0.9fr_1.1fr]" amount={0.1}>
-        <RevealItem className="space-y-3 rounded-2xl border border-border/70 bg-background/70 p-5">
-          <p className="text-sm text-muted-foreground">
-            Prefer a direct channel? These usually get the fastest reply.
+      <div
+        aria-hidden
+        className="animate-float-soft pointer-events-none absolute -right-10 -bottom-10 -z-10 hidden size-56 rounded-full bg-[radial-gradient(circle_at_30%_30%,rgb(255_255_255/0.95),var(--orb-b)_45%,var(--orb-a)_80%)] opacity-70 blur-[2px] lg:block dark:opacity-50"
+      />
+      <RevealGroup
+        className="grid gap-8 lg:grid-cols-[0.85fr_1.15fr] lg:gap-10"
+        amount={0.1}
+      >
+        <RevealItem className="flex flex-col">
+          <p className="eyebrow">{contact.form.eyebrow}</p>
+          <h2 className="mt-3 max-w-sm text-2xl font-semibold tracking-tight text-foreground md:text-[1.75rem] md:leading-tight">
+            {contact.form.title}
+          </h2>
+          <p className="mt-3 max-w-sm text-sm leading-relaxed text-body">
+            {contact.form.description}
           </p>
-          <div className="flex flex-col gap-2">
-            {contact.channels.map((channel) => {
-              const Icon =
-                channelIcons[channel.id as keyof typeof channelIcons] ??
-                IconMail;
-              return (
-                <a
-                  key={channel.id}
-                  href={channel.href}
-                  target={channel.external ? "_blank" : undefined}
-                  rel={channel.external ? "noreferrer" : undefined}
-                  className="inline-flex items-center gap-2 rounded-xl border border-border/70 px-3 py-2.5 text-sm transition-colors hover:bg-muted"
-                >
-                  <Icon className="size-4 text-sky-600 dark:text-sky-400" />
-                  {channel.id === "email" ? profile.email : channel.label}
-                </a>
-              );
-            })}
+          <ul className="mt-7 flex flex-col gap-3">
+            <li>
+              <a
+                href={`mailto:${profile.email}`}
+                className="group inline-flex items-center gap-3 text-sm text-foreground"
+              >
+                <span className="glass inline-flex size-9 items-center justify-center rounded-full text-brand">
+                  <IconMail className="size-4" />
+                </span>
+                <span className="group-hover:underline group-hover:underline-offset-4">
+                  {profile.email}
+                </span>
+              </a>
+            </li>
+            <li className="inline-flex items-center gap-3 text-sm text-foreground">
+              <span className="glass inline-flex size-9 items-center justify-center rounded-full text-brand">
+                <IconMapPin className="size-4" />
+              </span>
+              {profile.location}
+            </li>
+          </ul>
+          <div className="mt-6 flex flex-wrap gap-2">
+            {contact.channels
+              .filter((channel) => channel.id !== "email")
+              .map((channel) => {
+                const Icon =
+                  channelIcons[channel.id as keyof typeof channelIcons] ??
+                  IconMail;
+                return (
+                  <a
+                    key={channel.id}
+                    href={channel.href}
+                    target={channel.external ? "_blank" : undefined}
+                    rel={channel.external ? "noreferrer" : undefined}
+                    className="glass inline-flex items-center gap-2 rounded-full px-3.5 py-2 text-[13px] text-foreground transition-colors hover:bg-glass-strong"
+                  >
+                    <Icon className="size-4 text-brand" />
+                    {channel.label}
+                  </a>
+                );
+              })}
           </div>
         </RevealItem>
 
         <RevealItem>
           <form
             ref={formRef}
-            className="space-y-3 rounded-2xl border border-border/70 bg-background/70 p-5"
+            className="glass space-y-3 rounded-3xl p-4 md:p-5"
             action={formAction}
           >
             <div className="grid gap-3 sm:grid-cols-2">
               <label className="space-y-1.5 text-sm" htmlFor="contact-name">
-                <span className="text-muted-foreground">Name</span>
+                <span className="sr-only">Name</span>
                 <Input
                   id="contact-name"
                   name="name"
-                  placeholder="Your name"
+                  placeholder="Your Name"
+                  className={fieldClass}
                   autoComplete="name"
                   required
                   aria-invalid={Boolean(state.errors?.name)}
@@ -116,12 +154,13 @@ export function ContactSection() {
                 ) : null}
               </label>
               <label className="space-y-1.5 text-sm" htmlFor="contact-email">
-                <span className="text-muted-foreground">Email</span>
+                <span className="sr-only">Email</span>
                 <Input
                   id="contact-email"
                   name="email"
                   type="email"
-                  placeholder="you@company.com"
+                  placeholder="Your Email"
+                  className={fieldClass}
                   autoComplete="email"
                   required
                   aria-invalid={Boolean(state.errors?.email)}
@@ -138,11 +177,12 @@ export function ContactSection() {
               className="block space-y-1.5 text-sm"
               htmlFor="contact-subject"
             >
-              <span className="text-muted-foreground">Subject</span>
+              <span className="sr-only">Subject</span>
               <Input
                 id="contact-subject"
                 name="subject"
                 placeholder={contact.fields.subject.defaultPlaceholder}
+                className={fieldClass}
                 required
                 aria-invalid={Boolean(state.errors?.subject)}
               />
@@ -157,12 +197,12 @@ export function ContactSection() {
               className="block space-y-1.5 text-sm"
               htmlFor="contact-message"
             >
-              <span className="text-muted-foreground">Message</span>
+              <span className="sr-only">Message</span>
               <Textarea
                 id="contact-message"
                 name="message"
-                placeholder="Tell me about the role or project..."
-                className="min-h-28"
+                placeholder="Your Message"
+                className={cn(fieldClass, "h-auto min-h-32 rounded-2xl py-3")}
                 required
                 aria-invalid={Boolean(state.errors?.message)}
               />
@@ -175,7 +215,7 @@ export function ContactSection() {
 
             <div className="space-y-2">
               {siteKey && !loadTurnstile ? (
-                <div className="h-[65px] rounded-md border border-border/70 bg-muted/30" />
+                <div className="h-[65px] rounded-2xl border border-glass-border bg-white/40 dark:bg-white/5" />
               ) : siteKey ? (
                 <Turnstile
                   key={widgetAttempt}
@@ -252,15 +292,18 @@ export function ContactSection() {
 
             <Button
               type="submit"
+              size="lg"
+              className="w-full"
               disabled={isPending || !siteKey || !turnstileToken}
             >
               {isPending
                 ? contact.form.submittingLabel
                 : contact.form.submitLabel}
+              <IconSend />
             </Button>
           </form>
         </RevealItem>
       </RevealGroup>
-    </Section>
+    </section>
   );
 }

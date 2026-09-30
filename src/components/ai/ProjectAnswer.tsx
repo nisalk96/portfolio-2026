@@ -44,7 +44,7 @@ export function ProjectAnswer({ mode = "featured" }: ProjectAnswerProps) {
             duration: animation.chat.richDuration,
             ease: animation.ease.out,
           }}
-          className="rounded-xl border border-border/70 bg-background/80 p-3.5 shadow-sm"
+          className="glass rounded-2xl p-3.5"
         >
           <div className="flex items-start justify-between gap-3">
             <div>

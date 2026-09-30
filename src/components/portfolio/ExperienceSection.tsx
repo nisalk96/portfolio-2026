@@ -1,8 +1,13 @@
 "use client";
 
+import { IconArrowUpRight } from "@tabler/icons-react";
+import Link from "next/link";
+import { transitionTypes } from "@/components/motion/PageTransition";
 import { ExperienceItem } from "@/components/portfolio/ExperienceItem";
 import { Section } from "@/components/layout/Section";
 import { usePortfolioCms } from "@/components/providers/PortfolioCmsProvider";
+import { buttonVariants } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
 
 export function ExperienceSection() {
   const { experience } = usePortfolioCms();
@@ -10,13 +15,30 @@ export function ExperienceSection() {
   return (
     <Section
       id="experience"
-      eyebrow="Career"
+      eyebrow="My journey"
       title="Experience"
-      description="A compact look at roles focused on product engineering, frontend ownership and full-stack delivery."
+      action={
+        <Link
+          href="/resume"
+          transitionTypes={transitionTypes.forward}
+          className={cn(
+            buttonVariants({ variant: "outline", size: "sm" }),
+            "bg-white/70 dark:bg-white/5",
+          )}
+        >
+          Full Resume
+          <IconArrowUpRight />
+        </Link>
+      }
     >
-      <div className="rounded-2xl border border-border/70 bg-background/70 px-4 md:px-6">
-        {experience.map((item) => (
-          <ExperienceItem key={item.id} item={item} />
+      <div className="overflow-hidden rounded-2xl border border-border bg-white">
+        {experience.map((item, index) => (
+          <ExperienceItem
+            key={item.id}
+            item={item}
+            index={index}
+            isLast={index === experience.length - 1}
+          />
         ))}
       </div>
     </Section>

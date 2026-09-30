@@ -42,9 +42,9 @@ export function ContactAnswer() {
               ease: animation.ease.out,
             }}
             whileHover={reducedMotion ? undefined : { y: -2 }}
-            className="inline-flex items-center gap-2 rounded-xl border border-border/80 bg-background px-3 py-2 text-[13px] font-medium text-foreground shadow-sm transition-colors hover:border-foreground/15"
+            className="inline-flex items-center gap-2 rounded-full glass px-3.5 py-2 text-[13px] font-medium text-foreground transition-colors hover:bg-glass-strong"
           >
-            <Icon className="size-3.5 text-sky-600 dark:text-sky-400" />
+            <Icon className="size-3.5 text-brand" />
             {label}
           </m.a>
         );

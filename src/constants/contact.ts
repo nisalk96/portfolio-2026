@@ -4,14 +4,14 @@
  */
 export const contact = {
   form: {
-    title: "Want to work together?",
-    eyebrow: "Contact",
+    title: "Have a project in mind? Let's create something amazing together.",
+    eyebrow: "Let's connect",
     description:
       "Reach out for product engineering roles, freelance collaborations or technical conversations.",
     successMessage: "Thanks — your message was sent successfully.",
     unavailableMessage:
       "The contact form is temporarily unavailable. Please email me directly.",
-    submitLabel: "Send message",
+    submitLabel: "Send Message",
     submittingLabel: "Sending...",
   },
 

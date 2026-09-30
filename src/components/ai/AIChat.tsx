@@ -61,14 +61,14 @@ export function AIChat({ chat }: AIChatProps) {
   return (
     <section
       id="assistant"
-      className="flex h-[var(--chat-height)] min-h-[var(--chat-min-height)] flex-col overflow-hidden rounded-2xl border border-border/80 bg-white/80 shadow-[0_12px_40px_-24px_rgba(15,23,42,0.35)] backdrop-blur-sm dark:bg-card/70"
+      className="glass-strong flex h-[var(--chat-height)] min-h-[var(--chat-min-height)] flex-col overflow-hidden rounded-2xl border-2 border-foreground shadow-[10px_10px_0_var(--brand)]"
     >
-      <header className="flex shrink-0 items-center justify-between gap-3 border-b border-border/70 px-4 py-3 md:px-5">
+      <header className="flex shrink-0 items-center justify-between gap-3 border-b border-border px-4 py-3 md:px-5">
         <div className="flex items-center gap-3">
-          <div className="relative flex size-9 items-center justify-center rounded-xl border border-border/70 bg-muted/40 text-sky-600 dark:text-sky-400">
+          <div className="relative flex size-9 items-center justify-center rounded-full bg-gradient-brand text-white shadow-[0_6px_18px_-6px_var(--brand)]">
             <IconSparkles className="size-4" />
             <m.span
-              className="absolute inset-0 rounded-xl bg-sky-400/10"
+              className="absolute inset-0 rounded-full bg-white/20"
               animate={
                 reducedMotion || status !== "generating"
                   ? undefined
@@ -99,14 +99,12 @@ export function AIChat({ chat }: AIChatProps) {
                 {status === "generating" ? "Generating" : "Online"}
               </span>
             </div>
-            <p className="text-xs text-muted-foreground">
-              Portfolio Assistant · Ask about work, experience or stack
+            <p className="text-xs text-body">
+              Portfolio assistant for work, experience, and skills
             </p>
           </div>
         </div>
-        <p className="hidden font-mono text-[10px] text-muted-foreground sm:block">
-          Portfolio knowledge · Updated 2026
-        </p>
+        <p className="eyebrow hidden text-[10px] sm:block lg:hidden">Updated 2026</p>
       </header>
 
       <div
@@ -155,13 +153,13 @@ export function AIChat({ chat }: AIChatProps) {
       </div>
 
       <form
-        className="shrink-0 border-t border-border/70 p-3 md:p-4"
+        className="shrink-0 border-t border-border p-3 md:p-4"
         onSubmit={(event) => {
           event.preventDefault();
           askFreeform();
         }}
       >
-        <div className="flex items-center gap-2 rounded-xl border border-border/80 bg-muted/30 p-1.5 pl-3">
+        <div className="flex items-center gap-2 rounded-full border border-glass-border bg-white/70 p-1.5 pl-4 shadow-[inset_0_1px_2px_rgb(12_13_33/0.04)] focus-within:ring-3 focus-within:ring-ring/30 dark:bg-white/5">
           <Input
             value={input}
             onValueChange={setInput}
@@ -178,7 +176,7 @@ export function AIChat({ chat }: AIChatProps) {
             <IconArrowUp className="size-4" />
           </Button>
         </div>
-        <p className="mt-2 px-1 font-mono text-[10px] text-muted-foreground">
+        <p className="mt-2 px-3 text-[11px] text-body">
           Ask about projects, experience, stack, or how to get in touch.
         </p>
       </form>

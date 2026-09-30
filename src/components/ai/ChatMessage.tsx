@@ -40,8 +40,8 @@ export function ChatMessage({
       {!isUser ? (
         <div
           className={cn(
-            "mt-0.5 flex size-7 shrink-0 items-center justify-center rounded-lg border border-border/70 bg-background text-sky-600 shadow-sm dark:text-sky-400",
-            generating && "shadow-[0_0_0_3px_rgba(14,165,233,0.12)]",
+            "mt-0.5 flex size-7 shrink-0 items-center justify-center rounded-full glass text-brand",
+            generating && "shadow-[0_0_0_3px_rgb(126_118_229/0.18)]",
           )}
         >
           <m.span
@@ -66,7 +66,7 @@ export function ChatMessage({
         className={cn(
           "max-w-[90%] md:max-w-[85%]",
           isUser
-            ? "rounded-2xl rounded-br-md bg-[oklch(0.22_0.03_255)] px-3.5 py-2.5 text-sm text-white shadow-sm"
+            ? "rounded-2xl rounded-br-md bg-primary px-3.5 py-2.5 text-sm text-primary-foreground shadow-sm"
             : "min-w-0 flex-1",
         )}
       >

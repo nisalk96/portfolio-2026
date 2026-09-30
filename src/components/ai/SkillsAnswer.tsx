@@ -49,7 +49,7 @@ export function SkillsAnswer({ mode = "all" }: SkillsAnswerProps) {
                     skillIndex * animation.stagger.tight,
                   duration: animation.normal,
                 }}
-                className="rounded-lg border border-border/70 bg-background px-2 py-1 text-[12px] text-foreground/85 shadow-sm"
+                className="glass rounded-full px-2.5 py-1 text-[12px] text-foreground/85"
               >
                 {skill}
               </m.span>

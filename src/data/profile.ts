@@ -9,7 +9,7 @@ export const profile: ProfileMeta = {
   focus: "Frontend / Full Stack",
   availability: "Available for remote opportunities",
   intro:
-    "I build scalable web applications, admin platforms and product experiences using React, Next.js, TypeScript, Node.js and AWS.",
+    "I build fast, scalable web products with React, Next.js, TypeScript, Node.js and AWS.",
   email: "nirvanzentinal@gmail.com",
   github: "https://github.com/nisalk96",
   linkedin: "https://linkedin.com/in/nisalk",
