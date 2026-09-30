@@ -4,7 +4,7 @@
  */
 export const radius = {
   /** Root radius token (`--radius`) */
-  base: "0.8rem",
+  base: "1rem",
 
   /** Scale relative to `base` */
   scale: {

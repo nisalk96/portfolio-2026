@@ -30,11 +30,11 @@ export function ChatThinking({ label }: ChatThinkingProps) {
       role="status"
       aria-live="polite"
     >
-      <div className="relative mt-0.5 flex size-7 items-center justify-center rounded-lg border border-border/70 bg-background text-sky-600 shadow-sm dark:text-sky-400">
+      <div className="relative mt-0.5 flex size-7 items-center justify-center rounded-full glass text-brand">
         {animate ? (
           <m.span
             aria-hidden
-            className="absolute inset-0 rounded-lg ring-2 ring-sky-400/30"
+            className="absolute inset-0 rounded-full ring-2 ring-brand/30"
             animate={{ opacity: [0, 0.8, 0], scale: [0.9, 1.15, 1.25] }}
             transition={{ duration: 2, repeat: Infinity, ease: "easeOut" }}
           />

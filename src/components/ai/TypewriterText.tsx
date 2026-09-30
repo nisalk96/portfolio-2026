@@ -71,7 +71,7 @@ export function TypewriterText({
       {active ? (
         <m.span
           aria-hidden
-          className="ml-0.5 inline-block h-[1.05em] w-[2px] translate-y-[3px] rounded-full bg-sky-500"
+          className="ml-0.5 inline-block h-[1.05em] w-[2px] translate-y-[3px] rounded-full bg-brand"
           animate={reducedMotion ? undefined : { opacity: [1, 1, 0, 0] }}
           transition={{
             duration: 1,

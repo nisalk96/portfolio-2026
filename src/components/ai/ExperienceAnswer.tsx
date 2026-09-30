@@ -23,8 +23,8 @@ export function ExperienceAnswer() {
           }}
           className="relative pb-4 pl-5 last:pb-0"
         >
-          <span className="absolute top-1.5 left-0 size-3.5 rounded-full border-2 border-background bg-sky-500 shadow-sm" />
-          <div className="rounded-xl border border-border/70 bg-background/80 p-3.5 shadow-sm">
+          <span className="absolute top-1.5 left-0 size-3.5 rounded-full border-2 border-background bg-brand shadow-sm" />
+          <div className="glass rounded-2xl p-3.5">
             <div className="flex flex-wrap items-baseline justify-between gap-2">
               <div>
                 <h4 className="text-sm font-semibold text-foreground">

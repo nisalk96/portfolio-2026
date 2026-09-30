@@ -1,9 +1,10 @@
 "use client";
 
 import {
+  IconArrowUpRight,
   IconBrandGithub,
   IconBrandLinkedin,
-  IconFileText,
+  IconDownload,
   IconMapPin,
 } from "@tabler/icons-react";
 import { RevealGroup, RevealItem } from "@/components/motion/Reveal";
@@ -11,86 +12,92 @@ import { buttonVariants } from "@/components/ui/button";
 import { profile } from "@/data/profile";
 import { cn } from "@/lib/utils";
 
-const meta = [
-  profile.location,
-  profile.experienceYears,
-  profile.focus,
-  profile.availability,
-];
+const meta = [profile.location, profile.focus, profile.availability];
 
 export function HeroIdentity() {
   return (
     <RevealGroup
       trigger="mount"
       delay={0.1}
-      className="flex h-full flex-col justify-center"
+      className="flex h-full flex-col justify-center py-2 lg:py-8"
     >
-      <RevealItem className="inline-flex w-fit items-center gap-2 rounded-full border border-emerald-500/20 bg-emerald-500/10 px-2.5 py-1 font-mono text-[11px] tracking-[0.08em] text-emerald-700 uppercase dark:text-emerald-300">
-        <span className="relative flex size-1.5">
-          <span className="absolute inline-flex size-full animate-ping rounded-full bg-emerald-500 opacity-60 motion-reduce:hidden" />
-          <span className="relative size-1.5 rounded-full bg-emerald-500" />
-        </span>
-        Available for opportunities
+      <RevealItem as="p" className="eyebrow">
+        Hello, I&apos;m
       </RevealItem>
 
       <RevealItem>
-        <h1 className="mt-5 text-3xl font-semibold tracking-tight text-foreground md:text-4xl">
-          Hi, I&apos;m {profile.shortName}.
+        <h1 className="mt-3 text-4xl font-semibold tracking-tight text-foreground md:text-5xl xl:text-[3.5rem] xl:leading-[1.05]">
+          {profile.name}
         </h1>
       </RevealItem>
-      <RevealItem as="p" className="mt-1 text-lg text-muted-foreground md:text-xl">
+      <RevealItem
+        as="p"
+        className="text-gradient-brand mt-2 w-fit text-2xl font-semibold tracking-tight md:text-3xl xl:text-[2.25rem]"
+      >
         {profile.title}
       </RevealItem>
 
       <RevealItem
         as="p"
-        className="mt-4 max-w-md text-sm leading-relaxed text-muted-foreground md:text-[15px]"
+        className="mt-5 max-w-md text-sm leading-relaxed text-body md:text-[15px]"
       >
         {profile.intro}
       </RevealItem>
 
-      <RevealItem className="mt-5 flex flex-wrap gap-2">
-        {meta.map((item) => (
-          <span
-            key={item}
-            className="inline-flex items-center gap-1.5 rounded-lg border border-border/70 bg-background/80 px-2.5 py-1 text-[12px] text-muted-foreground"
-          >
-            {item === profile.location ? (
-              <IconMapPin className="size-3.5" />
-            ) : null}
-            {item}
-          </span>
-        ))}
-      </RevealItem>
-
-      <RevealItem className="mt-6 flex flex-wrap gap-2">
+      <RevealItem className="mt-7 flex flex-wrap gap-3">
+        <a href="#work" className={cn(buttonVariants({ size: "lg" }))}>
+          View My Work
+          <IconArrowUpRight />
+        </a>
         <a
           href={profile.resumeUrl}
           target="_blank"
           rel="noreferrer"
-          className={cn(buttonVariants())}
+          className={cn(
+            buttonVariants({ variant: "outline", size: "lg" }),
+            "bg-white/70 dark:bg-white/5",
+          )}
         >
-          <IconFileText className="size-4" />
-          View Resume
+          Download CV
+          <IconDownload />
         </a>
-        <a
-          href={profile.github}
-          target="_blank"
-          rel="noreferrer"
-          className={cn(buttonVariants({ variant: "outline" }))}
-        >
-          <IconBrandGithub className="size-4" />
-          GitHub
-        </a>
-        <a
-          href={profile.linkedin}
-          target="_blank"
-          rel="noreferrer"
-          className={cn(buttonVariants({ variant: "outline" }))}
-        >
-          <IconBrandLinkedin className="size-4" />
-          LinkedIn
-        </a>
+      </RevealItem>
+
+      <RevealItem className="mt-9">
+        <p className="text-xs text-body">Find me on</p>
+        <div className="mt-3 flex flex-wrap items-center gap-2">
+          <a
+            href={profile.github}
+            target="_blank"
+            rel="noreferrer"
+            aria-label="GitHub"
+            className="glass inline-flex size-9 items-center justify-center rounded-full text-body transition-colors hover:text-foreground"
+          >
+            <IconBrandGithub className="size-4" />
+          </a>
+          <a
+            href={profile.linkedin}
+            target="_blank"
+            rel="noreferrer"
+            aria-label="LinkedIn"
+            className="glass inline-flex size-9 items-center justify-center rounded-full text-body transition-colors hover:text-foreground"
+          >
+            <IconBrandLinkedin className="size-4" />
+          </a>
+          {meta.map((item) => (
+            <span
+              key={item}
+              className="inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-[12px] text-body"
+            >
+              {item === profile.location ? (
+                <IconMapPin className="size-3.5 text-brand" />
+              ) : (
+                <span className="size-1 rounded-full bg-subtle" aria-hidden />
+              )}
+              {item}
+            </span>
+          ))}
+        </div>
       </RevealItem>
     </RevealGroup>
   );

@@ -1,55 +1,107 @@
-import { RevealGroup, RevealItem } from "@/components/motion/Reveal";
+"use client";
+
+import {
+  IconArrowUpRight,
+  IconBriefcase,
+  IconFolder,
+  IconStack2,
+} from "@tabler/icons-react";
+import Link from "next/link";
 import { Section } from "@/components/layout/Section";
-import { profile } from "@/data/profile";
+import { RevealGroup, RevealItem } from "@/components/motion/Reveal";
+import { transitionTypes } from "@/components/motion/PageTransition";
+import { TintIcon } from "@/components/portfolio/TintIcon";
+import { usePortfolioCms } from "@/components/providers/PortfolioCmsProvider";
+import { buttonVariants } from "@/components/ui/button";
+import {
+  aboutBio,
+  aboutHeading,
+  technologiesCount,
+  yearsOfExperience,
+} from "@/data/highlights";
+import { cn } from "@/lib/utils";
 
 export function AboutSection() {
+  const { projects } = usePortfolioCms();
+
+  const stats = [
+    {
+      id: "years",
+      value: yearsOfExperience,
+      label: "Years Experience",
+      icon: IconBriefcase,
+      tint: "violet",
+    },
+    {
+      id: "projects",
+      value: `${projects.length}+`,
+      label: "Projects Delivered",
+      icon: IconFolder,
+      tint: "blue",
+    },
+    {
+      id: "tech",
+      value: technologiesCount,
+      label: "Technologies",
+      icon: IconStack2,
+      tint: "teal",
+    },
+  ] as const;
+
   return (
     <Section
       id="about"
-      eyebrow="About"
-      title={`About ${profile.shortName}`}
-      description="Senior software engineer focused on product-quality interfaces, scalable frontend systems and practical AI-assisted experiences."
+      eyebrow="About me"
+      title={
+        <>
+          {aboutHeading.lineOne}
+          <br />
+          {aboutHeading.lineTwo}
+        </>
+      }
     >
-      <RevealGroup className="grid gap-4 md:grid-cols-[1.2fr_0.8fr]">
-        <RevealItem className="space-y-4 rounded-2xl border border-border/70 bg-background/70 p-5 text-sm leading-relaxed text-muted-foreground md:p-6">
-          <p>
-            I design and build web applications where clarity, performance and
-            maintainability matter. My work spans admin platforms, consumer
-            products and internal tools — usually as the engineer closest to the
-            product surface.
-          </p>
-          <p>
-            I care about typed systems, reusable UI architecture and interfaces
-            that feel intentional. Lately I&apos;ve been exploring AI as a
-            navigation and knowledge layer for product experiences, without
-            turning everything into a chatbot clone.
-          </p>
-        </RevealItem>
-        <RevealItem className="rounded-2xl border border-border/70 bg-background/70 p-5 md:p-6">
-          <aside>
-          <dl className="space-y-4 text-sm">
-            <div>
-              <dt className="font-mono text-[11px] tracking-[0.14em] text-muted-foreground uppercase">
-                Location
-              </dt>
-              <dd className="mt-1 text-foreground">{profile.location}</dd>
-            </div>
-            <div>
-              <dt className="font-mono text-[11px] tracking-[0.14em] text-muted-foreground uppercase">
-                Focus
-              </dt>
-              <dd className="mt-1 text-foreground">{profile.focus}</dd>
-            </div>
-            <div>
-              <dt className="font-mono text-[11px] tracking-[0.14em] text-muted-foreground uppercase">
-                Availability
-              </dt>
-              <dd className="mt-1 text-foreground">{profile.availability}</dd>
-            </div>
-          </dl>
-          </aside>
-        </RevealItem>
-      </RevealGroup>
+      <div className="grid gap-6 lg:grid-cols-2 lg:items-center lg:gap-10">
+        <RevealGroup className="grid grid-cols-3 gap-2 sm:gap-3">
+          {stats.map((stat) => (
+            <RevealItem
+              key={stat.id}
+              className="glass flex flex-col gap-3 rounded-2xl p-3 sm:p-4"
+            >
+              <TintIcon icon={stat.icon} tint={stat.tint} size="sm" />
+              <div>
+                <p className="text-xl font-semibold tracking-tight text-foreground sm:text-2xl">
+                  {stat.value}
+                </p>
+                <p className="mt-0.5 text-[11px] leading-tight text-body sm:text-xs">
+                  {stat.label}
+                </p>
+              </div>
+            </RevealItem>
+          ))}
+        </RevealGroup>
+
+        <RevealGroup>
+          <RevealItem
+            as="p"
+            className="text-sm leading-relaxed text-body md:text-[15px]"
+          >
+            {aboutBio}
+          </RevealItem>
+          <RevealItem className="mt-5">
+            <Link
+              href="/resume"
+              transitionTypes={transitionTypes.forward}
+              className={cn(
+                buttonVariants({ variant: "outline" }),
+                "bg-white/70 dark:bg-white/5",
+              )}
+            >
+              More About Me
+              <IconArrowUpRight />
+            </Link>
+          </RevealItem>
+        </RevealGroup>
+      </div>
     </Section>
   );
 }
