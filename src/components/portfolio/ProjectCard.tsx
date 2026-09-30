@@ -52,8 +52,9 @@ export function ProjectCard({
                 src={project.imageUrl}
                 alt={`${project.name} preview`}
                 fill
+                unoptimized
                 sizes="(max-width: 640px) 100vw, (max-width: 1280px) 50vw, 33vw"
-                className="object-cover transition-transform duration-500 group-hover:scale-105"
+                className="object-cover"
                 preload={preload}
                 fetchPriority={preload ? "high" : undefined}
               />

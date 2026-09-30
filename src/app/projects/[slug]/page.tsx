@@ -210,6 +210,7 @@ export default async function ProjectDetailPage({
                 alt={`${data.title} screenshot ${index + 1}`}
                 width={1200}
                 height={800}
+                unoptimized={index === 0}
                 sizes="(max-width: 1280px) 100vw, 1200px"
                 className="h-auto w-full object-cover"
                 preload={index === 0}

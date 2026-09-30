@@ -264,7 +264,21 @@
 }
 
 ::view-transition-image-pair(.morph) {
-  animation-name: vt-via-blur;
+  isolation: isolate;
+}
+
+/*
+  Shared project images use the same decoded source on both routes. Keep the
+  browser snapshots opaque while their group handles the geometry morph; the
+  default old/new cross-fade can briefly expose the real destination element.
+*/
+::view-transition-old(.morph),
+::view-transition-new(.morph) {
+  animation: none;
+  mix-blend-mode: normal;
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
 }
 
 ::view-transition-old(.nav-forward) {
