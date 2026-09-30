@@ -27,7 +27,7 @@ export function ServicesSection() {
         {services.map((service, index) => (
           <RevealItem
             key={service.id}
-            className="glass group flex flex-col rounded-2xl p-5 transition-transform duration-300 hover:-translate-y-1"
+            className="glass group flex flex-col rounded-xl border border-border p-5 transition-all duration-300 hover:-translate-y-1 hover:border-brand"
           >
             <TintIcon
               icon={serviceIcons[service.icon]}

@@ -25,10 +25,10 @@ export function PortfolioPage() {
 
         <Header />
 
-        <main className="mx-auto w-full max-w-[1280px] px-3 pb-6 md:px-4">
+        <main className="mx-auto w-full max-w-[1180px] px-5 pb-10 md:px-8">
           <section
             id="home"
-            className="glass-panel mt-5 grid scroll-mt-24 items-center gap-8 p-5 md:mt-6 md:p-8 lg:grid-cols-[minmax(0,0.95fr)_minmax(0,1.15fr)] lg:gap-6 lg:p-10"
+            className="glass-panel mt-8 grid min-h-[620px] scroll-mt-24 items-center gap-12 py-14 lg:grid-cols-[minmax(0,0.92fr)_minmax(0,1.08fr)] lg:gap-16"
           >
             <HeroIdentity />
             <Reveal trigger="mount" delay={0.15}>

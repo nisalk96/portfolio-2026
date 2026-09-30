@@ -26,13 +26,13 @@ export function HeroIdentity() {
       </RevealItem>
 
       <RevealItem>
-        <h1 className="mt-3 text-4xl font-semibold tracking-tight text-foreground md:text-5xl xl:text-[3.5rem] xl:leading-[1.05]">
-          {profile.name}
+        <h1 className="mt-4 text-5xl font-black tracking-[-0.055em] text-foreground md:text-6xl xl:text-[4.5rem] xl:leading-[0.98]">
+          Nisal <span className="text-brand">Keerthisinghe</span>
         </h1>
       </RevealItem>
       <RevealItem
         as="p"
-        className="text-gradient-brand mt-2 w-fit text-2xl font-semibold tracking-tight md:text-3xl xl:text-[2.25rem]"
+        className="mt-5 w-fit text-lg font-semibold tracking-tight text-body md:text-xl"
       >
         {profile.title}
       </RevealItem>
@@ -58,7 +58,7 @@ export function HeroIdentity() {
             "bg-white/70 dark:bg-white/5",
           )}
         >
-          Download CV
+          Download Resume
           <IconDownload />
         </a>
       </RevealItem>

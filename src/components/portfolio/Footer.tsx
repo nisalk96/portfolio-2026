@@ -20,8 +20,8 @@ function VercelMark({ className }: { className?: string }) {
 
 export function Footer() {
   return (
-    <footer className="mx-auto max-w-[1280px] px-3 pb-6 md:px-4">
-      <div className="glass flex flex-col gap-4 rounded-3xl px-5 py-4 md:flex-row md:items-center md:justify-between">
+    <footer className="mx-auto max-w-[1180px] px-5 pb-8 md:px-8">
+      <div className="flex flex-col gap-6 border-t border-border bg-[#fff8f2] px-6 py-10 md:flex-row md:items-center md:justify-between">
         <div className="flex items-center gap-2.5">
           <span className="flex size-9 items-center justify-center rounded-full bg-primary text-sm font-semibold text-primary-foreground">
             {profile.shortName.charAt(0)}
@@ -76,7 +76,7 @@ export function Footer() {
           <span className="font-semibold tracking-tight text-foreground/80">
             Vercel
           </span>
-          <span className="text-body/80">· hosting partner</span>
+          <span className="text-body/80">hosting partner</span>
         </a>
       </div>
     </footer>

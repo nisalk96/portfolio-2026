@@ -26,7 +26,7 @@ export function ExperienceItem({ item, index, isLast }: ExperienceItemProps) {
       as="article"
       amount={0.25}
       delay={staggerDelay(index % 4)}
-      className="glass relative flex flex-col rounded-2xl p-5"
+      className="glass relative flex flex-col rounded-xl border-0 border-t-2 border-brand p-5 shadow-none"
     >
       <div className="flex items-start justify-between gap-3">
         <TintIcon
@@ -45,9 +45,8 @@ export function ExperienceItem({ item, index, isLast }: ExperienceItemProps) {
       <h3 className="mt-4 text-[15px] font-semibold text-foreground">
         {item.role}
       </h3>
-      <p className="mt-0.5 text-xs text-body">
-        {item.company} · {item.period}
-      </p>
+      <p className="mt-0.5 text-xs font-medium text-foreground">{item.period}</p>
+      <p className="mt-1 text-xs text-body">{item.company}</p>
       {item.achievements[0] ? (
         <p className="mt-3 line-clamp-3 text-[13px] leading-relaxed text-body">
           {item.achievements[0]}

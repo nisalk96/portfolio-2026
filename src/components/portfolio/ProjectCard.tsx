@@ -38,11 +38,11 @@ export function ProjectCard({
       <Link
         href={`/projects/${project.slug}`}
         transitionTypes={transitionTypes.forward}
-        className="glass block rounded-3xl p-2 transition-all duration-300 hover:-translate-y-1"
+        className="glass block overflow-hidden rounded-2xl border border-border p-0 transition-all duration-300 hover:-translate-y-1 hover:shadow-[6px_6px_0_var(--brand)]"
       >
         <div
           className={cn(
-            "relative aspect-[16/10] overflow-hidden rounded-[1.25rem] bg-gradient-to-br",
+            "relative aspect-[16/10] overflow-hidden bg-gradient-to-br",
             project.imageGradient,
           )}
         >
@@ -63,7 +63,7 @@ export function ProjectCard({
           )}
         </div>
 
-        <div className="flex items-center justify-between gap-3 px-3 pt-4 pb-3">
+        <div className="flex items-center justify-between gap-3 px-5 pt-5 pb-4">
           <div className="min-w-0">
             <h3 className="truncate text-[15px] font-semibold text-foreground">
               {project.name}

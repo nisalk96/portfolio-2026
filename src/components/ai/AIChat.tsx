@@ -61,7 +61,7 @@ export function AIChat({ chat }: AIChatProps) {
   return (
     <section
       id="assistant"
-      className="glass-strong flex h-[var(--chat-height)] min-h-[var(--chat-min-height)] flex-col overflow-hidden rounded-[1.75rem]"
+      className="glass-strong flex h-[var(--chat-height)] min-h-[var(--chat-min-height)] flex-col overflow-hidden rounded-2xl border-2 border-foreground shadow-[10px_10px_0_var(--brand)]"
     >
       <header className="flex shrink-0 items-center justify-between gap-3 border-b border-border px-4 py-3 md:px-5">
         <div className="flex items-center gap-3">
@@ -100,7 +100,7 @@ export function AIChat({ chat }: AIChatProps) {
               </span>
             </div>
             <p className="text-xs text-body">
-              Portfolio Assistant · Ask about work, experience or stack
+              Portfolio assistant for work, experience, and skills
             </p>
           </div>
         </div>

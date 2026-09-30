@@ -14,15 +14,15 @@ export function HeroAssistant({ chat }: HeroAssistantProps) {
   const { projects } = usePortfolioCms();
 
   return (
-    <div className="relative lg:pt-8 lg:pr-12 lg:pb-[4.5rem] lg:pl-8">
+    <div className="relative lg:py-8">
       <div
         aria-hidden
-        className="absolute inset-6 -z-10 hidden rounded-[2.5rem] bg-gradient-brand opacity-20 blur-3xl lg:block"
+        className="absolute -inset-5 -z-10 hidden rounded-[2rem] bg-[#fff2e8] lg:block"
       />
 
       <AIChat chat={chat} />
 
-      <div className="glass-strong animate-float-soft pointer-events-none absolute top-0 right-0 hidden w-28 rounded-2xl p-3 text-center lg:block">
+      <div className="glass-strong pointer-events-none absolute -top-1 -right-5 hidden w-28 rounded-xl border-2 border-foreground p-3 text-center shadow-[5px_5px_0_var(--brand)] lg:block">
         <p className="text-gradient-brand text-3xl font-semibold tracking-tight">
           {yearsOfExperience}
         </p>
@@ -41,7 +41,7 @@ export function HeroAssistant({ chat }: HeroAssistantProps) {
         <IconSparkles className="relative size-6" />
       </div>
 
-      <div className="glass-strong animate-float-soft pointer-events-none absolute right-24 bottom-0 hidden w-44 rounded-2xl p-3 [animation-delay:-4s] lg:block">
+      <div className="glass-strong pointer-events-none absolute -right-3 -bottom-3 hidden w-44 rounded-xl border-2 border-foreground p-3 lg:block">
         <p className="text-[11px] text-body">Projects shipped</p>
         <p className="mt-0.5 text-lg font-semibold tracking-tight text-foreground">
           {projects.length}+

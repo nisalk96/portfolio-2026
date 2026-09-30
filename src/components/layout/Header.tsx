@@ -1,13 +1,12 @@
 "use client";
 
-import { IconArrowUpRight, IconMenu2, IconX } from "@tabler/icons-react";
+import { IconMenu2, IconX } from "@tabler/icons-react";
 import { AnimatePresence, m, useReducedMotion } from "framer-motion";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { ScrollProgress } from "@/components/layout/ScrollProgress";
-import { ThemeToggle } from "@/components/layout/ThemeToggle";
-import { Button, buttonVariants } from "@/components/ui/button";
+import { Button } from "@/components/ui/button";
 import { profile } from "@/data/profile";
 import { cn } from "@/lib/utils";
 
@@ -71,7 +70,7 @@ export function Header() {
   return (
     <header
       className={cn(
-        "sticky top-0 z-50 px-3 pt-3 md:px-4",
+        "sticky top-0 z-50 border-b border-transparent bg-background/95 px-5 md:px-8",
         playEntrance && "reveal-down-css",
       )}
       style={{ viewTransitionName: "site-header" }}
@@ -79,18 +78,18 @@ export function Header() {
       <ScrollProgress />
       <div
         className={cn(
-          "mx-auto flex max-w-[1280px] items-center justify-between gap-3 rounded-full py-2 pr-2 pl-2.5 transition-shadow duration-300",
-          scrolled ? "glass-strong" : "glass",
+          "mx-auto flex h-20 max-w-[1180px] items-center justify-between gap-3 transition-shadow duration-300",
+          scrolled ? "" : "",
         )}
       >
         <Link
           href="/"
           className="flex items-center gap-2.5 rounded-full pr-2 transition-opacity hover:opacity-85"
         >
-          <span className="flex size-9 items-center justify-center rounded-full bg-primary text-sm font-semibold text-primary-foreground">
-            {profile.shortName.charAt(0)}
+          <span className="text-2xl font-black tracking-[-0.08em] text-foreground">
+            NK<span className="text-brand">.</span>
           </span>
-          <span className="hidden flex-col leading-tight sm:flex">
+          <span className="hidden flex-col leading-tight xl:flex">
             <span className="text-sm font-semibold text-foreground">
               {profile.name}
             </span>
@@ -110,10 +109,10 @@ export function Header() {
                 href={item.href}
                 aria-current={isActive ? "true" : undefined}
                 className={cn(
-                  "rounded-full px-3.5 py-1.5 text-[13px] transition-colors",
+                  "relative px-3.5 py-2 text-[13px] font-medium transition-colors after:absolute after:right-3.5 after:bottom-0 after:left-3.5 after:h-0.5 after:origin-left after:scale-x-0 after:bg-brand after:transition-transform",
                   isActive
-                    ? "bg-white text-foreground shadow-[0_2px_10px_-4px_rgb(12_13_33/0.2)] dark:bg-white/10"
-                    : "text-body hover:text-foreground",
+                    ? "text-brand after:scale-x-100"
+                    : "text-foreground hover:text-brand",
                 )}
               >
                 {item.label}
@@ -123,17 +122,6 @@ export function Header() {
         </nav>
 
         <div className="flex items-center gap-1.5">
-          <ThemeToggle />
-          <Link
-            href="/#contact"
-            className={cn(
-              buttonVariants({ variant: "outline", size: "sm" }),
-              "hidden bg-white/70 sm:inline-flex dark:bg-white/5",
-            )}
-          >
-            Let&apos;s Talk
-            <IconArrowUpRight />
-          </Link>
           <Button
             variant="ghost"
             size="icon-sm"

@@ -28,7 +28,7 @@ export function Section({
     <section
       id={id}
       className={cn(
-        "glass-panel mt-5 scroll-mt-24 p-5 md:mt-6 md:p-8",
+        "glass-panel scroll-mt-24 border-t border-border py-16 md:py-20",
         className,
       )}
     >
@@ -40,7 +40,7 @@ export function Section({
             </RevealItem>
           ) : null}
           <RevealItem>
-            <h2 className="text-xl font-semibold tracking-tight text-foreground md:text-2xl">
+            <h2 className="section-title text-2xl font-bold tracking-tight text-foreground md:text-3xl">
               {title}
             </h2>
           </RevealItem>

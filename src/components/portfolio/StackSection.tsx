@@ -47,14 +47,14 @@ export function StackSection() {
         amount={0.2}
       >
         {featuredSkills.map((skill) => {
-          const { icon: SkillIcon, color } = skillIcons[skill.icon];
+          const { icon: SkillIcon } = skillIcons[skill.icon];
           return (
             <RevealItem
               key={skill.name}
-              className="glass flex items-center gap-2.5 rounded-2xl px-3 py-2.5 transition-transform duration-300 hover:-translate-y-0.5 sm:flex-col sm:gap-2 sm:px-2 sm:py-3.5"
+              className="glass flex items-center gap-2.5 rounded-xl border border-border px-3 py-2.5 transition-all duration-300 hover:-translate-y-0.5 hover:border-brand sm:flex-col sm:gap-2 sm:px-2 sm:py-3.5"
             >
               <span className="flex size-9 shrink-0 items-center justify-center rounded-xl bg-white/80 shadow-[0_2px_8px_-3px_rgb(12_13_33/0.15)] dark:bg-white/10">
-                <SkillIcon className={`size-5 ${color}`} stroke={1.75} />
+                <SkillIcon className="size-5 text-foreground" stroke={1.75} />
               </span>
               <span className="text-[12px] leading-tight text-body sm:text-center sm:text-[11px]">
                 {skill.name}
@@ -67,7 +67,7 @@ export function StackSection() {
       {otherSkills.length > 0 ? (
         <p className="mt-5 text-[13px] leading-relaxed text-body">
           <span className="font-medium text-foreground">Also working with: </span>
-          {otherSkills.join(" · ")}
+          {otherSkills.join(", ")}
         </p>
       ) : null}
     </Section>
