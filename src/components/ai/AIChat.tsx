@@ -104,7 +104,9 @@ export function AIChat({ chat }: AIChatProps) {
             </p>
           </div>
         </div>
-        <p className="eyebrow hidden text-[10px] sm:block lg:hidden">Updated 2026</p>
+        <p className="eyebrow hidden text-[10px] sm:block lg:hidden">
+          Updated 2026
+        </p>
       </header>
 
       <div

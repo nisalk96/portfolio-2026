@@ -9,13 +9,7 @@ export type PromptId =
   | "resume";
 
 export type PromptIcon =
-  | "sparkles"
-  | "bolt"
-  | "code"
-  | "arrow"
-  | "briefcase"
-  | "search"
-  | "mail";
+  "sparkles" | "bolt" | "code" | "arrow" | "briefcase" | "search" | "mail";
 
 export interface PromptChip {
   id: PromptId;

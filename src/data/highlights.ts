@@ -14,5 +14,4 @@ export const aboutHeading = {
   lineTwo: "Building with Purpose",
 };
 
-export const aboutBio =
-  `I'm a senior software engineer with ${yearsOfExperience} years of experience turning complex product requirements into fast, reliable and maintainable web applications. I care about typed systems, reusable UI architecture and interfaces that feel intentional.`;
+export const aboutBio = `I'm a senior software engineer with ${yearsOfExperience} years of experience turning complex product requirements into fast, reliable and maintainable web applications. I care about typed systems, reusable UI architecture and interfaces that feel intentional.`;

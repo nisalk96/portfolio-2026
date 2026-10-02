@@ -7,11 +7,7 @@ import { MotionProvider } from "@/components/providers/MotionProvider";
 import { ThemeProvider } from "@/components/providers/ThemeProvider";
 import { CustomCursor } from "@/components/layout/CustomCursor";
 import { seo } from "@/constants/seo";
-import {
-  jsonLdScript,
-  personJsonLd,
-  websiteJsonLd,
-} from "@/lib/seo";
+import { jsonLdScript, personJsonLd, websiteJsonLd } from "@/lib/seo";
 import "lenis/dist/lenis.css";
 import "./globals.css";
 

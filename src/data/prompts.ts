@@ -247,11 +247,23 @@ export function resolvePromptFromInput(input: string): PromptId | null {
 
   if (value.includes("cardchat")) return "cardchat";
   if (value.includes("resume") || value.includes("cv")) return "resume";
-  if (value.includes("contact") || value.includes("email") || value.includes("hire"))
+  if (
+    value.includes("contact") ||
+    value.includes("email") ||
+    value.includes("hire")
+  )
     return "contact";
-  if (value.includes("experience") || value.includes("career") || value.includes("work history"))
+  if (
+    value.includes("experience") ||
+    value.includes("career") ||
+    value.includes("work history")
+  )
     return "experience";
-  if (value.includes("frontend") || value.includes("react") || value.includes("ui"))
+  if (
+    value.includes("frontend") ||
+    value.includes("react") ||
+    value.includes("ui")
+  )
     return "frontend";
   if (
     value.includes("stack") ||

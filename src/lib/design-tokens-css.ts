@@ -7,10 +7,7 @@ function kebab(key: string) {
   return key.replace(/[A-Z]/g, (char) => `-${char.toLowerCase()}`);
 }
 
-function themeBlock(
-  selector: string,
-  theme: Record<string, string>,
-) {
+function themeBlock(selector: string, theme: Record<string, string>) {
   const lines = Object.entries(theme).map(
     ([key, value]) => `  --${kebab(key)}: ${value};`,
   );

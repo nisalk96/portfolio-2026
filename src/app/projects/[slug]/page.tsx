@@ -54,9 +54,7 @@ function fromFallback(slug: string): ProjectDetail | null {
     tags: project.tech,
     link: project.href ?? null,
     video: null,
-    images: project.imageUrl
-      ? [{ id: project.id, url: project.imageUrl }]
-      : [],
+    images: project.imageUrl ? [{ id: project.id, url: project.imageUrl }] : [],
   };
 }
 
@@ -83,9 +81,7 @@ export async function generateStaticParams() {
 
 export async function generateMetadata({
   params,
-}: {
-  params: Promise<{ slug: string }>;
-}): Promise<Metadata> {
+}: PageProps<"/projects/[slug]">): Promise<Metadata> {
   const { slug } = await params;
   const project = await resolveProject(slug);
   if (!project) {
@@ -108,9 +104,7 @@ export async function generateMetadata({
 
 export default async function ProjectDetailPage({
   params,
-}: {
-  params: Promise<{ slug: string }>;
-}) {
+}: PageProps<"/projects/[slug]">) {
   const { slug } = await params;
   const data = await resolveProject(slug);
   if (!data) {

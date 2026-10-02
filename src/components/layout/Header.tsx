@@ -131,7 +131,11 @@ export function Header() {
             aria-expanded={open}
             onClick={() => setOpen((value) => !value)}
           >
-            {open ? <IconX className="size-4" /> : <IconMenu2 className="size-4" />}
+            {open ? (
+              <IconX className="size-4" />
+            ) : (
+              <IconMenu2 className="size-4" />
+            )}
           </Button>
         </div>
       </div>

@@ -9,7 +9,13 @@ import {
 } from "@tabler/icons-react";
 import { AnimatePresence, m, useReducedMotion } from "framer-motion";
 
-const statusIcons = [IconSearch, IconSparkles, IconCode, IconBriefcase, IconDatabase];
+const statusIcons = [
+  IconSearch,
+  IconSparkles,
+  IconCode,
+  IconBriefcase,
+  IconDatabase,
+];
 
 interface ChatThinkingProps {
   label: string;
@@ -24,7 +30,11 @@ export function ChatThinking({ label }: ChatThinkingProps) {
     <m.div
       initial={animate ? { opacity: 0, y: 10 } : false}
       animate={{ opacity: 1, y: 0 }}
-      exit={animate ? { opacity: 0, y: -4, transition: { duration: 0.25 } } : undefined}
+      exit={
+        animate
+          ? { opacity: 0, y: -4, transition: { duration: 0.25 } }
+          : undefined
+      }
       transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
       className="flex items-start gap-2.5"
       role="status"
@@ -57,9 +67,13 @@ export function ChatThinking({ label }: ChatThinkingProps) {
           <AnimatePresence mode="wait" initial={false}>
             <m.span
               key={label}
-              initial={animate ? { opacity: 0, y: 6, filter: "blur(2px)" } : false}
+              initial={
+                animate ? { opacity: 0, y: 6, filter: "blur(2px)" } : false
+              }
               animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-              exit={animate ? { opacity: 0, y: -6, filter: "blur(2px)" } : undefined}
+              exit={
+                animate ? { opacity: 0, y: -6, filter: "blur(2px)" } : undefined
+              }
               transition={{ duration: 0.35, ease: "easeOut" }}
               className="font-mono text-[12px]"
             >
@@ -67,7 +81,11 @@ export function ChatThinking({ label }: ChatThinkingProps) {
                 <m.span
                   className="bg-[linear-gradient(90deg,var(--muted-foreground)_0%,var(--muted-foreground)_40%,var(--foreground)_50%,var(--muted-foreground)_60%,var(--muted-foreground)_100%)] bg-[length:250%_100%] bg-clip-text text-transparent"
                   animate={{ backgroundPosition: ["100% 0%", "0% 0%"] }}
-                  transition={{ duration: 2.2, repeat: Infinity, ease: "linear" }}
+                  transition={{
+                    duration: 2.2,
+                    repeat: Infinity,
+                    ease: "linear",
+                  }}
                 >
                   {label}
                 </m.span>
@@ -82,7 +100,9 @@ export function ChatThinking({ label }: ChatThinkingProps) {
                 key={dot}
                 className="size-1 rounded-full bg-foreground/40"
                 animate={
-                  animate ? { opacity: [0.25, 1, 0.25], y: [0, -2, 0] } : undefined
+                  animate
+                    ? { opacity: [0.25, 1, 0.25], y: [0, -2, 0] }
+                    : undefined
                 }
                 transition={{
                   duration: 1.4,

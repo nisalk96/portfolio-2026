@@ -91,7 +91,10 @@ export function CommandPalette({
 
   return (
     <Dialog open={open} onOpenChange={handleOpenChange}>
-      <DialogContent className="overflow-hidden p-0 sm:max-w-lg" showCloseButton={false}>
+      <DialogContent
+        className="overflow-hidden p-0 sm:max-w-lg"
+        showCloseButton={false}
+      >
         <DialogHeader className="sr-only">
           <DialogTitle>Ask Nisal AI</DialogTitle>
           <DialogDescription>
@@ -120,9 +123,10 @@ export function CommandPalette({
                         return;
                       }
                       onAsk(action.id);
-                      document
-                        .getElementById("assistant")
-                        ?.scrollIntoView({ behavior: "smooth", block: "start" });
+                      document.getElementById("assistant")?.scrollIntoView({
+                        behavior: "smooth",
+                        block: "start",
+                      });
                     }}
                   >
                     <Icon className="size-4 text-muted-foreground" />

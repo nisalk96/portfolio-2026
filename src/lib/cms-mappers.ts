@@ -48,9 +48,7 @@ export function mapHygraphProject(project: HygraphProject, index = 0): Project {
 
 export function mapHygraphProjects(projects: HygraphProject[]): Project[] {
   return [...projects]
-    .sort(
-      (a, b) => projectRecencyScore(b.year) - projectRecencyScore(a.year),
-    )
+    .sort((a, b) => projectRecencyScore(b.year) - projectRecencyScore(a.year))
     .map((project, index) => mapHygraphProject(project, index));
 }
 

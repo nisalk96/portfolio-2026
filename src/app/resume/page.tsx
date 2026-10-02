@@ -43,7 +43,9 @@ export default async function ResumePage() {
 
         <div className="mb-8 flex items-start justify-between gap-4">
           <div>
-            <p className="font-mono text-xs text-muted-foreground">nisalk.dev</p>
+            <p className="font-mono text-xs text-muted-foreground">
+              nisalk.dev
+            </p>
             <h1 className="mt-2 text-3xl font-semibold tracking-tight">
               {profile.name}
             </h1>

@@ -10,7 +10,10 @@ import {
   IconSparkles,
 } from "@tabler/icons-react";
 import { animation } from "@/constants/animation";
-import type { PromptChip as PromptChipType, PromptIcon } from "@/types/portfolio";
+import type {
+  PromptChip as PromptChipType,
+  PromptIcon,
+} from "@/types/portfolio";
 import { cn } from "@/lib/utils";
 
 const iconMap: Record<PromptIcon, typeof IconSparkles> = {
@@ -74,7 +77,9 @@ export function PromptChip({
       )}
     >
       <Icon className="size-3.5 shrink-0 text-brand transition-transform group-hover:scale-105" />
-      <span className="min-w-0">{emphasizeLabel(chip.label, chip.emphasize)}</span>
+      <span className="min-w-0">
+        {emphasizeLabel(chip.label, chip.emphasize)}
+      </span>
       <IconArrowRight className="ml-auto size-3.5 shrink-0 opacity-0 transition-all group-hover:translate-x-0.5 group-hover:opacity-60" />
     </button>
   );

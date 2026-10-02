@@ -24,7 +24,10 @@ export function ProjectAnswer({ mode = "featured" }: ProjectAnswerProps) {
         )
       : mode === "recent"
         ? [...projects]
-            .sort((a, b) => Number.parseInt(b.year, 10) - Number.parseInt(a.year, 10))
+            .sort(
+              (a, b) =>
+                Number.parseInt(b.year, 10) - Number.parseInt(a.year, 10),
+            )
             .slice(0, 3)
         : featuredProjects.length > 0
           ? featuredProjects

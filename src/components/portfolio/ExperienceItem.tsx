@@ -24,7 +24,9 @@ export function ExperienceItem({ item, index }: ExperienceItemProps) {
       </div>
 
       <div>
-        <h3 className="text-base font-bold text-foreground md:text-lg">{item.role}</h3>
+        <h3 className="text-base font-bold text-foreground md:text-lg">
+          {item.role}
+        </h3>
         <p className="mt-1 font-mono text-sm text-body">{item.company}</p>
         <div className="mt-4 space-y-2.5">
           {item.achievements.map((achievement) => (

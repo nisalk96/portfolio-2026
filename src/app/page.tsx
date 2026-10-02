@@ -3,10 +3,7 @@ import { PortfolioPage } from "@/components/portfolio/PortfolioPage";
 import { PortfolioCmsProvider } from "@/components/providers/PortfolioCmsProvider";
 import { experience as fallbackExperience } from "@/data/experience";
 import { projects as fallbackProjects } from "@/data/projects";
-import {
-  mapHygraphExperiences,
-  mapHygraphProjects,
-} from "@/lib/cms-mappers";
+import { mapHygraphExperiences, mapHygraphProjects } from "@/lib/cms-mappers";
 import { getAllExperiences, getAllProjects } from "@/server/hygraph";
 
 export const revalidate = 3600;

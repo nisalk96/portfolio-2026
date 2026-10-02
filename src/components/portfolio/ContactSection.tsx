@@ -268,7 +268,11 @@ export function ContactSection() {
                 </div>
               ) : null}
 
-              <input type="hidden" name="turnstileToken" value={turnstileToken} />
+              <input
+                type="hidden"
+                name="turnstileToken"
+                value={turnstileToken}
+              />
               {state.errors?.turnstileToken ? (
                 <p className="text-sm text-destructive">
                   {state.errors.turnstileToken.join(", ")}
@@ -276,7 +280,7 @@ export function ContactSection() {
               ) : null}
             </div>
 
-              {state.success ? (
+            {state.success ? (
               <p
                 className="text-sm text-emerald-700 dark:text-emerald-300"
                 role="status"
@@ -284,7 +288,9 @@ export function ContactSection() {
                 {state.message || contact.form.successMessage}
               </p>
             ) : null}
-            {!state.success && state.message && !state.errors?.turnstileToken ? (
+            {!state.success &&
+            state.message &&
+            !state.errors?.turnstileToken ? (
               <p className="text-sm text-destructive" role="alert">
                 {state.message}
               </p>

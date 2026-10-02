@@ -62,7 +62,9 @@ export function CustomCursor() {
       root.dataset.cursorVisible = "true";
     };
 
-    window.addEventListener("pointermove", handlePointerMove, { passive: true });
+    window.addEventListener("pointermove", handlePointerMove, {
+      passive: true,
+    });
     document.addEventListener("pointerleave", handlePointerLeave);
     document.addEventListener("pointerenter", handlePointerEnter);
     frame = window.requestAnimationFrame(render);

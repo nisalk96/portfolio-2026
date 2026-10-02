@@ -91,10 +91,22 @@ export function ContactEmailTemplate({
               >
                 Contact details
               </Text>
-              <Text style={{ fontSize: "15px", color: "#0f172a", margin: "0 0 8px 0" }}>
+              <Text
+                style={{
+                  fontSize: "15px",
+                  color: "#0f172a",
+                  margin: "0 0 8px 0",
+                }}
+              >
                 <strong>Name:</strong> {name}
               </Text>
-              <Text style={{ fontSize: "15px", color: "#0f172a", margin: "0 0 8px 0" }}>
+              <Text
+                style={{
+                  fontSize: "15px",
+                  color: "#0f172a",
+                  margin: "0 0 8px 0",
+                }}
+              >
                 <strong>Email:</strong> {email}
               </Text>
               <Text style={{ fontSize: "15px", color: "#0f172a", margin: "0" }}>

@@ -47,11 +47,15 @@ export default async function ProjectsPage() {
           }}
         />
 
-        <nav aria-label="Breadcrumb" className="mb-6 font-mono text-xs text-muted-foreground">
+        <nav
+          aria-label="Breadcrumb"
+          className="mb-6 font-mono text-xs text-muted-foreground"
+        >
           <Link
             href="/"
             transitionTypes={transitionTypes.back}
-            className="underline-offset-4 hover:text-foreground hover:underline">
+            className="underline-offset-4 hover:text-foreground hover:underline"
+          >
             Home
           </Link>
           {" / "}

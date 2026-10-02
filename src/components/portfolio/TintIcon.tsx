@@ -18,7 +18,12 @@ interface TintIconProps {
   className?: string;
 }
 
-export function TintIcon({ icon: IconComponent, tint, size = "md", className }: TintIconProps) {
+export function TintIcon({
+  icon: IconComponent,
+  tint,
+  size = "md",
+  className,
+}: TintIconProps) {
   return (
     <span
       className={cn(
@@ -28,7 +33,10 @@ export function TintIcon({ icon: IconComponent, tint, size = "md", className }: 
         className,
       )}
     >
-      <IconComponent className={size === "md" ? "size-5" : "size-4"} stroke={1.75} />
+      <IconComponent
+        className={size === "md" ? "size-5" : "size-4"}
+        stroke={1.75}
+      />
     </span>
   );
 }

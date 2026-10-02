@@ -12,9 +12,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   try {
     const projects = await getAllProjects();
     if (projects.length > 0) {
-      projectSlugs = projects
-        .map((project) => project.slug)
-        .filter(Boolean);
+      projectSlugs = projects.map((project) => project.slug).filter(Boolean);
     }
   } catch {
     // Keep local fallbacks when CMS is unavailable at build time.

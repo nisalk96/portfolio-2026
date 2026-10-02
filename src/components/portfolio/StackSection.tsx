@@ -66,7 +66,9 @@ export function StackSection() {
 
       {otherSkills.length > 0 ? (
         <p className="mt-5 text-[13px] leading-relaxed text-body">
-          <span className="font-medium text-foreground">Also working with: </span>
+          <span className="font-medium text-foreground">
+            Also working with:{" "}
+          </span>
           {otherSkills.join(", ")}
         </p>
       ) : null}

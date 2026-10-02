@@ -13,9 +13,7 @@ type GraphQLResponse<T> = {
 function getHygraphEndpoint(): string {
   // Match Vercel envs first, then server-only aliases.
   return (
-    process.env.NEXT_PUBLIC_HYGRAPHCMS_URL ??
-    process.env.HYGRAPHCMS_URL ??
-    ""
+    process.env.NEXT_PUBLIC_HYGRAPHCMS_URL ?? process.env.HYGRAPHCMS_URL ?? ""
   );
 }
 

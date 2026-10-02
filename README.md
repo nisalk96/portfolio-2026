@@ -25,12 +25,12 @@ Open [http://127.0.0.1:4321](http://127.0.0.1:4321).
 
 ## Scripts
 
-| Command | Description |
-| --- | --- |
-| `npm run dev` | Start local development server |
-| `npm run build` | Production build |
-| `npm run start` | Start production server |
-| `npm run lint` | Run ESLint |
+| Command         | Description                    |
+| --------------- | ------------------------------ |
+| `npm run dev`   | Start local development server |
+| `npm run build` | Production build               |
+| `npm run start` | Start production server        |
+| `npm run lint`  | Run ESLint                     |
 
 ## Project structure
 

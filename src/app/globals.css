@@ -149,7 +149,8 @@
     margin: -15px 0 0 -15px;
     border: 2px solid var(--brand);
     background: color-mix(in oklch, var(--brand) 10%, transparent);
-    box-shadow: 0 0 0 1px color-mix(in oklch, var(--background) 70%, transparent);
+    box-shadow: 0 0 0 1px
+      color-mix(in oklch, var(--background) 70%, transparent);
     transition:
       width var(--motion-instant) var(--motion-ease-out),
       height var(--motion-instant) var(--motion-ease-out),
@@ -198,7 +199,7 @@
   display: block;
   width: 2rem;
   height: 3px;
-  margin-top: .55rem;
+  margin-top: 0.55rem;
   border-radius: 999px;
   background: var(--brand);
 }
@@ -276,6 +277,36 @@
   }
 }
 
+.skeleton-shimmer {
+  position: relative;
+  overflow: hidden;
+  background: color-mix(in oklch, var(--muted) 78%, var(--background));
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .skeleton-shimmer::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      105deg,
+      transparent 36%,
+      color-mix(in oklch, var(--brand) 13%, transparent) 48%,
+      color-mix(in oklch, white 58%, transparent) 52%,
+      transparent 64%
+    );
+    transform: translate3d(-100%, 0, 0);
+    animation: skeleton-sweep var(--motion-ambient) linear infinite;
+    will-change: transform;
+  }
+}
+
+@keyframes skeleton-sweep {
+  to {
+    transform: translate3d(100%, 0, 0);
+  }
+}
+
 /*
   Above-the-fold entrance reveals. Plain CSS so they start painting before
   hydration instead of waiting for Framer Motion (see components/motion/Reveal).
@@ -291,13 +322,27 @@
   );
 }
 
-.reveal-css-group > .reveal-css:nth-child(2) { --reveal-index: 1; }
-.reveal-css-group > .reveal-css:nth-child(3) { --reveal-index: 2; }
-.reveal-css-group > .reveal-css:nth-child(4) { --reveal-index: 3; }
-.reveal-css-group > .reveal-css:nth-child(5) { --reveal-index: 4; }
-.reveal-css-group > .reveal-css:nth-child(6) { --reveal-index: 5; }
-.reveal-css-group > .reveal-css:nth-child(7) { --reveal-index: 6; }
-.reveal-css-group > .reveal-css:nth-child(n + 8) { --reveal-index: 7; }
+.reveal-css-group > .reveal-css:nth-child(2) {
+  --reveal-index: 1;
+}
+.reveal-css-group > .reveal-css:nth-child(3) {
+  --reveal-index: 2;
+}
+.reveal-css-group > .reveal-css:nth-child(4) {
+  --reveal-index: 3;
+}
+.reveal-css-group > .reveal-css:nth-child(5) {
+  --reveal-index: 4;
+}
+.reveal-css-group > .reveal-css:nth-child(6) {
+  --reveal-index: 5;
+}
+.reveal-css-group > .reveal-css:nth-child(7) {
+  --reveal-index: 6;
+}
+.reveal-css-group > .reveal-css:nth-child(n + 8) {
+  --reveal-index: 7;
+}
 
 /*
   Motion hydrates after the first browser paint. Put the initial in-view state
