@@ -5,17 +5,17 @@ import { PortfolioCmsProvider } from "@/components/providers/PortfolioCmsProvide
 import { experience as fallbackExperience } from "@/data/experience";
 import { projects as fallbackProjects } from "@/data/projects";
 import { mapHygraphExperiences, mapHygraphProjects } from "@/lib/cms-mappers";
-import { getAllExperiences, getLatestProjects } from "@/server/hygraph";
+import { getAllExperiences, getAllProjects } from "@/server/hygraph";
 
 export const metadata: Metadata = {
   alternates: { canonical: "/" },
 };
 
 export default async function Home() {
-  // Render per request so newly published CMS projects show up immediately.
+  // Render per request; must run before the swallowing `.catch` below.
   await connection();
 
-  const projects = getLatestProjects()
+  const projects = getAllProjects()
     .then((cmsProjects) =>
       cmsProjects.length > 0 ? mapHygraphProjects(cmsProjects) : fallbackProjects,
     )

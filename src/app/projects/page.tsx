@@ -2,14 +2,13 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { connection } from "next/server";
 import { Suspense } from "react";
-import { transitionTypes } from "@/components/motion/PageTransition";
 import { SiteChrome } from "@/components/layout/SiteChrome";
 import { ProjectCard } from "@/components/portfolio/ProjectCard";
 import { ProjectGridSkeleton } from "@/components/portfolio/ProjectCardSkeleton";
 import { projects as fallbackProjects } from "@/data/projects";
 import { mapHygraphProjects } from "@/lib/cms-mappers";
 import { jsonLdScript, pageMetadata } from "@/lib/seo";
-import { getLatestProjects } from "@/server/hygraph";
+import { getAllProjects } from "@/server/hygraph";
 
 const GRID_CLASS = "grid gap-4 sm:grid-cols-2 xl:grid-cols-3";
 
@@ -20,10 +19,10 @@ export const metadata: Metadata = pageMetadata(
 );
 
 async function ProjectsGrid() {
-  // Render per request so newly published CMS projects show up immediately.
+  // Render per request; must run before the swallowing `.catch` below.
   await connection();
 
-  const cmsProjects = await getLatestProjects().catch(() => null);
+  const cmsProjects = await getAllProjects().catch(() => null);
   const projects =
     cmsProjects && cmsProjects.length > 0
       ? mapHygraphProjects(cmsProjects)
@@ -76,7 +75,6 @@ export default function ProjectsPage() {
         >
           <Link
             href="/"
-            transitionTypes={transitionTypes.back}
             className="underline-offset-4 hover:text-foreground hover:underline"
           >
             Home

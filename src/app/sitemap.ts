@@ -1,11 +1,12 @@
 import type { MetadataRoute } from "next";
+import { connection } from "next/server";
 import { projects as fallbackProjects } from "@/data/projects";
 import { seo } from "@/constants/seo";
 import { getAllProjects } from "@/server/hygraph";
 
-export const revalidate = 3600;
-
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
+  // Render per request; must run before the swallowing `catch` below.
+  await connection();
   const baseUrl = seo.siteUrl;
 
   let projectSlugs: string[] = fallbackProjects.map((project) => project.slug);

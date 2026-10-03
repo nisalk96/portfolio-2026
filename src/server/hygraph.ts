@@ -155,33 +155,23 @@ const GET_ALL_EXPERIENCES = /* GraphQL */ `
   }
 `;
 
+/** Uncached: newly published projects appear on the next request. */
 export const getAllProjects = cache(async (): Promise<HygraphProject[]> => {
   const data = await hygraphRequest<{ projects: HygraphProject[] }>(
     GET_ALL_PROJECTS,
     undefined,
-    { revalidate: 3600, tags: ["projects"] },
+    { fresh: true },
   );
   return data.projects;
 });
 
-/** Uncached — newly published projects appear on the next request. */
-export const getLatestProjects = cache(
-  async (): Promise<HygraphProject[]> => {
-    const data = await hygraphRequest<{ projects: HygraphProject[] }>(
-      GET_ALL_PROJECTS,
-      undefined,
-      { fresh: true },
-    );
-    return data.projects;
-  },
-);
-
+/** Uncached: published edits appear on the next request. */
 export const getProjectBySlug = cache(
   async (slug: string): Promise<HygraphProject | null> => {
     const data = await hygraphRequest<{ project: HygraphProject | null }>(
       GET_PROJECT_BY_SLUG,
       { slug },
-      { revalidate: 3600, tags: ["projects", `project:${slug}`] },
+      { fresh: true },
     );
     return data.project;
   },

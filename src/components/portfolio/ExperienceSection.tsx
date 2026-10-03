@@ -2,7 +2,6 @@
 
 import { IconArrowUpRight } from "@tabler/icons-react";
 import Link from "next/link";
-import { transitionTypes } from "@/components/motion/PageTransition";
 import { ExperienceItem } from "@/components/portfolio/ExperienceItem";
 import { Section } from "@/components/layout/Section";
 import { usePortfolioCms } from "@/components/providers/PortfolioCmsProvider";
@@ -20,7 +19,6 @@ export function ExperienceSection() {
       action={
         <Link
           href="/resume"
-          transitionTypes={transitionTypes.forward}
           className={cn(
             buttonVariants({ variant: "outline", size: "sm" }),
             "bg-white/70 dark:bg-white/5",

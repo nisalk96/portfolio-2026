@@ -4,11 +4,6 @@ import { IconArrowUpRight } from "@tabler/icons-react";
 import Image from "next/image";
 import Link from "next/link";
 import type { Project } from "@/types/portfolio";
-import {
-  projectImageTransitionName,
-  SharedElement,
-  transitionTypes,
-} from "@/components/motion/PageTransition";
 import { Reveal } from "@/components/motion/Reveal";
 import { staggerDelay } from "@/lib/motion";
 import { cn } from "@/lib/utils";
@@ -37,7 +32,6 @@ export function ProjectCard({
     >
       <Link
         href={`/projects/${project.slug}`}
-        transitionTypes={transitionTypes.forward}
         className="glass block overflow-hidden rounded-2xl border border-border p-0 transition-all duration-300 hover:-translate-y-1 hover:shadow-[6px_6px_0_var(--brand)]"
       >
         <div
@@ -47,18 +41,15 @@ export function ProjectCard({
           )}
         >
           {project.imageUrl ? (
-            <SharedElement name={projectImageTransitionName(project.slug)}>
-              <Image
-                src={project.imageUrl}
-                alt={`${project.name} preview`}
-                fill
-                unoptimized
-                sizes="(max-width: 640px) 100vw, (max-width: 1280px) 50vw, 33vw"
-                className="object-cover"
-                preload={preload}
-                fetchPriority={preload ? "high" : undefined}
-              />
-            </SharedElement>
+            <Image
+              src={project.imageUrl}
+              alt={`${project.name} preview`}
+              fill
+              sizes="(max-width: 640px) 100vw, (max-width: 1280px) 50vw, 33vw"
+              className="object-cover"
+              preload={preload}
+              fetchPriority={preload ? "high" : undefined}
+            />
           ) : (
             <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_20%,rgba(255,255,255,0.18),transparent_45%)] transition-transform duration-500 group-hover:scale-105" />
           )}

@@ -10,7 +10,6 @@ import Link from "next/link";
 import { Suspense } from "react";
 import { Section } from "@/components/layout/Section";
 import { RevealGroup, RevealItem } from "@/components/motion/Reveal";
-import { transitionTypes } from "@/components/motion/PageTransition";
 import { TintIcon } from "@/components/portfolio/TintIcon";
 import { usePortfolioProjects } from "@/components/providers/PortfolioCmsProvider";
 import { buttonVariants } from "@/components/ui/button";
@@ -105,7 +104,6 @@ export function AboutSection() {
           <RevealItem className="mt-5">
             <Link
               href="/resume"
-              transitionTypes={transitionTypes.forward}
               className={cn(
                 buttonVariants({ variant: "outline" }),
                 "bg-white/70 dark:bg-white/5",

@@ -74,7 +74,6 @@ export function Header() {
         "sticky top-0 z-50 border-b border-transparent bg-background/95 px-5 md:px-8",
         playEntrance && "reveal-down-css",
       )}
-      style={{ viewTransitionName: "site-header" }}
     >
       <ScrollProgress />
       <div

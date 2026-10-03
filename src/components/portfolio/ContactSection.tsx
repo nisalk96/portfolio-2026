@@ -69,10 +69,6 @@ export function ContactSection() {
       id="contact"
       className="glass-panel relative mt-5 scroll-mt-24 p-5 md:mt-6 md:p-8"
     >
-      <div
-        aria-hidden
-        className="animate-float-soft pointer-events-none absolute -right-10 -bottom-10 -z-10 hidden size-56 rounded-full bg-[radial-gradient(circle_at_30%_30%,rgb(255_255_255/0.95),var(--orb-b)_45%,var(--orb-a)_80%)] opacity-70 blur-[2px] lg:block dark:opacity-50"
-      />
       <RevealGroup
         className="grid gap-8 lg:grid-cols-[0.85fr_1.15fr] lg:gap-10"
         amount={0.1}

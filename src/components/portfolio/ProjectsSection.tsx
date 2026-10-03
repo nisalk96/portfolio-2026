@@ -3,7 +3,6 @@
 import { IconArrowUpRight } from "@tabler/icons-react";
 import Link from "next/link";
 import { Suspense } from "react";
-import { transitionTypes } from "@/components/motion/PageTransition";
 import { ProjectCard } from "@/components/portfolio/ProjectCard";
 import { ProjectGridSkeleton } from "@/components/portfolio/ProjectCardSkeleton";
 import { Section } from "@/components/layout/Section";
@@ -41,7 +40,6 @@ export function ProjectsSection() {
       action={
         <Link
           href="/projects"
-          transitionTypes={transitionTypes.forward}
           className={cn(
             buttonVariants({ variant: "outline", size: "sm" }),
             "bg-white/70 dark:bg-white/5",

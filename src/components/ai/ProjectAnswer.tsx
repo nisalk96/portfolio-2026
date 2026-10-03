@@ -4,7 +4,6 @@ import { IconArrowUpRight } from "@tabler/icons-react";
 import { m, useReducedMotion } from "framer-motion";
 import Link from "next/link";
 import { Suspense } from "react";
-import { transitionTypes } from "@/components/motion/PageTransition";
 import { animation } from "@/constants/animation";
 import { usePortfolioProjects } from "@/components/providers/PortfolioCmsProvider";
 import { cn } from "@/lib/utils";
@@ -104,7 +103,6 @@ function ProjectAnswerList({ mode = "featured" }: ProjectAnswerProps) {
       {mode !== "cardchat" ? (
         <Link
           href="/projects"
-          transitionTypes={transitionTypes.forward}
           className={cn(
             "group inline-flex items-center gap-1 pt-1 text-[13px] font-medium text-foreground",
             "underline decoration-transparent underline-offset-4 transition-colors hover:decoration-foreground/40",
