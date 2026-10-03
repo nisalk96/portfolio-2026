@@ -3,18 +3,41 @@
 import { IconArrowUpRight } from "@tabler/icons-react";
 import { m, useReducedMotion } from "framer-motion";
 import Link from "next/link";
+import { Suspense } from "react";
 import { transitionTypes } from "@/components/motion/PageTransition";
 import { animation } from "@/constants/animation";
-import { usePortfolioCms } from "@/components/providers/PortfolioCmsProvider";
+import { usePortfolioProjects } from "@/components/providers/PortfolioCmsProvider";
 import { cn } from "@/lib/utils";
 
 interface ProjectAnswerProps {
   mode?: "featured" | "recent" | "cardchat";
 }
 
-export function ProjectAnswer({ mode = "featured" }: ProjectAnswerProps) {
+function ProjectAnswerSkeleton() {
+  return (
+    <div className="mt-3 space-y-2.5" aria-busy="true">
+      {[0, 1].map((key) => (
+        <div
+          key={key}
+          aria-hidden
+          className="skeleton-shimmer h-24 rounded-2xl"
+        />
+      ))}
+    </div>
+  );
+}
+
+export function ProjectAnswer(props: ProjectAnswerProps) {
+  return (
+    <Suspense fallback={<ProjectAnswerSkeleton />}>
+      <ProjectAnswerList {...props} />
+    </Suspense>
+  );
+}
+
+function ProjectAnswerList({ mode = "featured" }: ProjectAnswerProps) {
   const reducedMotion = useReducedMotion();
-  const { projects } = usePortfolioCms();
+  const projects = usePortfolioProjects();
   const featuredProjects = projects.filter((project) => project.featured);
 
   const items =

@@ -7,11 +7,12 @@ import {
   IconStack2,
 } from "@tabler/icons-react";
 import Link from "next/link";
+import { Suspense } from "react";
 import { Section } from "@/components/layout/Section";
 import { RevealGroup, RevealItem } from "@/components/motion/Reveal";
 import { transitionTypes } from "@/components/motion/PageTransition";
 import { TintIcon } from "@/components/portfolio/TintIcon";
-import { usePortfolioCms } from "@/components/providers/PortfolioCmsProvider";
+import { usePortfolioProjects } from "@/components/providers/PortfolioCmsProvider";
 import { buttonVariants } from "@/components/ui/button";
 import {
   aboutBio,
@@ -21,9 +22,12 @@ import {
 } from "@/data/highlights";
 import { cn } from "@/lib/utils";
 
-export function AboutSection() {
-  const { projects } = usePortfolioCms();
+function ProjectsCount() {
+  const projects = usePortfolioProjects();
+  return <>{projects.length}+</>;
+}
 
+export function AboutSection() {
   const stats = [
     {
       id: "years",
@@ -34,7 +38,18 @@ export function AboutSection() {
     },
     {
       id: "projects",
-      value: `${projects.length}+`,
+      value: (
+        <Suspense
+          fallback={
+            <span
+              aria-hidden
+              className="skeleton-shimmer inline-block h-6 w-10 rounded-md align-middle sm:h-7"
+            />
+          }
+        >
+          <ProjectsCount />
+        </Suspense>
+      ),
       label: "Projects Delivered",
       icon: IconFolder,
       tint: "blue",

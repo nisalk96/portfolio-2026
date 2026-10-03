@@ -8,6 +8,7 @@ export type HygraphProject = {
   link: string | null;
   video: string | null;
   images: { id: string; url: string }[];
+  createdAt?: string;
 };
 
 export type HygraphExperience = {

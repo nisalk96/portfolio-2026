@@ -24,16 +24,14 @@ function createId() {
 
 export function usePortfolioChat() {
   const { projects } = usePortfolioCms();
-  const welcomeMessage = useMemo<ChatMessage>(
-    () => ({
+  const [messages, setMessages] = useState<ChatMessage[]>(() => [
+    {
       id: "welcome",
       role: "assistant",
       kind: "welcome",
-      text: getAnswerIntro("welcome", projects),
-    }),
-    [projects],
-  );
-  const [messages, setMessages] = useState<ChatMessage[]>([welcomeMessage]);
+      text: getAnswerIntro("welcome"),
+    },
+  ]);
   const [activeChips, setActiveChips] = useState<PromptChip[]>(initialPrompts);
   const [showInitialChips, setShowInitialChips] = useState(true);
   const [isThinking, setIsThinking] = useState(false);
@@ -89,18 +87,20 @@ export function usePortfolioChat() {
         Math.floor(Math.random() * thinkingJitterMs);
 
       schedule(() => {
-        setIsThinking(false);
-        pendingChips.current = followUps[kind] ?? initialPrompts.slice(0, 4);
-        setMessages((prev) => [
-          ...prev,
-          {
-            id: createId(),
-            role: "assistant",
-            kind,
-            text: getAnswerIntro(kind, projects),
-            isTyping: true,
-          },
-        ]);
+        void projects.then((list) => {
+          setIsThinking(false);
+          pendingChips.current = followUps[kind] ?? initialPrompts.slice(0, 4);
+          setMessages((prev) => [
+            ...prev,
+            {
+              id: createId(),
+              role: "assistant",
+              kind,
+              text: getAnswerIntro(kind, list),
+              isTyping: true,
+            },
+          ]);
+        });
       }, answerDelay);
     },
     [clearTimers, projects, schedule],

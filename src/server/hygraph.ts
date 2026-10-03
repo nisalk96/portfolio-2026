@@ -28,7 +28,7 @@ function getHygraphToken(): string | undefined {
 async function hygraphRequest<TData>(
   query: string,
   variables?: Record<string, unknown>,
-  options?: { revalidate?: number; tags?: string[] },
+  options?: { revalidate?: number; tags?: string[]; fresh?: boolean },
 ): Promise<TData> {
   const endpoint = getHygraphEndpoint();
   if (!endpoint) {
@@ -45,10 +45,14 @@ async function hygraphRequest<TData>(
       ...(token ? { authorization: `Bearer ${token}` } : {}),
     },
     body: JSON.stringify({ query, variables }),
-    next: {
-      revalidate: options?.revalidate ?? 3600,
-      tags: options?.tags,
-    },
+    ...(options?.fresh
+      ? { cache: "no-store" as const }
+      : {
+          next: {
+            revalidate: options?.revalidate ?? 3600,
+            tags: options?.tags,
+          },
+        }),
   });
 
   if (!res.ok) {
@@ -113,6 +117,7 @@ const GET_ALL_PROJECTS = /* GraphQL */ `
       tags
       slug
       link
+      createdAt
     }
   }
 `;
@@ -158,6 +163,18 @@ export const getAllProjects = cache(async (): Promise<HygraphProject[]> => {
   );
   return data.projects;
 });
+
+/** Uncached — newly published projects appear on the next request. */
+export const getLatestProjects = cache(
+  async (): Promise<HygraphProject[]> => {
+    const data = await hygraphRequest<{ projects: HygraphProject[] }>(
+      GET_ALL_PROJECTS,
+      undefined,
+      { fresh: true },
+    );
+    return data.projects;
+  },
+);
 
 export const getProjectBySlug = cache(
   async (slug: string): Promise<HygraphProject | null> => {

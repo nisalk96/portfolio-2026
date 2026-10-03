@@ -1,10 +1,11 @@
 "use client";
 
-import { createContext, useContext } from "react";
+import { createContext, use, useContext } from "react";
 import type { Experience, Project } from "@/types/portfolio";
 
 export type PortfolioCmsData = {
-  projects: Project[];
+  /** Streamed from the server; read with `usePortfolioProjects` inside a Suspense boundary. */
+  projects: Promise<Project[]>;
   experience: Experience[];
 };
 
@@ -30,4 +31,9 @@ export function usePortfolioCms(): PortfolioCmsData {
     throw new Error("usePortfolioCms must be used within PortfolioCmsProvider");
   }
   return value;
+}
+
+/** Suspends until the CMS projects have streamed in. */
+export function usePortfolioProjects(): Project[] {
+  return use(usePortfolioCms().projects);
 }
