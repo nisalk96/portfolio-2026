@@ -88,6 +88,17 @@
 }
 
 /* Orange brand cursor: desktop/fine pointers only, with native text cursors kept. */
+[data-drag-scroll],
+[data-drag-scroll] a {
+  cursor: grab;
+}
+
+[data-drag-scroll][data-dragging="true"],
+[data-drag-scroll][data-dragging="true"] * {
+  cursor: grabbing;
+  user-select: none;
+}
+
 .custom-cursor {
   display: none;
 }
@@ -99,7 +110,9 @@
   .has-custom-cursor button,
   .has-custom-cursor select,
   .has-custom-cursor summary,
-  .has-custom-cursor [role="button"] {
+  .has-custom-cursor [role="button"],
+  .has-custom-cursor [data-drag-scroll],
+  .has-custom-cursor [data-drag-scroll] * {
     cursor: none;
   }
 
@@ -164,6 +177,13 @@
     margin: -22px 0 0 -22px;
     background: color-mix(in oklch, var(--brand) 20%, transparent);
   }
+
+  [data-cursor-dragging="true"] .custom-cursor__ring {
+    width: 56px;
+    height: 56px;
+    margin: -28px 0 0 -28px;
+    background: color-mix(in oklch, var(--brand) 28%, transparent);
+  }
 }
 
 @utility glass {
@@ -202,6 +222,25 @@
   margin-top: 0.55rem;
   border-radius: 999px;
   background: var(--brand);
+}
+
+/*
+  Full-bleed horizontal rail: spans the viewport while its first item stays
+  aligned with the centered column. Parent must be an `@container`.
+*/
+@utility rail-bleed {
+  --rail-gutter: calc(50vw - 50cqw);
+  margin-inline: calc(var(--rail-gutter) * -1);
+  padding-inline: var(--rail-gutter);
+  scroll-padding-inline: var(--rail-gutter);
+}
+
+@utility scrollbar-none {
+  scrollbar-width: none;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
 }
 
 @utility eyebrow {

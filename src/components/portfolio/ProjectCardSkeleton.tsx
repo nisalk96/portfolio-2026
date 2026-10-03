@@ -4,9 +4,20 @@ function Skeleton({ className }: { className: string }) {
   return <div aria-hidden className={cn("skeleton-shimmer", className)} />;
 }
 
-export function ProjectCardSkeleton({ compact = false }: { compact?: boolean }) {
+export function ProjectCardSkeleton({
+  compact = false,
+  className,
+}: {
+  compact?: boolean;
+  className?: string;
+}) {
   return (
-    <div className="glass overflow-hidden rounded-2xl border border-border">
+    <div
+      className={cn(
+        "glass overflow-hidden rounded-2xl border border-border",
+        className,
+      )}
+    >
       <Skeleton className="aspect-[16/10] w-full" />
 
       <div className="flex items-center justify-between gap-3 px-5 pt-5 pb-4">
@@ -40,10 +51,12 @@ export function ProjectGridSkeleton({
   count,
   compact = false,
   className,
+  itemClassName,
 }: {
   count: number;
   compact?: boolean;
   className: string;
+  itemClassName?: string;
 }) {
   return (
     <div className={className} aria-busy="true">
@@ -51,7 +64,11 @@ export function ProjectGridSkeleton({
         Loading projects…
       </span>
       {Array.from({ length: count }, (_, index) => (
-        <ProjectCardSkeleton key={index} compact={compact} />
+        <ProjectCardSkeleton
+          key={index}
+          compact={compact}
+          className={itemClassName}
+        />
       ))}
     </div>
   );

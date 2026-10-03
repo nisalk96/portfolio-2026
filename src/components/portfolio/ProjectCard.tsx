@@ -15,6 +15,7 @@ interface ProjectCardProps {
   preload?: boolean;
   /** Hide the description and tech row (home page "Selected Work" layout) */
   compact?: boolean;
+  className?: string;
 }
 
 export function ProjectCard({
@@ -22,13 +23,14 @@ export function ProjectCard({
   index = 0,
   preload = false,
   compact = false,
+  className,
 }: ProjectCardProps) {
   return (
     <Reveal
       as="article"
       delay={staggerDelay(index % 3)}
       amount={0.15}
-      className="group"
+      className={cn("group", className)}
     >
       <Link
         href={`/projects/${project.slug}`}
