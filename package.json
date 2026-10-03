@@ -6,7 +6,10 @@
     "dev": "next dev --webpack",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "test:motion": "playwright test",
+    "test:motion:headed": "playwright test --headed",
+    "test:motion:report": "playwright show-report"
   },
   "dependencies": {
     "@base-ui/react": "^1.8.0",
@@ -35,6 +38,7 @@
     "zod": "^4.6.5"
   },
   "devDependencies": {
+    "@playwright/test": "^1.63.0",
     "@tailwindcss/postcss": "^4",
     "@types/node": "^20",
     "@types/react": "^19",
