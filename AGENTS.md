@@ -7,3 +7,10 @@ This version has breaking changes — APIs, conventions, and file structure may 
 This block is written and re-added by `next dev` — verify at `node_modules/next/dist/server/lib/generate-agent-files.js`. Removing it from a diff only re-creates the uncommitted change; committing it with your work keeps the tree clean.
 
 <!-- END:nextjs-agent-rules -->
+
+# MCP servers
+
+Configured in `.cursor/mcp.json`:
+
+- **context7**: fetch current docs for libraries (Next.js, React, Tailwind, Lenis, Framer Motion, Hygraph, etc.) before relying on memory. For Next.js, `node_modules/next/dist/docs/` remains the source of truth for the installed version.
+- **playwright**: verify UI changes in a real browser against the dev server (`npm run dev`, http://localhost:3000): navigate, interact, check console errors and take screenshots.
