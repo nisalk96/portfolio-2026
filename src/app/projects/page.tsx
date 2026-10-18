@@ -6,8 +6,13 @@ import { SiteChrome } from "@/components/layout/SiteChrome";
 import { ProjectCard } from "@/components/portfolio/ProjectCard";
 import { ProjectGridSkeleton } from "@/components/portfolio/ProjectCardSkeleton";
 import { projects as fallbackProjects } from "@/data/projects";
-import { mapHygraphProjects } from "@/lib/cms-mappers";
+import {
+  mapAppPortfoliosToProjects,
+  mapHygraphProjects,
+  mergePortfolioAndHobbyProjects,
+} from "@/lib/cms-mappers";
 import { jsonLdScript, pageMetadata } from "@/lib/seo";
+import { getAllAppPortfolios } from "@/server/hygraph-apps";
 import { getAllProjects } from "@/server/hygraph";
 
 const GRID_CLASS = "grid gap-4 sm:grid-cols-2 xl:grid-cols-3";
@@ -22,11 +27,24 @@ async function ProjectsGrid() {
   // Render per request; must run before the swallowing `.catch` below.
   await connection();
 
-  const cmsProjects = await getAllProjects().catch(() => null);
-  const projects =
+  const [cmsProjects, hobbyApps] = await Promise.all([
+    getAllProjects().catch(() => null),
+    getAllAppPortfolios()
+      .then(mapAppPortfoliosToProjects)
+      .catch(() => []),
+  ]);
+
+  const portfolioProjects =
     cmsProjects && cmsProjects.length > 0
       ? mapHygraphProjects(cmsProjects)
       : fallbackProjects;
+  const projects = mergePortfolioAndHobbyProjects(
+    portfolioProjects,
+    hobbyApps,
+  );
+
+  const selected = projects.filter((project) => !project.hobby);
+  const hobby = projects.filter((project) => project.hobby);
 
   return (
     <>
@@ -44,7 +62,9 @@ async function ProjectsGrid() {
             hasPart: projects.map((project) => ({
               "@type": "CreativeWork",
               name: project.name,
-              url: `https://nisalk.dev/projects/${project.slug}`,
+              url: project.cardHref?.startsWith("http")
+                ? project.cardHref
+                : `https://nisalk.dev${project.cardHref ?? `/projects/${project.slug}`}`,
               description: project.description,
             })),
           }),
@@ -52,7 +72,7 @@ async function ProjectsGrid() {
       />
 
       <div className={GRID_CLASS}>
-        {projects.map((project, index) => (
+        {selected.map((project, index) => (
           <ProjectCard
             key={project.id}
             project={project}
@@ -61,6 +81,31 @@ async function ProjectsGrid() {
           />
         ))}
       </div>
+
+      {hobby.length > 0 ? (
+        <div id="hobby" className="mt-14 scroll-mt-24 md:mt-16">
+          <div className="mb-6 max-w-2xl">
+            <p className="mb-2 font-mono text-[11px] tracking-[0.16em] text-muted-foreground uppercase">
+              Side projects
+            </p>
+            <h2 className="text-2xl font-semibold tracking-tight text-foreground md:text-3xl">
+              Hobby Works
+            </h2>
+            <p className="mt-2 text-sm leading-relaxed text-muted-foreground md:text-[15px]">
+              Chrome extensions, Flutter apps and game experiments.
+            </p>
+          </div>
+          <div className={GRID_CLASS}>
+            {hobby.map((project, index) => (
+              <ProjectCard
+                key={project.id}
+                project={project}
+                index={index}
+              />
+            ))}
+          </div>
+        </div>
+      ) : null}
     </>
   );
 }

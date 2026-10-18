@@ -67,7 +67,7 @@ export function Footer() {
         <p className="flex flex-wrap items-center gap-x-3 gap-y-1">
           <span>Built with Next.js + TypeScript + Tailwind</span>
           <a
-            href="/privacy"
+            href="/extensions/nk-currency/privacy"
             className="underline-offset-2 transition-colors hover:text-foreground hover:underline"
           >
             Privacy

@@ -1,3 +1,11 @@
+/** Hygraph `ProjectTypeEnum` values on Project.projectType */
+export type HygraphProjectType =
+  | "website"
+  | "mobileApp"
+  | "webExtension"
+  | "videoGamePc"
+  | "videoGameMobile";
+
 export type HygraphProject = {
   id: string;
   title: string;
@@ -5,6 +13,7 @@ export type HygraphProject = {
   year: string | null;
   slug: string;
   tags: string[];
+  projectType?: HygraphProjectType[];
   link: string | null;
   video: string | null;
   images: { id: string; url: string }[];

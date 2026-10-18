@@ -25,6 +25,9 @@ export function ProjectCard({
   compact = false,
   className,
 }: ProjectCardProps) {
+  const href = project.cardHref ?? `/projects/${project.slug}`;
+  const external = /^https?:\/\//.test(href);
+
   return (
     <Reveal
       as="article"
@@ -33,7 +36,10 @@ export function ProjectCard({
       className={cn("group", className)}
     >
       <Link
-        href={`/projects/${project.slug}`}
+        href={href}
+        {...(external
+          ? { target: "_blank", rel: "noreferrer" }
+          : {})}
         className="glass block overflow-hidden rounded-2xl border border-border p-0 transition-all duration-300 hover:-translate-y-1 hover:shadow-[6px_6px_0_var(--brand)]"
       >
         <div

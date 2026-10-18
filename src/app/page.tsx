@@ -4,7 +4,13 @@ import { PortfolioPage } from "@/components/portfolio/PortfolioPage";
 import { PortfolioCmsProvider } from "@/components/providers/PortfolioCmsProvider";
 import { experience as fallbackExperience } from "@/data/experience";
 import { projects as fallbackProjects } from "@/data/projects";
-import { mapHygraphExperiences, mapHygraphProjects } from "@/lib/cms-mappers";
+import {
+  mapAppPortfoliosToProjects,
+  mapHygraphExperiences,
+  mapHygraphProjects,
+  mergePortfolioAndHobbyProjects,
+} from "@/lib/cms-mappers";
+import { getAllAppPortfolios } from "@/server/hygraph-apps";
 import { getAllExperiences, getAllProjects } from "@/server/hygraph";
 
 export const metadata: Metadata = {
@@ -15,11 +21,20 @@ export default async function Home() {
   // Render per request; must run before the swallowing `.catch` below.
   await connection();
 
-  const projects = getAllProjects()
-    .then((cmsProjects) =>
-      cmsProjects.length > 0 ? mapHygraphProjects(cmsProjects) : fallbackProjects,
-    )
-    .catch(() => fallbackProjects);
+  const projects = Promise.all([
+    getAllProjects()
+      .then((cmsProjects) =>
+        cmsProjects.length > 0
+          ? mapHygraphProjects(cmsProjects)
+          : fallbackProjects,
+      )
+      .catch(() => fallbackProjects),
+    getAllAppPortfolios()
+      .then(mapAppPortfoliosToProjects)
+      .catch(() => []),
+  ]).then(([portfolioProjects, hobbyApps]) =>
+    mergePortfolioAndHobbyProjects(portfolioProjects, hobbyApps),
+  );
 
   const cmsExperiences = await getAllExperiences().catch(() => null);
   const experience =

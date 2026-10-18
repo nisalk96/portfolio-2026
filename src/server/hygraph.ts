@@ -115,6 +115,7 @@ const GET_ALL_PROJECTS = /* GraphQL */ `
       year
       description
       tags
+      projectType
       slug
       link
       createdAt
@@ -134,6 +135,7 @@ const GET_PROJECT_BY_SLUG = /* GraphQL */ `
       description
       link
       tags
+      projectType
       slug
       year
       id

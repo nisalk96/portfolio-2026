@@ -1,5 +1,6 @@
 "use client";
 
+import { Suspense } from "react";
 import { usePortfolioChat } from "@/hooks/usePortfolioChat";
 import { Header } from "@/components/layout/Header";
 import { PageBackground } from "@/components/layout/PageBackground";
@@ -10,11 +11,49 @@ import { ExperienceSection } from "@/components/portfolio/ExperienceSection";
 import { Footer } from "@/components/portfolio/Footer";
 import { HeroAssistant } from "@/components/portfolio/HeroAssistant";
 import { HeroIdentity } from "@/components/portfolio/HeroIdentity";
+import { ProjectGridSkeleton } from "@/components/portfolio/ProjectCardSkeleton";
+import {
+  CARD_CLASS,
+  RAIL_CLASS,
+} from "@/components/portfolio/ProjectsCarousel";
 import { ProjectsSection } from "@/components/portfolio/ProjectsSection";
 import { QuickAnswersSection } from "@/components/portfolio/QuickAnswersSection";
 import { ServicesSection } from "@/components/portfolio/ServicesSection";
 import { StackSection } from "@/components/portfolio/StackSection";
 import { WorkProcessSection } from "@/components/portfolio/WorkProcessSection";
+
+function ProjectsSectionFallback() {
+  return (
+    <div className="glass-panel scroll-mt-24 space-y-10 border-t border-border py-16 md:py-20">
+      <div className="space-y-3">
+        <div className="skeleton-shimmer h-3 w-28 rounded-sm" />
+        <div className="skeleton-shimmer h-8 w-48 rounded-sm" />
+        <div className="skeleton-shimmer h-4 w-full max-w-xl rounded-sm" />
+      </div>
+      <div className="@container">
+        <ProjectGridSkeleton
+          count={4}
+          compact
+          className={RAIL_CLASS}
+          itemClassName={CARD_CLASS}
+        />
+      </div>
+      <div className="space-y-3 pt-4">
+        <div className="skeleton-shimmer h-3 w-24 rounded-sm" />
+        <div className="skeleton-shimmer h-8 w-40 rounded-sm" />
+        <div className="skeleton-shimmer h-4 w-full max-w-xl rounded-sm" />
+      </div>
+      <div className="@container">
+        <ProjectGridSkeleton
+          count={4}
+          compact
+          className={RAIL_CLASS}
+          itemClassName={CARD_CLASS}
+        />
+      </div>
+    </div>
+  );
+}
 
 export function PortfolioPage() {
   const chat = usePortfolioChat();
@@ -39,7 +78,9 @@ export function PortfolioPage() {
         <AboutSection />
         <ServicesSection />
         <StackSection />
-        <ProjectsSection />
+        <Suspense fallback={<ProjectsSectionFallback />}>
+          <ProjectsSection />
+        </Suspense>
         <ExperienceSection />
         <WorkProcessSection />
         <QuickAnswersSection />

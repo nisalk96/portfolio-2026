@@ -9,7 +9,13 @@ export type PromptId =
   | "resume";
 
 export type PromptIcon =
-  "sparkles" | "bolt" | "code" | "arrow" | "briefcase" | "search" | "mail";
+  | "sparkles"
+  | "bolt"
+  | "code"
+  | "arrow"
+  | "briefcase"
+  | "search"
+  | "mail";
 
 export interface PromptChip {
   id: PromptId;
@@ -17,6 +23,13 @@ export interface PromptChip {
   emphasize?: string;
   icon: PromptIcon;
 }
+
+export type ProjectType =
+  | "website"
+  | "mobileApp"
+  | "webExtension"
+  | "videoGamePc"
+  | "videoGameMobile";
 
 export interface Project {
   id: string;
@@ -31,6 +44,15 @@ export interface Project {
   imageUrl?: string;
   href?: string;
   featured?: boolean;
+  /** CMS ProjectTypeEnum values */
+  projectTypes?: ProjectType[];
+  /** Side projects: mobile apps, extensions, games (from projectTypes) */
+  hobby?: boolean;
+  /**
+   * When set, cards link here instead of `/projects/[slug]`
+   * (AppPortfolio hobby apps without a portfolio detail page).
+   */
+  cardHref?: string;
 }
 
 export interface Experience {

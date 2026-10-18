@@ -2,6 +2,7 @@ import type { MetadataRoute } from "next";
 import { connection } from "next/server";
 import { projects as fallbackProjects } from "@/data/projects";
 import { seo } from "@/constants/seo";
+import { getAppsWithPrivacyPolicy } from "@/server/hygraph-apps";
 import { getAllProjects } from "@/server/hygraph";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
@@ -17,6 +18,13 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     }
   } catch {
     // Keep local fallbacks when CMS is unavailable at build time.
+  }
+
+  let privacySlugs: string[] = [];
+  try {
+    privacySlugs = (await getAppsWithPrivacyPolicy()).map((app) => app.slug);
+  } catch {
+    privacySlugs = [];
   }
 
   return [
@@ -38,8 +46,13 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     {
       url: `${baseUrl}/privacy`,
       changeFrequency: "yearly",
-      priority: 0.4,
+      priority: 0.3,
     },
+    ...privacySlugs.map((slug) => ({
+      url: `${baseUrl}/extensions/${slug}/privacy`,
+      changeFrequency: "yearly" as const,
+      priority: 0.4,
+    })),
     ...projectSlugs.map((slug) => ({
       url: `${baseUrl}/projects/${slug}`,
       changeFrequency: "yearly" as const,
