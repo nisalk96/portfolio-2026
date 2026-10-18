@@ -64,7 +64,15 @@ export function Footer() {
         </div>
       </div>
       <div className="mt-3 flex flex-col gap-2 px-5 text-[11px] text-body md:flex-row md:items-center md:justify-between">
-        <p>Built with Next.js + TypeScript + Tailwind</p>
+        <p className="flex flex-wrap items-center gap-x-3 gap-y-1">
+          <span>Built with Next.js + TypeScript + Tailwind</span>
+          <a
+            href="/privacy"
+            className="underline-offset-2 transition-colors hover:text-foreground hover:underline"
+          >
+            Privacy
+          </a>
+        </p>
         <a
           href="https://vercel.com"
           target="_blank"
