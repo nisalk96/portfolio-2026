@@ -10,8 +10,8 @@ interface HeroAssistantProps {
 
 export function HeroAssistant({ chat }: HeroAssistantProps) {
   return (
-    <div className="relative pt-7 lg:py-8">
-      <div className="absolute top-0 right-0 z-10 lg:top-5 lg:right-3">
+    <div className="lg:py-8">
+      <div className="mb-2.5 flex justify-end pr-1">
         <VisitCounter variant="highlight" />
       </div>
       <AIChat chat={chat} />
