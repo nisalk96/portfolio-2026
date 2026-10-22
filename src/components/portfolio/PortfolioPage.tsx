@@ -7,6 +7,7 @@ import { PageBackground } from "@/components/layout/PageBackground";
 import { Reveal } from "@/components/motion/Reveal";
 import { AboutSection } from "@/components/portfolio/AboutSection";
 import { ContactSection } from "@/components/portfolio/ContactSection";
+import { ContributionsSection } from "@/components/portfolio/ContributionsSection";
 import { ExperienceSection } from "@/components/portfolio/ExperienceSection";
 import { Footer } from "@/components/portfolio/Footer";
 import { HeroAssistant } from "@/components/portfolio/HeroAssistant";
@@ -21,6 +22,7 @@ import { QuickAnswersSection } from "@/components/portfolio/QuickAnswersSection"
 import { ServicesSection } from "@/components/portfolio/ServicesSection";
 import { StackSection } from "@/components/portfolio/StackSection";
 import { WorkProcessSection } from "@/components/portfolio/WorkProcessSection";
+import type { GithubContributions } from "@/types/github-contributions";
 
 function ProjectsSectionFallback() {
   return (
@@ -55,7 +57,11 @@ function ProjectsSectionFallback() {
   );
 }
 
-export function PortfolioPage() {
+export function PortfolioPage({
+  contributions,
+}: {
+  contributions: GithubContributions | null;
+}) {
   const chat = usePortfolioChat();
 
   return (
@@ -78,6 +84,7 @@ export function PortfolioPage() {
         <AboutSection />
         <ServicesSection />
         <StackSection />
+        <ContributionsSection data={contributions} />
         <Suspense fallback={<ProjectsSectionFallback />}>
           <ProjectsSection />
         </Suspense>

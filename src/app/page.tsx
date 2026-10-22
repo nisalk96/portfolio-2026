@@ -10,6 +10,7 @@ import {
   mapHygraphProjects,
   mergePortfolioAndHobbyProjects,
 } from "@/lib/cms-mappers";
+import { getGithubContributions } from "@/server/github-contributions";
 import { getAllAppPortfolios } from "@/server/hygraph-apps";
 import { getAllExperiences, getAllProjects } from "@/server/hygraph";
 
@@ -36,7 +37,10 @@ export default async function Home() {
     mergePortfolioAndHobbyProjects(portfolioProjects, hobbyApps),
   );
 
-  const cmsExperiences = await getAllExperiences().catch(() => null);
+  const [cmsExperiences, contributions] = await Promise.all([
+    getAllExperiences().catch(() => null),
+    getGithubContributions(),
+  ]);
   const experience =
     cmsExperiences && cmsExperiences.length > 0
       ? mapHygraphExperiences(cmsExperiences)
@@ -48,7 +52,7 @@ export default async function Home() {
         Full-Stack Web Developer in Sri Lanka | React, Next.js, TypeScript,
         GraphQL Specialist | nisalk.dev
       </h1>
-      <PortfolioPage />
+      <PortfolioPage contributions={contributions} />
     </PortfolioCmsProvider>
   );
 }
