@@ -28,25 +28,49 @@ function useActiveSection(enabled: boolean) {
   useEffect(() => {
     if (!enabled) return;
 
-    const sections = navItems
-      .map((item) => document.getElementById(item.id))
-      .filter((node): node is HTMLElement => node !== null);
+    const headerOffset = 120;
 
-    const observer = new IntersectionObserver(
-      (entries) => {
-        const visible = entries
-          .filter((entry) => entry.isIntersecting)
-          .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
-        if (visible) setActive(visible.target.id);
-      },
-      { rootMargin: "-35% 0px -55% 0px", threshold: [0, 0.25, 0.5, 1] },
-    );
+    const syncFromScroll = () => {
+      const scrollY = window.scrollY;
+      const docHeight = document.documentElement.scrollHeight;
+      const viewHeight = window.innerHeight;
 
-    sections.forEach((section) => observer.observe(section));
-    return () => observer.disconnect();
+      // Last section rarely clears the header band — pin it near page end.
+      if (scrollY + viewHeight >= docHeight - 96) {
+        setActive(navItems[navItems.length - 1]!.id);
+        return;
+      }
+
+      let current = navItems[0]!.id;
+      for (const item of navItems) {
+        const node = document.getElementById(item.id);
+        if (!node) continue;
+        const top = node.getBoundingClientRect().top;
+        if (top - headerOffset <= 0) current = item.id;
+      }
+      setActive(current);
+    };
+
+    const syncFromHash = () => {
+      const id = window.location.hash.replace(/^#/, "");
+      if (navItems.some((item) => item.id === id)) setActive(id);
+    };
+
+    syncFromHash();
+    syncFromScroll();
+
+    window.addEventListener("scroll", syncFromScroll, { passive: true });
+    window.addEventListener("hashchange", syncFromHash);
+    return () => {
+      window.removeEventListener("scroll", syncFromScroll);
+      window.removeEventListener("hashchange", syncFromHash);
+    };
   }, [enabled]);
 
-  return enabled ? active : null;
+  return {
+    active: enabled ? active : null,
+    setActive: enabled ? setActive : () => {},
+  };
 }
 
 export function Header() {
@@ -55,7 +79,7 @@ export function Header() {
   const reducedMotion = useReducedMotion();
   const [playEntrance] = useState(() => !hasPlayedEntrance);
   const pathname = usePathname();
-  const active = useActiveSection(pathname === "/");
+  const { active, setActive } = useActiveSection(pathname === "/");
 
   useEffect(() => {
     hasPlayedEntrance = true;
@@ -108,8 +132,9 @@ export function Header() {
                 key={item.id}
                 href={item.href}
                 aria-current={isActive ? "true" : undefined}
+                onClick={() => setActive(item.id)}
                 className={cn(
-                  "relative px-3.5 py-2 text-[13px] font-medium transition-colors after:absolute after:right-3.5 after:bottom-0 after:left-3.5 after:h-0.5 after:origin-left after:scale-x-0 after:bg-brand after:transition-transform",
+                  "relative px-3.5 py-2 text-[13px] font-medium transition-colors after:absolute after:right-3.5 after:bottom-0 after:left-3.5 after:h-0.5 after:origin-left after:scale-x-0 after:bg-brand after:transition-transform after:duration-200",
                   isActive
                     ? "text-brand after:scale-x-100"
                     : "text-foreground hover:text-brand",
@@ -152,7 +177,10 @@ export function Header() {
               <a
                 key={item.id}
                 href={item.href}
-                onClick={() => setOpen(false)}
+                onClick={() => {
+                  setActive(item.id);
+                  setOpen(false);
+                }}
                 className={cn(
                   "rounded-2xl px-4 py-2.5 text-sm transition-colors",
                   active === item.id
