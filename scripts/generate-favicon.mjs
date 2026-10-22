@@ -87,25 +87,29 @@ function makeSvg(size) {
 </svg>`;
 }
 
-async function renderMaster() {
-  const svg = Buffer.from(makeSvg(MASTER));
-  return sharp(svg, { density: 300 })
-    .resize(MASTER, MASTER, {
-      kernel: sharp.kernel.lanczos3,
-      fit: "fill",
-    })
-    .png({ compressionLevel: 9, quality: 100 })
-    .toBuffer();
-}
-
-async function downscale(master, size) {
-  return sharp(master)
+/** Next.js ICO decoder requires embedded PNGs in truecolor RGBA (not palette). */
+async function toRgbaPng(input, size) {
+  return sharp(input)
     .resize(size, size, {
       kernel: sharp.kernel.lanczos3,
       fit: "fill",
     })
-    .png({ compressionLevel: 9, quality: 100 })
+    .ensureAlpha()
+    .png({
+      compressionLevel: 9,
+      palette: false,
+      force: true,
+    })
     .toBuffer();
+}
+
+async function renderMaster() {
+  const svg = Buffer.from(makeSvg(MASTER));
+  return toRgbaPng(await sharp(svg, { density: 300 }).png().toBuffer(), MASTER);
+}
+
+async function downscale(master, size) {
+  return toRgbaPng(master, size);
 }
 
 function createIco(buffersWithSizes) {
