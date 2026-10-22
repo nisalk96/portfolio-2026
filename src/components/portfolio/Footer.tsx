@@ -3,6 +3,7 @@ import {
   IconBrandLinkedin,
   IconMail,
 } from "@tabler/icons-react";
+import { VisitCounter } from "@/components/portfolio/VisitCounter";
 import { profile } from "@/data/profile";
 
 function VercelMark({ className }: { className?: string }) {
@@ -66,6 +67,7 @@ export function Footer() {
       <div className="mt-3 flex flex-col gap-2 px-5 text-[11px] text-body md:flex-row md:items-center md:justify-between">
         <p className="flex flex-wrap items-center gap-x-3 gap-y-1">
           <span>Built with Next.js + TypeScript + Tailwind</span>
+          <VisitCounter />
           <a
             href="/extensions/nk-currency/privacy"
             className="underline-offset-2 transition-colors hover:text-foreground hover:underline"
